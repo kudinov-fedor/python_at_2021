@@ -1,13 +1,15 @@
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from tests.osokolov.book_store.base_page import BasePage
 from tests.osokolov.book_store.book_store_elements import BookStoreElements
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from tests.osokolov.book_store.login_page import LoginPage
+from tests.osokolov.book_store.base_element import BaseElement
 
-
-class BookStorePage(BasePage):
+class BookStorePage(BasePage, BaseElement):
     HOST = 'https://demoqa.com'
     URL = '/books'
 
@@ -50,3 +52,7 @@ class BookStorePage(BasePage):
             self.element(self.book_store_elements.log_out_button).is_displayed()
         except NoSuchElementException:
             return False
+
+    def get_image(self):
+        self.element(self.book_store_elements.headers).element(By.XPATH, '/div[1]')
+        return self
