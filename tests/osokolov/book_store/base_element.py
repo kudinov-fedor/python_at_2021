@@ -6,18 +6,18 @@ from selenium.webdriver.remote.webdriver import WebElement
 
 
 class BaseElement:
-    def __init__(self, locator: WebElement):
-        self.locator = locator
+    def __init__(self, elem: WebElement):
+        self.elem = elem
+
 
     def element(self, by: Tuple[By, str]):
-        return self.locator.find_element(*by)
+        self.elem.find_element(*by)
+        return self
 
     def collection(self, by: Tuple[By, str]):
-        return self.locator.find_elements(*by)
+        return self.elem.find_elements(*by)
 
     def click(self):
-        element = self
-        action =  ActionChains(self.locator)
-        action.move_to_element(element).click().perform()
-        return self
+        self.elem.click()
+
 

@@ -9,7 +9,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from tests.osokolov.book_store.login_page import LoginPage
 from tests.osokolov.book_store.base_element import BaseElement
 
-class BookStorePage(BasePage, BaseElement):
+class BookStorePage(BasePage):
     HOST = 'https://demoqa.com'
     URL = '/books'
 
@@ -53,6 +53,17 @@ class BookStorePage(BasePage, BaseElement):
         except NoSuchElementException:
             return False
 
+    def get_book_row(self):
+        return BookRow(self.element(self.book_store_elements.headers))
+
+
+class BookRow(BaseElement):
+
+    def __init__(self, elem: WebElement):
+        super().__init__(elem)
+        self.books_header = elem
+
     def get_image(self):
-        self.element(self.book_store_elements.headers).element(By.XPATH, '/div[1]')
+        self.books_header.element(By.XPATH, '.div[1]')
+
         return self
