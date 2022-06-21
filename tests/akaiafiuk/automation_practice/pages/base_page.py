@@ -34,5 +34,5 @@ class BasePage:
         return self
 
     @property
-    def get_header(self):
+    def header(self):
         return HeaderElement(self.find_element(BasePage.HEADER))
