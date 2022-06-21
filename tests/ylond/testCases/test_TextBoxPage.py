@@ -44,3 +44,9 @@ def test_all_submit_form(session):
     tb.scroll_down()
     tb.click_submit_button()
     assert tb.get_submit_result() == 'Name:Yuliia Londarenko\n' 'Email:test@gmail.com\n' 'Current Address :CurrentAddress\n' 'Permanent Address :Permanent Address'
+
+#example with fill_form method
+def test_all_submit_form_1(session):
+    tb = TextBoxPage.TextBoxPage(session).open()
+    tb.fill_form("Yuliia Londarenko", "test@gmail.com", "CurrentAddress", "Permanent Address")
+    assert tb.get_submit_result() == 'Name:Yuliia Londarenko\n' 'Email:test@gmail.com\n' 'Current Address :CurrentAddress\n' 'Permanent Address :Permanent Address'

@@ -12,11 +12,11 @@ class BasePage:
 
     @property
     def browser_name(self):
-        return self.driver.capabilities["Chrome"]
+        return self.driver.capabilities["browserName"]
 
     @property
     def platform_name(self):
-        return self.driver.capabilities["Windows"]
+        return self.driver.capabilities["platformName"]
 
     @property
     def window_size(self):
