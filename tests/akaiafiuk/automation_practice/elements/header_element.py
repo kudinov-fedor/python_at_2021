@@ -1,8 +1,12 @@
+from typing import List
+from selenium.webdriver.common.by import By
+from python_at_2021.tests.akaiafiuk.automation_practice.elements.category_element import CategoryElement
 from python_at_2021.tests.akaiafiuk.automation_practice.elements.base_element import BaseElement
-from python_at_2021.tests.akaiafiuk.automation_practice.pages.category_page import CategoryPage
 
 
-class ItemElement(BaseElement):
+class HeaderElement(BaseElement):
+    CATEGORIES = By.XPATH, '//*[contains(@class, "sf-menu")]'
 
-    def open_category(self) -> CategoryPage:
-        ...
+    @property
+    def categories(self) -> List[CategoryElement]:
+        return [CategoryElement(element) for element in self.find_elements(HeaderElement.CATEGORIES)]
