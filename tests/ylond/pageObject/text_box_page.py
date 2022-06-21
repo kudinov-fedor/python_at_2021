@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from tests.ylond.pageObject import BasePage
+from tests.ylond.pageObject.base_page import BasePage
 
 
-class TextBoxPage(BasePage.BasePage):
+class TextBoxPage(BasePage):
     URL = "/text-box"
 
     label_username = By.CSS_SELECTOR, "label#userName-label.form-label"
