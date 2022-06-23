@@ -1,9 +1,12 @@
-from selenium.common.exceptions import NoSuchElementException
+from typing import List
 
-from tests.osokolov.book_store.base_page import BasePage
-from tests.osokolov.book_store.book_store_elements import BookStoreElements
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from tests.osokolov.book_store.base_element import BaseElement
+from tests.osokolov.book_store.base_page import BasePage
+from tests.osokolov.book_store.book_store_elements import BookStoreElements
 from tests.osokolov.book_store.login_page import LoginPage
 
 
@@ -26,7 +29,7 @@ class BookStorePage(BasePage):
         return LoginPage(self.driver)
 
     def get_books_count(self):
-        self.collection(self.book_store_elements.table_rows).count()
+        len(self.collection(self.book_store_elements.table_row))
         return self
 
     def sort_by_image(self):
@@ -50,3 +53,19 @@ class BookStorePage(BasePage):
             self.element(self.book_store_elements.log_out_button).is_displayed()
         except NoSuchElementException:
             return False
+
+    def get_book_rows(self) -> List['BookRow']:
+        rows = self.collection(self.book_store_elements.table_row)
+        return [BookRow(row) for row in rows]
+
+
+class BookRow(BaseElement):
+
+    def get_title(self) -> str:
+        return self.element((By.XPATH, './div/div[2]')).text
+
+    def get_author(self) -> str:
+        return self.element((By.XPATH, './div/div[3]')).text
+
+    def get_publisher(self) -> str:
+        return self.element((By.XPATH, './div/div[4]')).text
