@@ -21,10 +21,9 @@ def test_login_user():
 
 def test_add_book(get_user):
     user = get_user
-    user.login_user()
-    user_id = '58b14bc2-7255-49e8-8b2a-a81d053a9d49'
+    user.prepare_user()
     isbn = '9781449331818'
-    user.add_book(user_id, isbn)
+    user.add_book(user.user_id, isbn)
 
 
 def test_token(get_user):
