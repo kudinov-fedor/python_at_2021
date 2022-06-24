@@ -7,6 +7,7 @@ class ItemPage(BasePage):
     ITEM_NAME = By.XPATH, './/*[@itemprop="name"]'
     ITEM_DESCRIPTION = By.CSS_SELECTOR, '#short_description_content p'
     ITEM_IMAGE = By.CSS_SELECTOR, '#bigpic'
+    PRICE = By.CSS_SELECTOR, '#our_price_display'
 
     @property
     def name(self) -> str:
@@ -19,3 +20,7 @@ class ItemPage(BasePage):
     @property
     def image(self) -> WebElement:
         return self.find_element(ItemPage.ITEM_IMAGE)
+
+    @property
+    def price(self) -> str:
+        return self.find_element(ItemPage.PRICE).text
