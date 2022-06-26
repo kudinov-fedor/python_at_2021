@@ -1,8 +1,10 @@
 from selenium.webdriver.common.by import By
-from python_at_2021.tests.akaiafiuk.automation_practice.pages import MainPage
+from tests.akaiafiuk.automation_practice.pages import MainPage
 
 
 class SearchPage(MainPage):
+
+    url = 'search'
 
     SEARCH_TEXT = By.CSS_SELECTOR, '.lighter'
 

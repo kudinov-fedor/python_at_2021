@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from python_at_2021.tests.akaiafiuk.automation_practice.pages.base_page import BasePage
+from tests.akaiafiuk.automation_practice.pages.base_page import BasePage
 
 
 class ItemPage(BasePage):

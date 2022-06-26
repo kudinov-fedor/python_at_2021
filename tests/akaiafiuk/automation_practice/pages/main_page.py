@@ -1,8 +1,8 @@
 from typing import List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from python_at_2021.tests.akaiafiuk.automation_practice.pages.base_page import BasePage
-from python_at_2021.tests.akaiafiuk.automation_practice.elements.item_element import ItemElement
+from tests.akaiafiuk.automation_practice.pages.base_page import BasePage
+from tests.akaiafiuk.automation_practice.elements.item_element import ItemElement
 
 
 class MainPage(BasePage):
@@ -16,7 +16,7 @@ class MainPage(BasePage):
         return [ItemElement(element) for element in self.find_elements(MainPage.ITEM)]
 
     def do_search(self, text: str):
-        from python_at_2021.tests.akaiafiuk.automation_practice.pages.search_page import SearchPage
+        from tests.akaiafiuk.automation_practice.pages.search_page import SearchPage
         search_input = self.find_element(MainPage.SEARCH)
         search_input.clear()
         search_input.send_keys(text)

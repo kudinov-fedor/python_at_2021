@@ -1,7 +1,7 @@
 from typing import List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from python_at_2021.tests.akaiafiuk.automation_practice.elements.base_element import BaseElement
+from tests.akaiafiuk.automation_practice.elements.base_element import BaseElement
 
 
 class ItemInfoModal(BaseElement):

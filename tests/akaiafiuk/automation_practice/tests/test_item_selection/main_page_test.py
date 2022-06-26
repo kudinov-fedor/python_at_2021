@@ -1,5 +1,4 @@
-import pytest
-from python_at_2021.tests.akaiafiuk.automation_practice.pages import MainPage
+from tests.akaiafiuk.automation_practice.pages import MainPage
 
 
 def test_items(session):
@@ -27,14 +26,14 @@ def test_item_description(session):
 def test_open_item_using_button(session):
     """Verify that Item screen is opened after highlight an item and press More button"""
     main_page = MainPage(session)
-    item = main_page.open().items[0]
+    item = main_page.open().on_load().items[0]
     item_name_main_page = item.text
     item_name_item_page = item.click_more_button().name
     assert item_name_main_page == item_name_item_page
 
 
-@pytest.mark.new
 def test_item_modal_item_name(session):
+    """Verify that Item Modal is displayed and the name of the item is correct"""
     main_page = MainPage(session)
     item = main_page.open().items[0]
     item_name_main_page = item.text
