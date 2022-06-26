@@ -33,8 +33,8 @@ class ApiClientBookStore:
                                      json=payload)
         return response
 
-    def delete_account(self, user_id):
-        path = f'/Account/v1/User{user_id}'
+    def delete_account(self):
+        path = f'/Account/v1/User/{self.user_id}'
         response = self.session.delete(url=f'{self.host}{path}')
         return response
 
@@ -57,7 +57,7 @@ class ApiClientBookStore:
                    "collectionOfIsbns": [
                        {"isbn": isbn}]
                    }
-        self.session.headers["Authorization"] = f'Bearer {self.token}'
+
         response = self.session.post(url=f'{self.host}{path}',
                                      json=payload)
         return response
@@ -74,3 +74,4 @@ class ApiClientBookStore:
         login_user = self.login_user().json()
         self.user_id = login_user['userId']
         self.token = login_user['token']
+        self.session.headers["Authorization"] = f'Bearer {self.token}'
