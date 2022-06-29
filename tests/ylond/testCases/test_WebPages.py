@@ -14,11 +14,10 @@ def test_employee_registration(session):
 
 def test_employee_edit(session):
     web_pages = pages.WebPages(session).open()
-    if not web_pages.get_web_table().is_edit_button_present():
-        print("No edit button")
-    else:
-        web_pages.get_web_table().click_edit_button()
-        web_pages.get_pop_up().edit_employee("123")
+    assert web_pages.get_web_table().is_edit_button_present(), "no edit button"
+
+    web_pages.get_web_table().click_edit_button()
+    web_pages.get_pop_up().edit_employee("123")
 
     assert web_pages.get_web_table().get_first_name_result() == "123"
 

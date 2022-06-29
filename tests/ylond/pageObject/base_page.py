@@ -48,3 +48,16 @@ class BasePage:
     def scroll_up(self):
         scroll_up = self.driver.execute_script("window.scrollTo(0,-document.body.scrollHeight)")
         return self
+
+
+class BaseElement(BasePage):
+    ROOT_ELEMENT = None
+
+    def __init__(self, driver):
+        super().__init__(driver)
+        assert self.ROOT_ELEMENT
+        self.root_element.is_displayed()
+
+    @property
+    def root_element(self):
+        return self.find_element(*self.ROOT_ELEMENT)

@@ -1,6 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from tests.ylond.pageObject.base_page import BasePage
+from tests.ylond.pageObject.base_page import BasePage, BaseElement
 
 
 class WebPages(BasePage):
@@ -8,23 +8,21 @@ class WebPages(BasePage):
 
     # locators
     add_button = By.ID, "addNewRecordButton"
-    web_table = By.CSS_SELECTOR, "div.rt-table"
-    modal_window = By.ID, "userForm"
 
     def get_fill_form(self):
         self.find_element(*self.add_button).click()
         return CreateUserForm(self.driver)
 
     def get_pop_up(self):
-        self.find_element(*self.modal_window)
         return CreateUserForm(self.driver)
 
     def get_web_table(self):
-        self.find_element(*self.web_table)
         return WebTable(self.driver)
 
 
-class CreateUserForm(WebPages):
+class CreateUserForm(BaseElement):
+
+    ROOT_ELEMENT = By.ID, "userForm"
 
     # locators
     first_name = By.ID, "firstName"
@@ -97,7 +95,9 @@ class CreateUserForm(WebPages):
         return self
 
 
-class WebTable(WebPages):
+class WebTable(BaseElement):
+
+    ROOT_ELEMENT = By.CSS_SELECTOR, "div.rt-table"
 
     # locators
     search = By.CSS_SELECTOR, "input#searchBox.form-control"
@@ -116,7 +116,7 @@ class WebTable(WebPages):
     new_grid_row = By.CSS_SELECTOR, "div.rt-tr.-padRow.-even"
 
     def get_first_name_result(self) -> str:
-        get_first_name_result = self.find_element(*self.first_name_result).text
+        get_first_name_result = self.root_element.find_element(*self.first_name_result).text
         return get_first_name_result
 
     def get_employee_register_result(self) -> bool:
