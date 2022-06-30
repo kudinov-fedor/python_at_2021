@@ -6,6 +6,8 @@ from tests.akaiafiuk.automation_practice.elements.item_element import ItemElemen
 
 
 class MainPage(BasePage):
+    url = 'index.php'
+
     ITEM = By.CSS_SELECTOR, '[class="product-container"]'
     SEARCH = By.CSS_SELECTOR, '.search_query'
     COLUMNS = By.CSS_SELECTOR, '[class="columns-container"]'

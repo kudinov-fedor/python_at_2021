@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains as AC
 from tests.akaiafiuk.automation_practice.utils import scroll_to_element
 from tests.akaiafiuk.automation_practice.elements.base_element import BaseElement
-from tests.akaiafiuk.automation_practice.elements.item_info_modal import ItemInfoModal
+from tests.akaiafiuk.automation_practice.elements.item_info_frame import ItemInfoFrame
 from tests.akaiafiuk.automation_practice.pages.item_page import ItemPage
 
 
@@ -34,9 +34,9 @@ class ItemElement(BaseElement):
         self.find_element(ItemElement.MORE_BTN).click()
         return ItemPage(self.session.parent)
 
-    def open_item_info(self) -> ItemInfoModal:
+    def open_item_info(self) -> ItemInfoFrame:
         self.move_highlight()
         self.find_element(ItemElement.IMAGE).click()
         iframe = self.parent().find_element(*ItemElement.ITEM_INFO_FRAME)
         self.parent().switch_to.frame(iframe)
-        return ItemInfoModal(self.parent().find_element(*ItemElement.ITEM_INFO_MODAL))
+        return ItemInfoFrame(self.parent().find_element(*ItemElement.ITEM_INFO_MODAL))

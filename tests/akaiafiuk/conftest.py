@@ -15,7 +15,7 @@ def test_list():
 @pytest.fixture(scope='session')
 def session() -> WebDriver:
     driver = Firefox()
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(20)
     driver.maximize_window()
     yield driver
     driver.quit()

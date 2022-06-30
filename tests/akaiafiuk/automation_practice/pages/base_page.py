@@ -30,7 +30,7 @@ class BasePage:
         self.session.refresh()
 
     def on_load(self):
-        WebDriverWait(self.session, 15).until(EC.url_contains(self.url))
+        WebDriverWait(self.session, 30).until(EC.url_contains(self.url))
         return self
 
     @property
