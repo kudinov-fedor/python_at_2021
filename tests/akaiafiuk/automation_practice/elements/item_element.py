@@ -10,7 +10,7 @@ class ItemElement(BaseElement):
     IMAGE = By.CSS_SELECTOR, '.product-image-container'
     NAME = By.CSS_SELECTOR, '.product-name'
     MORE_BTN = By.CSS_SELECTOR, '.lnk_view'
-    QUICK_VIEW = By.CSS_SELECTOR, '#quick-view'
+    QUICK_VIEW = By.CSS_SELECTOR, '.quick-view'
     PRICE = By.CSS_SELECTOR, '.right-block'
 
     def open_item(self) -> ItemPage:
@@ -23,8 +23,8 @@ class ItemElement(BaseElement):
 
     def move_highlight(self):
         action = AC(self.parent())
-        scroll_to_element(self.parent(), self.find_element(ItemElement.PRICE))
-        action.move_to_element(self.find_element(ItemElement.PRICE))
+        scroll_to_element(self.parent(), self.find_element(ItemElement.IMAGE))
+        action.move_to_element(self.find_element(ItemElement.IMAGE))
         action.perform()
 
     def click_more_button(self):
@@ -34,5 +34,5 @@ class ItemElement(BaseElement):
 
     def open_item_info(self) -> ItemInfoFrame:
         self.move_highlight()
-        self.find_element(ItemElement.IMAGE).click()
+        self.find_element(ItemElement.QUICK_VIEW).click()
         return ItemInfoFrame(self.parent())

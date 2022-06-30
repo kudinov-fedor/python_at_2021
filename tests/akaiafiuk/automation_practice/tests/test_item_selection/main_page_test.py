@@ -39,8 +39,6 @@ def test_item_form_item_name(session):
     main_page = MainPage(session)
     item = main_page.open().items[0]
     item_name_main_page = item.text
-    # item_info_frame = item.open_item_info()
-    # item_name_item_modal = item_info_frame.name
     with item.open_item_info() as item_info:
         item_name_item_modal = item_info.name
     assert item_name_main_page == item_name_item_modal
@@ -49,7 +47,6 @@ def test_item_form_item_name(session):
 def test_close_item_info_form(session):
     main_page = MainPage(session).on_load()
     item = main_page.open().items[0]
-    item_info_frame = item.open_item_info()
-    # with item.open_item_info() as item_info:
-    assert isinstance(item_info_frame.name, str)
+    with item.open_item_info() as item_info:
+        assert isinstance(item_info.name, str)
     assert len(main_page.on_load().items) > 0
