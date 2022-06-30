@@ -1,11 +1,10 @@
 from typing import List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.remote.webdriver import WebDriver
-from tests.akaiafiuk.automation_practice.elements.base_element import BaseElement
+from tests.akaiafiuk.automation_practice.pages.base_frame import BaseFrame
 
 
-class ItemInfoFrame(BaseElement):
+class ItemInfoFrame(BaseFrame):
     NAME = By.CSS_SELECTOR, 'h1'
     DESCRIPTION = By.CSS_SELECTOR, '#short_description_content p'
     PRICE = By.CSS_SELECTOR, '.our_price_display'
@@ -13,10 +12,8 @@ class ItemInfoFrame(BaseElement):
     IMAGES = By.CSS_SELECTOR, '.img-responsive'
     CLOSE_ICON = By.CSS_SELECTOR, '.fancybox-close'
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb) -> WebDriver:
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.switch_to.default_content()
         self.close
 
     @property
@@ -40,7 +37,5 @@ class ItemInfoFrame(BaseElement):
         return self.find_elements(ItemInfoFrame.IMAGES)
 
     @property
-    def close(self) -> WebDriver:
-        self.parent().switch_to.default_content()
-        self.parent().find_element(*ItemInfoFrame.CLOSE_ICON).click()
-        return self.parent()
+    def close(self):
+        self.session.find_element(*ItemInfoFrame.CLOSE_ICON).click()
