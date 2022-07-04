@@ -5,6 +5,8 @@ from tests.akaiafiuk.automation_practice.pages.base_frame import BaseFrame
 
 
 class ItemInfoFrame(BaseFrame):
+    FRAME = By.XPATH, './/iframe[contains(@id, "fancybox")]'
+    # MODAL = By.XPATH, '//*[@id="product"]'
     NAME = By.CSS_SELECTOR, 'h1'
     DESCRIPTION = By.CSS_SELECTOR, '#short_description_content p'
     PRICE = By.CSS_SELECTOR, '.our_price_display'

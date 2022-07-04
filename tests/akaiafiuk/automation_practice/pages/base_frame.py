@@ -1,13 +1,12 @@
-from selenium.webdriver.common.by import By
 from tests.akaiafiuk.automation_practice.pages.base_page import BasePage
 
 
 class BaseFrame(BasePage):
-    FRAME = By.XPATH, './/iframe[contains(@id, "fancybox")]'
-    MODAL = By.XPATH, '//*[@id="product"]'
+    FRAME = None
 
     def __enter__(self):
-        iframe = self.find_element(BaseFrame.FRAME)
+        assert self.FRAME is not None
+        iframe = self.find_element(self.FRAME)
         self.session.switch_to.frame(iframe)
         return self
 

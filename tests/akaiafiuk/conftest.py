@@ -1,10 +1,8 @@
 import pytest
-from selenium.webdriver import Chrome
-from selenium.webdriver import Firefox
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from tests.akaiafiuk.book_store_ui.pages.login_page import LoginPage
-from tests.akaiafiuk.constants import LOGIN, PASSWORD
+from tests.akaiafiuk.constants import LOGIN, PASSWORD, DRIVER
 
 
 @pytest.fixture()
@@ -14,7 +12,7 @@ def test_list():
 
 @pytest.fixture(scope='session')
 def session() -> WebDriver:
-    driver = Firefox()
+    driver = DRIVER
     driver.implicitly_wait(20)
     driver.maximize_window()
     yield driver
