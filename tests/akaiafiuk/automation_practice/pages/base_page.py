@@ -4,8 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webdriver import WebElement
-from python_at_2021.tests.akaiafiuk.constants import AUTOMATION_PRACTICE_HOST
-from python_at_2021.tests.akaiafiuk.automation_practice.elements.header_element import HeaderElement
+from tests.akaiafiuk.constants import AUTOMATION_PRACTICE_HOST, WAIT_TIME
+from tests.akaiafiuk.automation_practice.elements.header_element import HeaderElement
 
 
 class BasePage:
@@ -30,7 +30,7 @@ class BasePage:
         self.session.refresh()
 
     def on_load(self):
-        WebDriverWait(self.session, 15).until(EC.url_contains(self.url))
+        WebDriverWait(self.session, WAIT_TIME).until(EC.url_contains(self.url))
         return self
 
     @property

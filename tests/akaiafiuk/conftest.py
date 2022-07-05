@@ -1,9 +1,8 @@
 import pytest
-from selenium.webdriver import Chrome
 from selenium.webdriver.remote.webdriver import WebDriver
-
-from python_at_2021.tests.akaiafiuk.book_store_ui.pages.login_page import LoginPage
-from python_at_2021.tests.akaiafiuk.constants import LOGIN, PASSWORD
+from tests.akaiafiuk.book_store_ui.pages.login_page import LoginPage
+from tests.akaiafiuk.constants import LOGIN, PASSWORD, DRIVER
+from tests.akaiafiuk.automation_practice.utils import create_session
 
 
 @pytest.fixture()
@@ -13,8 +12,8 @@ def test_list():
 
 @pytest.fixture(scope='session')
 def session() -> WebDriver:
-    driver = Chrome()
-    driver.implicitly_wait(5)
+    driver = create_session(DRIVER)
+    driver.implicitly_wait(20)
     driver.maximize_window()
     yield driver
     driver.quit()

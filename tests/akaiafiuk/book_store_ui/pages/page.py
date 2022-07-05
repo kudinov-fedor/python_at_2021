@@ -2,7 +2,7 @@ from typing import Tuple, List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webdriver import WebElement
-from python_at_2021.tests.akaiafiuk.constants import HOST
+from tests.akaiafiuk.constants import HOST
 
 
 class Page:
