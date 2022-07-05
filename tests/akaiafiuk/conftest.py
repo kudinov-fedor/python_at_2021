@@ -1,8 +1,8 @@
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
-
 from tests.akaiafiuk.book_store_ui.pages.login_page import LoginPage
 from tests.akaiafiuk.constants import LOGIN, PASSWORD, DRIVER
+from tests.akaiafiuk.automation_practice.utils import create_session
 
 
 @pytest.fixture()
@@ -12,7 +12,7 @@ def test_list():
 
 @pytest.fixture(scope='session')
 def session() -> WebDriver:
-    driver = DRIVER
+    driver = create_session(DRIVER)
     driver.implicitly_wait(20)
     driver.maximize_window()
     yield driver
