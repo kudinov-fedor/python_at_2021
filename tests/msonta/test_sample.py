@@ -20,10 +20,10 @@ def test_pass():
     assert 1 == 1
 
 
-@pytest.mark.parametrize("a, b, expected",[
+@pytest.mark.parametrize("a, b, expected", [
     (1, 1, 2),
     (2, 2, 4),
-    pytest.param("1", "2", 0, marks=pytest.mark.skipif(reason="AssertionError"))])
+    pytest.param("1", "2", 0, marks=pytest.mark.xfail)])
 def test_sum(a, b, expected):
     assert add(a, b) == expected
 
