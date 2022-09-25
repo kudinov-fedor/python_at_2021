@@ -1,5 +1,4 @@
 from selenium.webdriver.remote.webdriver import WebDriver
-
 from tests.dnazar.context.base_context import BaseContext
 from tests.dnazar.pom.radio_button_page_elements import RadioButtonPageElements
 

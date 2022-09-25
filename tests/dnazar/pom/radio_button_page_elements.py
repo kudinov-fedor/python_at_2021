@@ -1,5 +1,4 @@
 from selenium.webdriver.support.wait import WebDriverWait
-
 from tests.dnazar.pom import radio_button_page_locators as locators
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
