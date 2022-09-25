@@ -2,9 +2,9 @@ from tests.dnazar.context.radio_button_page_context import RadioButtonPageContex
 from tests.dnazar import constants
 
 
-class TestTextBox:
+class TestRadioButton:
 
-    def test_text_box_positive(self, session):
+    def test_radio_buttons_are_enabled(self, session):
         context = RadioButtonPageContext(session)
 
         context.open_page(constants.RADIO_BUTTON_PAGE_LINK) \
