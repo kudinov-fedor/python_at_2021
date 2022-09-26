@@ -2,7 +2,7 @@ import os
 import time
 import pytest
 
-from selenium.webdriver import Chrome, Firefox, Edge, Opera, Safari
+from selenium.webdriver import Chrome, Firefox, Edge, Safari
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -15,7 +15,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
-driver_path = os.environ.get("DRIVER_PATH", "chromedriver")
 HOST = "https://demoqa.com"
 
 

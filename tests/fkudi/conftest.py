@@ -1,14 +1,13 @@
 import os
 import pytest
-driver_path = os.environ.get("DRIVER_PATH", "chromedriver")
-from selenium.webdriver import Chrome, Firefox, Edge, Opera, Safari, ChromeOptions
+from selenium.webdriver import Chrome, Firefox, Edge, Safari, ChromeOptions
 
 
 @pytest.fixture
 def session():
     options = ChromeOptions()
     # options.add_experimental_option('androidPackage', 'com.android.chrome')
-    session = Chrome(driver_path, options=options)
+    session = Chrome(options=options)
     session.maximize_window()
     yield session
     session.quit()
