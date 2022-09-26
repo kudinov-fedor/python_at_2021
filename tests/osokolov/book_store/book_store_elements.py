@@ -13,9 +13,10 @@ class BookStoreElements:
         self.title = (By.XPATH, f'{self.headers[1]}/div[2]')
         self.author = (By.XPATH, f'{self.headers[1]}/div[3]')
         self.publisher = (By.XPATH, f'{self.headers[1]}/div[4]')
+        # self.table_row = (By.XPATH, '//div[@class="rt-tr-group"]')
 
-        self.table_rows = (By.XPATH, '//div[@class="rt-tr-group"]//img')
-        self.table_row = lambda row_number: (By.XPATH, f'//div[@class="rt-tbody"]//div[@class="rt-tr-group"][{row_number}]')
+        self.table_row = (By.XPATH, '//img/ancestor::div[contains(@class, "rt-tr-group")]')
+        # self.table_row = lambda row_number: (By.XPATH, f'//div[@class="rt-tbody"]//div[@class="rt-tr-group"][{row_number}]')
 
         self.page_field = (By.XPATH, '//input[@aria-label="jump to page"]')
         self.user_name = (By.XPATH, '//*[@id="userName-label"]')

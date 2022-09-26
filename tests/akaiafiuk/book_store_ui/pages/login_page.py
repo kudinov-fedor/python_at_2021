@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 
-from python_at_2021.tests.akaiafiuk.book_store_ui.pages.page import Page
+from tests.akaiafiuk.book_store_ui.pages.page import Page
 
 
 class LoginPage(Page):

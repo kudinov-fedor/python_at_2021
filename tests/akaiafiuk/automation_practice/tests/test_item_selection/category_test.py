@@ -1,4 +1,4 @@
-from python_at_2021.tests.akaiafiuk.automation_practice.pages import MainPage
+from tests.akaiafiuk.automation_practice.pages import MainPage
 
 
 def test_items(session):
