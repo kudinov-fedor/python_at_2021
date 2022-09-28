@@ -10,11 +10,12 @@ def get_num():
 def test_append(get_num):
     my_list = [1, 2, 3]
     my_list.append(get_num)
-    assert (get_num in my_list) is True
+    assert get_num in my_list
 
 
-@pytest.mark.skipif(get_num != 50, reason="Random returns always different numbers")
 def test_random_equals_fifty(get_num):
+    if get_num != 50:
+        pytest.skip("Random returns always different numbers")
     assert get_num == 50
 
 
