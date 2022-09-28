@@ -1,15 +1,7 @@
 from tests.msonta.demoqa.locators import TextBoxPageLocators as locators
 from selenium.webdriver.remote.webdriver import WebDriver
 from tests.msonta.demoqa import config
-
-
-class BasePage(object):
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
-        self.full_name_text = ""
-        self.email_text = ""
-        self.current_address_text = ""
-        self.permanent_address_text = ""
+from tests.msonta.demoqa.pages.base_page import BasePage
 
 
 class TextBoxPage(BasePage):
