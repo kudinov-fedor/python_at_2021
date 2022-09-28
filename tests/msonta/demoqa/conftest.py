@@ -2,7 +2,7 @@ from selenium.webdriver import Chrome, ChromeOptions
 import pytest
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def session():
     options = ChromeOptions()
     driver = Chrome(options=options)
