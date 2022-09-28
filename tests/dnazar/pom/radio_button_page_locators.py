@@ -1,3 +1,5 @@
-YES_INPUT = "//input[@id='yesRadio']"
-IMPRESSIVE_INPUT = "//input[@id='impressiveRadio']"
-NO_INPUT = "//input[@id='noRadio']"
+from selenium.webdriver.common.by import By
+
+YES_INPUT = By.ID, "yesRadio"
+IMPRESSIVE_INPUT = By.ID, "impressiveRadio"
+NO_INPUT = By.ID, "noRadio"
