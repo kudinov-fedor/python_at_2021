@@ -1,0 +1,5 @@
+HOST = "https://demoqa.com/"
+NAME = "Michal Braznell"
+EMAIL = "mbraznell8@sourceforge.net"
+CURRENT_ADDRESS = "649 Larry Avenue"
+PERMANENT_ADDRESS = "2805 Fuller Hill"
