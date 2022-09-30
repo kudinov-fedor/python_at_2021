@@ -1,0 +1,8 @@
+HOST = "https://demoqa.com/"
+NAME = "Michal Braznell"
+EMAIL = "mbraznell8@sourceforge.net"
+CURRENT_ADDRESS = "649 Larry Avenue"
+PERMANENT_ADDRESS = "2805 Fuller Hill"
+DOUBLE_CLICK_MSG = "You have done a double click"
+RIGHT_CLICK_MSG = "You have done a right click"
+REGURAL_CLICK_MSG = "You have done a dynamic click"
