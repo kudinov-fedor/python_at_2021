@@ -8,7 +8,7 @@ from tests.dnazar import constants
 
 
 def test_upload_download(session, tmp_path):
-    FILE_NAME_UPLOAD = "upload.png"
+    FILE_NAME_UPLOAD = "upload.jpeg"
     FILE_NAME_DOWNLOAD = "sampleFile.jpeg"
     PATH_UPLOAD = str(pathlib.Path().resolve()) + f"/test_files/{FILE_NAME_UPLOAD}"
     PATH_DOWNLOAD = f"{str(tmp_path)}/{FILE_NAME_DOWNLOAD}"
@@ -19,11 +19,11 @@ def test_upload_download(session, tmp_path):
     assert FILE_NAME_UPLOAD in str(session.find_element(By.ID, "uploadedFilePath").text)
     download_button.click()
     for i in range(3):
-        try:
-            assert os.path.exists(PATH_DOWNLOAD)
+        sleep(1)
+        if os.path.exists(PATH_DOWNLOAD):
             break
-        except:
-            sleep(1)
+    else:
+        raise AssertionError(f"Path does not exists {PATH_DOWNLOAD}")
 
 
 @pytest.mark.xfail
