@@ -8,7 +8,7 @@ from tests.dnazar import constants
 
 
 def test_upload_download(session, tmp_path):
-    FILE_NAME_UPLOAD = "upload.jpeg"
+    FILE_NAME_UPLOAD = "upload.png"
     FILE_NAME_DOWNLOAD = "sampleFile.jpeg"
     PATH_UPLOAD = str(pathlib.Path().resolve()) + f"/test_files/{FILE_NAME_UPLOAD}"
     PATH_DOWNLOAD = f"{str(tmp_path)}/{FILE_NAME_DOWNLOAD}"
