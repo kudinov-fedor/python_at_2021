@@ -24,3 +24,10 @@ def open_button_page(session: Remote):
     session.get(config.HOST + "buttons")
     yield session
     session.delete_all_cookies()
+
+
+@pytest.fixture()
+def open_radio_button_page(session: Remote):
+    session.get(config.HOST + "radio-button")
+    yield session
+    session.delete_all_cookies()
