@@ -39,7 +39,7 @@ class BasePage:
 
     def wait_until_all_displayed(self, locator):
         WebDriverWait(driver=self.driver, timeout=5).\
-            until(EC.presence_of_element_located(locator))
+            until(EC.presence_of_all_elements_located(locator))
 
     def check_element_is_disabled(self, locator):
         return False if self.find_element(*locator).get_attribute("disabled") == "true" else True
