@@ -10,3 +10,10 @@ class BaseElement:
 
     def get_element(self, locator, wait_time=0):
         return WebDriverWait(self.driver, wait_time).until(EC.presence_of_element_located(locator))
+
+    def get_elements(self, locator, wait_time=0):
+        try:
+            WebDriverWait(self.driver, wait_time).until(EC.presence_of_element_located(locator))
+        except:
+            pass
+        return self.driver.find_elements(*locator)
