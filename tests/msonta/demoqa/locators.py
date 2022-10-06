@@ -20,7 +20,6 @@ class ButtonPageLocators(object):
     double_click_msg = (By.ID, "doubleClickMessage")
     right_click_msg = (By.ID, "rightClickMessage")
     click_me_msg = (By.ID, "dynamicClickMessage")
-    ads = (By.TAG_NAME, "iframe")
 
 
 class RadioButtonLocators(object):

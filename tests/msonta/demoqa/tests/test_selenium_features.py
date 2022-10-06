@@ -29,16 +29,6 @@ def _remove_downloaded_files():
         os.remove(TMP_DIR + os.sep + file)
 
 
-def test_upload_file(session):
-    session.get(config.HOST + "upload-download")
-    FILE_NAME_UPLOAD = "avatar.png"
-    PATH_UPLOAD = os.path.abspath(FILE_NAME_UPLOAD)
-    upload_button = session.find_element(By.ID, "uploadFile")
-    upload_button.send_keys(PATH_UPLOAD)
-
-    assert FILE_NAME_UPLOAD in session.find_element(By.ID, "uploadedFilePath").text
-
-
 def test_download_file(session):
     session.get(config.HOST + "upload-download")
 
@@ -49,7 +39,15 @@ def test_download_file(session):
     wait = WebDriverWait(session, 5)
     wait.until(lambda _: os.path.isfile(filepath), message="Expected file not found: " + filepath)
 
-    assert os.path.exists(filepath)
+
+def test_upload_file(session):
+    session.get(config.HOST + "upload-download")
+    FILE_NAME_UPLOAD = "avatar.png"
+    PATH_UPLOAD = os.path.abspath(FILE_NAME_UPLOAD)
+    upload_button = session.find_element(By.ID, "uploadFile")
+    upload_button.send_keys(PATH_UPLOAD)
+
+    assert FILE_NAME_UPLOAD in session.find_element(By.ID, "uploadedFilePath").text
 
 
 def test_valid_link(session):
@@ -58,7 +56,6 @@ def test_valid_link(session):
     r = requests.head(link)
 
     assert r.status_code == 301
-    r.raise_for_status()
 
 
 @pytest.mark.xfail

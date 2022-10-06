@@ -5,8 +5,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
+    host = "https://demoqa.com/"
+    url = ""
+
     def __init__(self, driver: WebDriver):
         self.driver = driver
+
+    def open(self):
+        self.driver.get(self.host + self.url)
 
     def find_element(self, by, value):
         return self.driver.find_element(by, value)

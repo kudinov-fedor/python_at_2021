@@ -3,4 +3,5 @@ from tests.msonta.demoqa.locators import TextBoxPageLocators
 
 
 class TextBoxPage(BasePage):
+    url = "text-box"
     locators = TextBoxPageLocators

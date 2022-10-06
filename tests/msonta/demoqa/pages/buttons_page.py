@@ -3,4 +3,5 @@ from tests.msonta.demoqa.locators import ButtonPageLocators
 
 
 class ButtonsPage(BasePage):
+    url = "buttons"
     locators = ButtonPageLocators
