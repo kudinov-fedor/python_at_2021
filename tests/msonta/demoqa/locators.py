@@ -20,3 +20,9 @@ class ButtonPageLocators(object):
     double_click_msg = (By.ID, "doubleClickMessage")
     right_click_msg = (By.ID, "rightClickMessage")
     click_me_msg = (By.ID, "dynamicClickMessage")
+
+
+class RadioButtonLocators(object):
+    yes_radio = (By.ID, "yesRadio")
+    no_radio = (By.ID, "noRadio")
+    impressive_radio = (By.ID, "impressiveRadio")
