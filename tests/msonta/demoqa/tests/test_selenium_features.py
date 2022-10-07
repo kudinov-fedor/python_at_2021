@@ -58,21 +58,21 @@ def test_valid_link(session):
     assert r.status_code == 301
 
 
-@pytest.mark.xfail
 def test_invalid_link(session):
     session.get(config.HOST + "broken")
-    link = session.find_element(By.CSS_SELECTOR, "a[href='http://the-internet.herokuapp.com/status_codes/500']").get_attribute("href")
+    link = session.find_element(By.CSS_SELECTOR, "a[href='http://the-internet.herokuapp.com/status_codes/500']")\
+        .get_attribute("href")
     r = requests.head(link)
 
     print(r.status_code)
     assert r.status_code == 500
-    r.raise_for_status()
 
 
 @pytest.mark.xfail
 def test_invalid_image(session):
     session.get(config.HOST + "broken")
-    link = session.find_element(By.CSS_SELECTOR, "img[src='/images/Toolsqa_1.jpg']").get_attribute("src")
+    link = session.find_element(By.CSS_SELECTOR, "img[src='/images/Toolsqa_1.jpg']")\
+        .get_attribute("src")
     r = requests.head(link)
 
     assert r.headers["Content-Type"] == "image/jpeg"

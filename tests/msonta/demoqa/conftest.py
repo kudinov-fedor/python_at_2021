@@ -1,12 +1,12 @@
-from selenium.webdriver import Chrome, ChromeOptions, Remote
+from selenium.webdriver import Chrome, ChromeOptions
 import pytest
-from tests.msonta.demoqa import config
 
 
 @pytest.fixture(scope="module")
 def session():
     options = ChromeOptions()
     driver = Chrome(options=options)
+    driver.implicitly_wait(2)
     driver.maximize_window()
     yield driver
     driver.quit()
