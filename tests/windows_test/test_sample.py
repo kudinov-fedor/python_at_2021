@@ -24,6 +24,11 @@ class Remote(_Remote):
             return value
 
 
+# !!! IMPORTANT !!!
+# Appium-Python-Client==2.2.0
+# selenium==3.141.0
+
+
 @pytest.fixture
 def driver():
     # set up appium
