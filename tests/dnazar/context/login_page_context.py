@@ -1,4 +1,5 @@
 from selenium.webdriver.remote.webdriver import WebDriver
+from tests.dnazar import context
 from tests.dnazar.context.common_book_store_context import CommonBookStoreContext
 from tests.dnazar.pom.login_page_elements import LoginPageElements
 
@@ -17,4 +18,4 @@ class LoginPageContext(CommonBookStoreContext):
 
     def click_login_button(self):
         self.click_button(self.elements.get_login_button())
-        return self
+        return context.ProfilePageContext(self.driver).on_load()

@@ -10,6 +10,9 @@ class ProfilePageContext(BookBasePageContext, ModalWindowContext):
         self.driver = driver
         self.elements = ProfilePageElements(self.driver)
 
+    def on_load(self):
+        return self.verify_logout_button_enabled()
+
     def click_book_delete_item(self, book_title: str):
         return self.click_button(self.elements.get_book_item_delete_icon(book_title))
 
