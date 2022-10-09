@@ -25,6 +25,7 @@ class Remote(_Remote):
 
 
 # !!! IMPORTANT !!!
+# https://github.com/microsoft/WinAppDriver/issues/1774
 # Appium-Python-Client==2.2.0
 # selenium==3.141.0
 
