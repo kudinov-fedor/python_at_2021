@@ -2,7 +2,7 @@ from tests.msonta.books_app.books_app_page import LoginPage, BookPage, ProfilePa
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from tests.msonta.books_app import config
 import pytest
 
@@ -16,12 +16,12 @@ def test_search_books(driver: WebDriver):
     book_page.open()
 
     WebDriverWait(driver, timeout)\
-        .until(EC.url_contains(book_page.url))
+        .until(ec.url_contains(book_page.url))
 
-    assert book_page.get_books_count(book_page.books_locators) == 8
+    assert book_page.get_books_count(book_page.BOOKS) == 8
 
     book_page.search(value=search_text)
-    assert book_page.get_books_count(book_page.books_locators) == 2
+    assert book_page.get_books_count(book_page.BOOKS) == 2
 
 
 # login
@@ -30,12 +30,12 @@ def test_login(driver: WebDriver):
     login_page.open()
 
     WebDriverWait(driver, timeout)\
-        .until(EC.url_contains(login_page.url))
+        .until(ec.url_contains(login_page.url))
 
     login_page.login(user_name=config.USER, password=config.PASSWORD)
 
     WebDriverWait(driver, timeout)\
-        .until(EC.url_contains(login_page.host + "/profile"))
+        .until(ec.url_contains(login_page.host + "/profile"))
 
     assert driver.current_url == login_page.host + "/profile"
 
@@ -46,7 +46,7 @@ def test_add_book(login: WebDriver):
     books = ["Git Pocket Guide", "Speaking JavaScript"]
 
     book_page = BookPage(login)
-    book_page.navigate_to_page(book_page.book_store_menu_item)
+    book_page.navigate_to_page(book_page.MENU_LINK)
 
     for book in books:
         book_page.scroll_down()
@@ -61,8 +61,8 @@ def test_add_book(login: WebDriver):
 # view own books
 def test_view_own_books(login: WebDriver):
     profile_page = ProfilePage(login)
-    profile_page.navigate_to_page(profile_page.profile_menu_item)
-    own_books = profile_page.get_books_count(profile_page.books_locators)
+    profile_page.scroll_up()
+    own_books = profile_page.get_books_count(profile_page.BOOKS_TABLE_ITEM)
 
     assert own_books == 2
 
@@ -77,16 +77,16 @@ def test_delete_book(login: WebDriver):
     assert alert.text == "Book deleted."
     alert.accept()
 
-    assert profile_page.get_books_count(profile_page.books_locators) == 1
+    assert profile_page.get_books_count(profile_page.BOOKS_TABLE_ITEM) == 1
 
 
 @pytest.mark.dependency(depends=["test_delete_book"])
 def test_delete_all_books(login: WebDriver):
     profile_page = ProfilePage(login)
-    profile_page.navigate_to_page(profile_page.profile_menu_item)
+    profile_page.navigate_to_page(profile_page.MENU_LINK)
     profile_page.delete_all_books()
     alert = profile_page.get_alert()
     assert alert.text == "All Books deleted."
     alert.accept()
 
-    assert profile_page.get_books_count(profile_page.books_locators) == 0
+    assert profile_page.get_books_count(profile_page.BOOKS_TABLE_ITEM) == 0

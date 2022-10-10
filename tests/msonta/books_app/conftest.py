@@ -30,10 +30,10 @@ def login(driver):
 
 
 @pytest.fixture()
-def add_books_to_profile(login, books: []):
+def add_book_to_profile(login, books: []):
     for book in books:
         book_page = BookPage(login)
-        book_page.navigate_to_page(book_page.book_store_menu_item)
+        book_page.navigate_to_page(book_page.MENU_LINK)
         book_page.add_book_to_collection(book)
         alert = book_page.get_alert()
         book_page.accept_alert(alert)
