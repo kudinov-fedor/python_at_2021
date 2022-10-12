@@ -1,2 +1,6 @@
 from tests.dnazar.context.radio_button_page_context import RadioButtonPageContext
 from tests.dnazar.context.text_box_page_context import TextBoxPageContext
+from tests.dnazar.context.book_base_page_context import BookBasePageContext
+from tests.dnazar.context.login_page_context import LoginPageContext
+from tests.dnazar.context.profile_page_context import ProfilePageContext
+from tests.dnazar.context.add_book_page_context import AddBookPageContext
