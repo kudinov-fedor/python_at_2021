@@ -1,10 +1,11 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from tests.msonta.books_app.locators import *
+from tests.msonta.books_app import locators as loc
+from selenium.webdriver.common.by import By
 
 
-class BasePage(BasePageLocators):
+class BasePage(loc.BasePageLocators):
     host = "https://demoqa.com"
     url = ""
     timeout = 5
@@ -18,7 +19,6 @@ class BasePage(BasePageLocators):
     def navigate_to_page(self, locator):
         self.scroll_down()
         self.get_element(*locator).click()
-        self.driver.implicitly_wait(2)
         return self
 
     def get_element(self, by, value):
@@ -38,14 +38,10 @@ class BasePage(BasePageLocators):
         return len(books)
 
     def get_alert(self):
-        WebDriverWait(self.driver, self.timeout) \
-            .until(ec.alert_is_present())
-
-        return self.driver.switch_to.alert
+        return WebDriverWait(self.driver, self.timeout).until(ec.alert_is_present())
 
     def accept_alert(self, alert):
         alert.accept()
-        self.driver.implicitly_wait(2)
         return self
 
     def accept_modal(self):
@@ -56,7 +52,7 @@ class BasePage(BasePageLocators):
         return self.get_elements(*self.BOOKS)
 
 
-class LoginPage(BasePage, LoginPageLocators):
+class LoginPage(BasePage, loc.LoginPageLocators):
     url = "/login"
 
     def login(self, user_name, password):
@@ -72,7 +68,7 @@ class LoginPage(BasePage, LoginPageLocators):
         self.get_element(*self.LOGOUT_BUTTON).click()
 
 
-class BookPage(BasePage, BooksPageLocators):
+class BookPage(BasePage, loc.BooksPageLocators):
     url = "/books"
 
     def search(self, value):
@@ -88,7 +84,7 @@ class BookPage(BasePage, BooksPageLocators):
         self.get_element(*self.ADD_TO_COLLECTION_BUTTON).click()
 
 
-class ProfilePage(BasePage, ProfilePageLocators):
+class ProfilePage(BasePage, loc.ProfilePageLocators):
     url = "/profile"
 
     def delete_book(self, book_name):

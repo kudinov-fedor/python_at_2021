@@ -18,6 +18,7 @@ class BooksPageLocators:
     SEARCH_INPUT = (By.ID, "searchBox")
     MENU_LINK = (By.XPATH, "//*[@id='item-2']/span[contains(text(),'Book Store')]")
     ADD_TO_COLLECTION_BUTTON = (By.CSS_SELECTOR, ".text-right #addNewRecordButton")
+    GO_BACK = (By.CSS_SELECTOR, ".text-left #addNewRecordButton")
 
 
 class ProfilePageLocators:

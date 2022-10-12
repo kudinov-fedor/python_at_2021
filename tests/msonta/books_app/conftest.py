@@ -1,6 +1,6 @@
 import pytest
 from selenium.webdriver import Chrome, ChromeOptions
-from tests.msonta.books_app.books_app_page import LoginPage, BookPage
+from tests.msonta.books_app.books_app_page import LoginPage
 from tests.msonta.books_app import config
 
 
@@ -8,13 +8,13 @@ from tests.msonta.books_app import config
 def driver():
     options = ChromeOptions()
     driver = Chrome(options=options)
+    driver.implicitly_wait(5)
     driver.maximize_window()
     yield driver
     driver.stop_client()
     driver.quit()
 
 
-# TODO
 @pytest.fixture()
 def login(driver):
     """
@@ -27,13 +27,3 @@ def login(driver):
 
     yield driver
     login_page.logout()
-
-
-@pytest.fixture()
-def add_book_to_profile(login, books: []):
-    for book in books:
-        book_page = BookPage(login)
-        book_page.navigate_to_page(book_page.MENU_LINK)
-        book_page.add_book_to_collection(book)
-        alert = book_page.get_alert()
-        book_page.accept_alert(alert)
