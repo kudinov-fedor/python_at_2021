@@ -1,13 +1,35 @@
 import os
 import pytest
-from selenium.webdriver import Chrome, Firefox, Edge, Safari, ChromeOptions
+from selenium.webdriver import Chrome, Firefox, Edge, Safari, ChromeOptions, Remote
+
+
+DRIVER = os.environ.get("DRIVER", "chrome")
+
+
+def create_session(browser="chrome"):
+
+    if browser == "chrome":
+        return Chrome()
+    elif browser == "firefox":
+        return Firefox()
+    elif browser == "android":
+        options = ChromeOptions()
+        options.add_experimental_option('androidPackage', 'com.android.chrome')
+        return Chrome(options=options)
+    raise Exception("not supported " + browser)
+
+
+@pytest.fixture()
+def caps():
+    """
+    Fixture - prepares capabilities for test run
+    """
+    return DRIVER
 
 
 @pytest.fixture
-def session():
-    options = ChromeOptions()
-    # options.add_experimental_option('androidPackage', 'com.android.chrome')
-    session = Chrome(options=options)
+def session(caps):
+    session = create_session(caps)
     session.maximize_window()
     yield session
     session.quit()
