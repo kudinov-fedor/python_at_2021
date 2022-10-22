@@ -7,10 +7,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 PATH = f"{PROJECT_ROOT}\{FILE_NAME}"
 
 
-def download_image(url: str, path):
-    res = requests.get(url)
+def test_download_image():
+    res = requests.get(URL)
     res.raise_for_status()
-    open(path, 'wb').write(res.content)
-
-
-download_image(url=URL, path=PATH)
+    open(PATH, 'wb').write(res.content)
