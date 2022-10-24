@@ -11,6 +11,8 @@ class ApiClient:
             "userName": os.environ["USER_NAME"],
             "password": os.environ["PASSWORD"]
         }
+        self.user_id = None
+        self.token = None
 
     def create_user(self):
         res = self.client.post(url=self.host + "/Account/v1/User",
@@ -20,11 +22,13 @@ class ApiClient:
     def generate_token(self):
         res = self.client.post(url=self.host + "/Account/v1/GenerateToken",
                                json=self.payload)
+        self.token = res.json()["token"]
         return res
 
     def login(self):
         res = self.client.post(url=self.host + "/Account/v1/Login",
                                json=self.payload)
+        self.user_id = res.json()["userId"]
         return res
 
     def check_authorization(self):
