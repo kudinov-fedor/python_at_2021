@@ -7,7 +7,7 @@ class ApiClient:
     def __init__(self, user_name, password):
         self.client = requests.Session()
         self.user_id = None
-        self.user_name = user_name,
+        self.user_name = user_name
         self.password = password
 
     def set_token(self, token):
