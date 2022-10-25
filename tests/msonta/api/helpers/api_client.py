@@ -1,43 +1,57 @@
-import os
 import requests
 
 
 class ApiClient:
     host = "https://demoqa.com"
 
-    def __init__(self):
+    def __init__(self, user_name, password):
         self.client = requests.Session()
-        self.payload = {
-            "userName": os.environ["USER_NAME"],
-            "password": os.environ["PASSWORD"]
-        }
         self.user_id = None
+        self.user_name = user_name,
+        self.password = password
 
     def set_token(self, token):
         self.client.headers["Authorization"] = f"Bearer {token}"
 
     def create_user(self):
-        res = self.client.post(url=self.host + "/Account/v1/User", json=self.payload)
+        payload = {
+            "userName": self.user_name,
+            "password": self.password
+        }
+        res = self.client.post(url=self.host + "/Account/v1/User", json=payload)
         return res
 
     def generate_token(self):
-        res = self.client.post(url=self.host + "/Account/v1/GenerateToken", json=self.payload)
+        payload = {
+            "userName": self.user_name,
+            "password": self.password
+        }
+        res = self.client.post(url=self.host + "/Account/v1/GenerateToken", json=payload)
         return res
 
     def login(self):
-        res = self.client.post(url=self.host + "/Account/v1/Login", json=self.payload)
+        payload = {
+            "userName": self.user_name,
+            "password": self.password
+        }
+        res = self.client.post(url=self.host + "/Account/v1/Login", json=payload)
         return res
 
-    def set_user_id(self, user_id):
-        self.user_id = user_id
-
     def check_authorization(self):
+        payload = {
+            "userName": self.user_name,
+            "password": self.password
+        }
         res = self.client.post(url=self.host + "/Account/v1/Authorized",
-                               json=self.payload)
+                               json=payload)
         return res
 
     def get_user(self):
-        res = self.client.get(url=self.host + f"/Account/v1/User/{self.user_id}", json=self.payload)
+        payload = {
+            "userName": self.user_name,
+            "password": self.password
+        }
+        res = self.client.get(url=self.host + f"/Account/v1/User/{self.user_id}", json=payload)
         return res
 
     def get_books(self):
@@ -83,8 +97,5 @@ class ApiClient:
 
     def prepare_user(self):
         res = self.login()
-        self.set_user_id(res.json()["userId"])
+        self.user_id = res.json()["userId"]
         return self
-
-    def remove_user_id(self):
-        self.user_id = None
