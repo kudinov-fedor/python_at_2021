@@ -4,9 +4,9 @@
 # usage of + and * operators  ++
 # usage in conditions ++
 # usage for loops ++
-# objects conversion from list and to list (str, bool, tuple, dict, set)
-# usage of list methods (append, extend. etc.)
-# interaction with built-in functions (zip, enumerate, map etc.)
+# usage of list methods (append, extend. etc.) ++
+# objects conversion from list and to list (str, bool, tuple, dict, set) --
+# interaction with built-in functions (zip, enumerate, map etc.) --
 
 
 def test_get_list_length_1():
@@ -53,7 +53,7 @@ def test_list_to_string_5():
     print(f'Result:' + new_string)
 
 
-def test_list_to_string_6():
+def test_list_mapimg_string_6():
     input_list = ['Python', ' ', 'programming']
     mapped_string = ''.join(map(str, input_list))
     assert mapped_string == 'Python programming'
@@ -65,7 +65,43 @@ def test_list_multiplication_7():
     assert list2 == [5, 5, 5, 5, 5]
 
 
-def test_list_multiplication_8():
+def test_list_adding_8():
     list1 = [5]
     list2 = list1 + [5]
     assert list2 == [5, 5]
+
+
+def test_list_concatenation_9():
+    list1 = [5, 6, 7, 8, 9]
+    list2 = [1, 2, 3, 4]
+    concatenated_list = [y for x in [list1, list2] for y in x]
+    assert concatenated_list == [5, 6, 7, 8, 9, 1, 2, 3, 4]
+
+
+def test_list_extending_10():
+    list1 = [1, 2, 3, 4]
+    list2 = [5, 6, 7, 8, 9]
+    list1.extend(list2)
+    assert list1 == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+def test_list_append_11():
+    list1 = [1, 2, 3, 4]
+    list2 = ['T', 'E', 'S', 'T']
+    for x in list2:
+        list1.append(x)
+    assert list1 == [1, 2, 3, 4, 'T', 'E', 'S', 'T']
+
+
+def test_list_zip_to_list_12():
+    uppercase = ['T', 'E', 'S', 'T']
+    lowercase = ['t', 'e', 's', 't']
+    new_list = list(zip(uppercase, lowercase))
+    assert new_list == [('T', 't'), ('E', 'e'), ('S', 's'), ('T', 't')]
+
+
+def test_list_zip_to_dict_13():
+    uppercase = ['T', 'E', 'S', 't']
+    numbers = [1, 2, 3, 4]
+    zipped = dict(zip(uppercase, numbers))
+    assert zipped == {'T': 1, 'E': 2, 'S': 3, 't': 4}
