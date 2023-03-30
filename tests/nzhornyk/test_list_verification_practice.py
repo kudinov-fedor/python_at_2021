@@ -1,12 +1,4 @@
-# To Do -> Tests can relate to list:
-# string representation and formatting ++
-# get length ++
-# usage of + and * operators  ++
-# usage in conditions ++
-# usage for loops ++
-# usage of list methods (append, extend. etc.) ++
-# objects conversion from list and to list (str, bool, tuple, dict, set) --
-# interaction with built-in functions (zip, enumerate, map etc.) --
+import pytest
 
 
 def test_get_list_length_1():
@@ -17,10 +9,19 @@ def test_get_list_length_1():
         print('Good result')
 
 
-def test_get_list_length_2():
-    testable_list2 = [4, 67, 98, 'test', 34, 29]
+@pytest.mark.parametrize(["data", "expected_len"], [
+    ([1, 2, 3, 4, 5, 6], 6),
+    ([], 0)
+])
+def test_get_list_length_data_driven_2(data, expected_len):
+    testable_list2 = data
     testable_list2_len = len(testable_list2)
-    assert testable_list2_len == 6
+    assert testable_list2_len == expected_len
+
+
+@pytest.mark.parametrize("num, output", [(1, 11), (2, 22), (3, 35), (4, 44)])
+def test_multiplication_data_driven(num, output):
+    assert 11 * num == output
 
 
 def test_get_list_elements_count_3():
@@ -100,8 +101,28 @@ def test_list_zip_to_list_12():
     assert new_list == [('T', 't'), ('E', 'e'), ('S', 's'), ('T', 't')]
 
 
-def test_list_zip_to_dict_13():
-    uppercase = ['T', 'E', 'S', 't']
-    numbers = [1, 2, 3, 4]
-    zipped = dict(zip(uppercase, numbers))
-    assert zipped == {'T': 1, 'E': 2, 'S': 3, 't': 4}
+@pytest.fixture
+def zipping():
+    input_uppercase = ['T', 'E', 'S', 't']
+    input_numbers = [1, 2, 3, 4]
+    zipped = dict(zip(input_uppercase, input_numbers))
+    return zipped
+
+
+def test_list_zip_to_dict_13(zipping):
+    print(zipping)
+    assert zipping == {'T': 1, 'E': 2, 'S': 3, 't': 4}
+
+
+@pytest.fixture
+def input_value():
+    input_val = 39
+    return input_val
+
+
+def test_divisible_by_3(input_value):
+    assert input_value % 3 == 0
+
+
+def test_divisible_by_6(input_value):
+    assert input_value % 6 == 0
