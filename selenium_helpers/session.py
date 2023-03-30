@@ -46,14 +46,18 @@ def create_session(driver_type="chrome", config: dict = None) -> WebDriver:
         # options.add_argument("--no-first-run")
 
         # todo clean up new tab opened
-        # options.add_extension(os.path.join(os.getcwd(), "extensions", "add_blocker.crx"))
+        # options.add_extension(os.path.join(os.getcwd(), "extensions", "add_blocker.crx"))  # install add blocker app
 
         prefs = {
             'profile.managed_default_content_settings.media_stream': 1,  # allow camera
             # 'profile.default_content_setting_values': {'automatic_downloads': 0},
             # 'profile.content_settings.exceptions': {'automatic_downloads': 0},
             # 'browser.download.manager.showWhenStarting': 0,
-            "download.default_directory": os.path.join(os.getcwd(), "tmp")  # specify download directory
+            "download.default_directory": os.path.join(os.getcwd(), "tmp"),  # specify download directory
+
+            # remove save pass dialog
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False
         }
         options.add_experimental_option("prefs", prefs)
 
@@ -73,6 +77,7 @@ def create_session(driver_type="chrome", config: dict = None) -> WebDriver:
     elif driver_type == "safari":
         return webdriver.Safari(SAFARI_DRIVER_PATH)
 
+    # redundant for latest versions of selenium
     elif driver_type == "opera":
         return webdriver.Opera(executable_path=OPERA_DRIVER_PATH,
                                desired_capabilities=deepcopy(DesiredCapabilities.OPERA))
