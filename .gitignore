@@ -5,3 +5,4 @@ venv
 *.pyc
 *.log
 tests/osokolov/.env
+.DS_Store
