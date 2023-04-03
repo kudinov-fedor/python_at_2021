@@ -52,7 +52,7 @@ def test_addElem(listUnitTest):
 
 
 def test_findItem():
-    itemList = ["laundry detergent", "eggs", "bread", "milk", "rice"]
+    itemList = ["laundry detergent", "eggs", "bread", "milk", "toast"]
     for item in itemList:
         if item == "meat":
             print("Item is added to shopping list")
