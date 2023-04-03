@@ -1,7 +1,7 @@
 import pytest
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="class", autouse=True)
 def set_up():
     """Setup and Tear down for whole project"""
     print("SetUp class")
