@@ -58,7 +58,7 @@ def test_remove_answer_from_survey(set_up_full_survey):
                          [True,
                           False], ids=['test_sort_reverse_true', 'test_sort_reverse_false'])
 def test_sort_responses(set_up_full_survey, reverse):
-    actual = set_up_full_survey.get_sorted_responses(reverse)
+    set_up_full_survey.sort_survey_responses(reverse)
 
     expected = sorted(answers, reverse=reverse)
-    assert expected == actual
+    assert expected == set_up_full_survey.responses

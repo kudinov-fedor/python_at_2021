@@ -12,9 +12,8 @@ class AnonymousSurvey:
     def remove_response(self, response_to_remove):
         self.responses.remove(response_to_remove)
 
-    def get_sorted_responses(self, reverse=False):
-        self.responses.sort(reverse=reverse)
-        return self.responses
+    def sort_survey_responses(self, reverse=False):
+        return self.responses.sort(reverse=reverse)
 
     def show_all_responses(self):
         for response in self.responses:
