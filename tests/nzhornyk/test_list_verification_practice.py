@@ -3,10 +3,10 @@ import pytest
 
 def test_get_list_length_1():
     testable_list1 = [4, 67, 98, 'test', 34, 29, 76, 987, 34243, 8678, 64]
-    if len(testable_list1) > 10:
-        print('List is too large')
+    if testable_list1:
+        print('List is not empty')
     else:
-        print('Good result')
+        print('list is empty')
 
 
 @pytest.mark.parametrize(["data", "expected_len"], [
@@ -18,7 +18,7 @@ def test_get_list_length_data_driven_2(data, expected_len):
     testable_list2_len = len(testable_list2)
     assert testable_list2_len == expected_len
 
-
+@pytest.mark.xfail
 @pytest.mark.parametrize("num, output", [(1, 11), (2, 22), (3, 35), (4, 44)])
 def test_multiplication_data_driven(num, output):
     assert 11 * num == output
@@ -123,6 +123,43 @@ def input_value():
 def test_divisible_by_3(input_value):
     assert input_value % 3 == 0
 
-
+@pytest.mark.xfail
 def test_divisible_by_6(input_value):
     assert input_value % 6 == 0
+
+
+# magic methods:
+@pytest.mark.skip
+def test_len(my_list, mocker):
+    mocker.spy(list, "__len__")
+    len(my_list)
+    assert my_list.__len__.called
+
+
+from collections import UserList
+
+
+@pytest.mark.skip
+def test_list_len(mocker):
+    mocker.spy(UserList, "__len__")
+    my_list = UserList()
+    len(my_list)
+    assert UserList.__len__.called
+
+    @pytest.mark.xfail
+    @pytest.mark.great
+    def test_greater():
+        num = 100
+        assert num > 100
+
+    @pytest.mark.xfail
+    @pytest.mark.great
+    def test_greater_equal():
+        num = 100
+        assert num >= 100
+
+    @pytest.mark.skip
+    @pytest.mark.others
+    def test_less():
+        num = 100
+        assert num < 200
