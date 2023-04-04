@@ -12,18 +12,11 @@ import pytest
 
 
 @pytest.fixture
-def listUnitTest():
+def list_unit_test():
     return ['a', 'b', 'c', 5, 'e', 'f', 'g']
 
 
-@pytest.fixture
-def listToZip():
-    pet = ['buttons', 'mochi', 'willy', 'kali']
-    human = ['Tom', 'Crissy', 'Mike', 'Susan']
-    return list(zip(pet, human))
-
-
-def getLength(listItem):
+def get_length(listItem):
     return len(listItem)
 
 
@@ -32,40 +25,41 @@ def show_result(map_object):
         print(item)
 
 
-def test_getLength(listUnitTest):
-    assert getLength(listUnitTest) == 7
+def test_get_length(list_unit_test):
+    assert get_length(list_unit_test) == 7
 
 
-def test_appendElem(listUnitTest):
-    listUnitTest.append(1)
-    assert listUnitTest[7] == 1
+def test_append_elem(list_unit_test):
+    list_unit_test.append(1)
+    assert list_unit_test[7] == 1
 
 
-def test_removeElem(listUnitTest):
-    listUnitTest.remove('c')
-    assert listUnitTest[2] == 'd'
+def test_remove_elem(list_unit_test):
+    list_unit_test.remove('c')
+    assert list_unit_test[2] == 'd'
 
 
-def test_addElem(listUnitTest):
-    result = listUnitTest[3] + 1
+def test_add_elem(list_unit_test):
+    result = list_unit_test[3] + 1
     assert result == 6
 
 
-def test_findItem():
-    itemList = ["laundry detergent", "eggs", "bread", "milk", "apples"]
-    for item in itemList:
+def test_find_item():
+    item_list = ["laundry detergent", "eggs", "bread", "milk", "apples"]
+    # assert "meat" not in item_list
+    for item in item_list:
         if item == "meat":
-            print("Item is added to shopping list")
-            break
-        else:
-            print("Item not in shopping list")
+            raise AssertionError("Meat should not be in list")
 
 
-def test_listToString():
+def test_list_to_string():
     words = ["hello", "world", "hola", "mundi"]
-    capitalWords = list(map(str.upper, words))
-    assert capitalWords == ['HELLO', 'WORLD', 'HOLA', 'MUNDI']
+    capital_words = list(map(str.upper, words))
+    assert capital_words == ['HELLO', 'WORLD', 'HOLA', 'MUNDI']
 
 
-def test_matchPetOwner(listToZip):
-    assert listToZip == [('buttons', 'Tom'), ('mochi', 'Crissy'), ('willy', 'Mike'), ('kali', 'Susan')]
+def test_match_pet_owner():
+    pet = ['buttons', 'mochi', 'willy', 'kali']
+    human = ['Tom', 'Crissy', 'Mike', 'Susan']
+    list_to_zip = list(zip(pet, human))
+    assert list_to_zip == [('buttons', 'Tom'), ('mochi', 'Crissy'), ('willy', 'Mike'), ('kali', 'Susan')]
