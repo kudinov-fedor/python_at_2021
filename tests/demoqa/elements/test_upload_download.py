@@ -1,6 +1,7 @@
 import os
 
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.common.by import By
 
 from selenium_helpers.utills import assert_file_is_present
 
@@ -8,7 +9,7 @@ from selenium_helpers.utills import assert_file_is_present
 def test_download(host: str, session: WebDriver, tmp_dir):
 
     session.get(host + "/upload-download")
-    downloadButton = session.find_element_by_id("downloadButton")
+    downloadButton = session.find_element(By.ID, "downloadButton")
     file_name = downloadButton.get_attribute("download")
 
     downloadButton.click()
@@ -18,8 +19,8 @@ def test_download(host: str, session: WebDriver, tmp_dir):
 def test_upload(host: str, session: WebDriver):
 
     session.get(host + "/upload-download")
-    uploadFile = session.find_element_by_id("uploadFile")
+    uploadFile = session.find_element(By.ID, "uploadFile")
 
     sample_file = os.path.join(os.path.dirname(__file__), "sample_data", "sample_data.txt")
     uploadFile.send_keys(sample_file)
-    assert session.find_element_by_id("uploadedFilePath").text == r"C:\fakepath\sample_data.txt"
+    assert session.find_element(By.ID, "uploadedFilePath").text == r"C:\fakepath\sample_data.txt"
