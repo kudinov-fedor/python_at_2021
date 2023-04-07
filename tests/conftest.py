@@ -25,7 +25,7 @@ def tmp_dir():
     # os.system("rm -rf {}".format(path))
     # os.mkdir(path)
     yield path
-    os.system("rm -rf {}".format(path))
+    # os.system("rm -rf {}".format(path))
 
 
 @pytest.fixture(scope="session")
