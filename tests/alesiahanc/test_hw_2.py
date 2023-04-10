@@ -51,7 +51,7 @@ def test_validate_fullname(text_input, expected, session):
     clickSubmit(session)
 
     val = session.find_element(By.CSS_SELECTOR, "#name").text
-    assert val == "Name:"+expected
+    assert val == "Name:" + expected
 
 
 def test_validate_email(session):
@@ -60,13 +60,13 @@ def test_validate_email(session):
 
     clickSubmit(session)
 
-    val = session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/form/div[6]/div/p").text
+    val = session.find_element(By.XPATH, "//*[@id='currentAddress'][@class='mb-1']").text
     assert val == 'Current Address :some'
 
 
 def test_validate_checkbox(session):
     session.get("https://demoqa.com/checkbox")
-    checkbox = session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[1]/ol/li/span/label/span[3]")
+    checkbox = session.find_element(By.XPATH, "//*[@class='rct-title")
     checkbox.click()
     val = session.find_element(By.CSS_SELECTOR, "#result > span:nth-child(2)").text
     assert val == "home"
@@ -77,16 +77,15 @@ def test_validate_rb(session):
     # for some reasons search by id doesn't work; wondering why:
     # radiobutton = session.find_element(By.ID, "yesRadio")
     # radiobutton.click()
-    session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[2]/label").click()
-    val = session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/p").text
+    session.find_element(By.XPATH, "//*[@class='custom-control custom-radio custom-control-inline']").click()
+    val = session.find_element(By.XPATH, "//*[@class='mt-3']").text
     assert val == "You have selected Yes"
 
 
 def test_validate_no_rb(session):
     session.get("https://demoqa.com/radio-button")
-    nobtn = session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[4]/label")
-    href_data = nobtn.get_attribute('href')
-    assert href_data == None
+    is_btn_enabled = session.find_element(By.XPATH, "//*[@class='custom-control-input disabled']").is_enabled()
+    assert is_btn_enabled == False
 
 
 def test_double_click(session):
@@ -109,7 +108,6 @@ def test_right_mouse_click(session):
 
 def test_button_click(session):
     session.get("https://demoqa.com/buttons")
-    session.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/button").click()
+    session.find_element(By.XPATH, "//button[text()='Click Me']").click()
     val = session.find_element(By.CSS_SELECTOR, "#dynamicClickMessage").text
     assert val == "You have done a dynamic click"
-
