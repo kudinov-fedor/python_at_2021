@@ -20,7 +20,7 @@ def session():
         yield session
 
 
-def clickSubmit(session):
+def click_submit(session):
     el = session.find_element(By.CSS_SELECTOR, "#submit")
     el.location_once_scrolled_into_view
     return el.click()
@@ -30,25 +30,22 @@ def test_validate_email(session):
     session.get("https://demoqa.com/text-box")
     session.find_element(By.CSS_SELECTOR, "#userEmail").send_keys("some@gmail.com")
 
-    clickSubmit(session)
+    click_submit(session)
 
     val = session.find_element(By.CSS_SELECTOR, "#email").text
     assert val == 'Email:some@gmail.com'
 
 
-testdata = [
+@pytest.mark.parametrize("text_input, expected", [
     ("test1", "test1"),
     ("213,.~", "213,.~"),
     ("тест", "тест")
-]
-
-
-@pytest.mark.parametrize("text_input, expected", testdata)
+])
 def test_validate_fullname(text_input, expected, session):
     session.get("https://demoqa.com/text-box")
     session.find_element(By.CSS_SELECTOR, "#userName").send_keys(text_input)
 
-    clickSubmit(session)
+    click_submit(session)
 
     val = session.find_element(By.CSS_SELECTOR, "#name").text
     assert val == "Name:" + expected
@@ -58,15 +55,15 @@ def test_validate_email(session):
     session.get("https://demoqa.com/text-box")
     session.find_element(By.CSS_SELECTOR, "#currentAddress").send_keys("some")
 
-    clickSubmit(session)
+    click_submit(session)
 
-    val = session.find_element(By.XPATH, "//*[@id='currentAddress'][@class='mb-1']").text
+    val = session.find_element(By.XPATH, "//p[@id='currentAddress']").text
     assert val == 'Current Address :some'
 
 
 def test_validate_checkbox(session):
     session.get("https://demoqa.com/checkbox")
-    checkbox = session.find_element(By.XPATH, "//*[@class='rct-title")
+    checkbox = session.find_element(By.XPATH, "//*[@class='rct-title']")
     checkbox.click()
     val = session.find_element(By.CSS_SELECTOR, "#result > span:nth-child(2)").text
     assert val == "home"
@@ -74,10 +71,7 @@ def test_validate_checkbox(session):
 
 def test_validate_rb(session):
     session.get("https://demoqa.com/radio-button")
-    # for some reasons search by id doesn't work; wondering why:
-    # radiobutton = session.find_element(By.ID, "yesRadio")
-    # radiobutton.click()
-    session.find_element(By.XPATH, "//*[@class='custom-control custom-radio custom-control-inline']").click()
+    session.find_element(By.XPATH, "//*[contains(@class, 'custom-control')][contains(@class, 'custom-radio')][contains(@class, 'custom-control-inline')]").click()
     val = session.find_element(By.XPATH, "//*[@class='mt-3']").text
     assert val == "You have selected Yes"
 
