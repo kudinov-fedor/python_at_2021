@@ -46,3 +46,20 @@ def test_mark_2nd_lvl_element():
     assert "rct-icon-check" in desktop_checkbox_mark
     for result in results:
         assert expected_msg.__contains__(result.text) and result.is_displayed()
+
+def test_mark_single_element():
+    expand_all_btn = driver.find_element_by_css_selector(".rct-option-expand-all")
+
+    expand_all_btn.click()
+
+    office_private_checkbox = driver.find_element_by_xpath("//label[@for='tree-node-office']/../..//label[@for='tree-node-private']/span[@class='rct-checkbox']")
+
+    office_private_checkbox.click()
+
+    expected_msg = "You have selected : private"
+    results = driver.find_elements_by_css_selector("#result span")
+
+    for result in results:
+        assert expected_msg.__contains__(result.text) and result.is_displayed()
+
+
