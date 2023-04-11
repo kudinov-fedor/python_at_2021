@@ -4,7 +4,6 @@ from selenium.webdriver import Chrome
 
 @pytest.fixture(autouse=True)
 def test_setup():
-    # driver = Chrome('C:\webdrivers\chromedriver.exe')
     global driver
     driver = Chrome()
     driver.maximize_window()
