@@ -1,1 +1,1 @@
-from .pages import HomePage, LoginPage
+from .page import HomePage, LoginPage  # noqa: F401
