@@ -37,9 +37,9 @@ def test_add_entry():
     department.send_keys("HR")
     submit_btn.click()
 
-    new_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div")
+    new_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div[not(div/span)]")
     # "" for a last cell with edit and remove buttons
-    expected_results = ["Johnny", "Bravo", "19", "jb@test.com", "15000", "HR", ""]
+    expected_results = ["Johnny", "Bravo", "19", "jb@test.com", "15000", "HR"]
     iterator = 0
 
     for cell in new_row:
@@ -59,8 +59,9 @@ def test_edit_entry():
     first_name.send_keys("Johnny")
     submit_btn.click()
 
-    modified_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div")
-    expected_results = ["Johnny", "Cantrell", "45", "alden@example.com", "12000", "Compliance", ""]
+    modified_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div[not("
+                                                 "div/span)]")
+    expected_results = ["Johnny", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]
     iterator = 0
 
     for cell in modified_row:
@@ -73,6 +74,27 @@ def test_remove_entry():
 
     entry_remove_btn.click()
 
-    removed_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Alden']]/div")
+    removed_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Alden']]")
 
     assert len(removed_row) == 0
+
+
+@pytest.mark.parametrize("searched_name, expected_entry",
+                         [("Cierra", ["Cierra", "Vega", "39", "cierra@example.com", "10000", "Insurance"]),
+                          ("Alden", ["Alden", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]),
+                          ("Kierra", ["Kierra", "Gentry", "29", "kierra@example.com", "2000", "Legal"])])
+def test_search_entry(searched_name, expected_entry):
+    search_box = driver.find_element_by_css_selector("#searchBox")
+
+    search_box.send_keys(searched_name)
+
+    # Search should return a single row with 6 data cells
+    all_not_empty_rows = driver.find_elements_by_xpath(
+        "//div[@class='rt-tr-group']/div/div[not(span) and not(div/span)]")
+
+    assert not len(all_not_empty_rows) > 6
+
+    iterator = 0
+    for cell in all_not_empty_rows:
+        assert cell.text == expected_entry[iterator]
+        iterator += 1

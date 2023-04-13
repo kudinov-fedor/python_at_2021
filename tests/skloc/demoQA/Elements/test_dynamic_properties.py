@@ -1,7 +1,4 @@
-from time import sleep
-
 import pytest
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.color import Color
