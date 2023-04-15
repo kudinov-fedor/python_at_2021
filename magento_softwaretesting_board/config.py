@@ -1,12 +1,5 @@
-
-
+import os
 
 HOST = "https://magento.softwaretestingboard.com"
-
-LOGIN = "roni_cost@example.com"
-PASSWORD = "roni_cost3@example.com"
-
-
-
-LOGIN = "test@some.com"
-PASSWORD = "Test123!@#"
+LOGIN = os.environ.get("USER_LOGIN", "test@some.com")
+PASSWORD = os.environ.get("USER_PASSWORD", "Test123!@#")
