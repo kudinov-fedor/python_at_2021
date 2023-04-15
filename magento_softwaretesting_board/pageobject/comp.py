@@ -8,7 +8,12 @@ from selenium.webdriver.common.action_chains import ActionChains as AC
 from selenium.common import NoSuchElementException
 
 
+__all__ = ["BaseElement", "Cart", "CartDialog", "CartItem", "ProductItem"]
+
+
 class BaseElement:
+
+    EXPLICIT_WAIT = 3
 
     def __init__(self, session: WebElement):
         self.session = session
@@ -36,6 +41,10 @@ class BaseElement:
         except NoSuchElementException:
             return False
 
+    @property
+    def wait(self):
+        return Wait(self.parent, self.EXPLICIT_WAIT)
+
 
 class Cart(BaseElement):
 
@@ -58,6 +67,7 @@ class Cart(BaseElement):
 class CartDialog(BaseElement):
 
     LOCATOR = (By.XPATH, "//*[@id='minicart-content-wrapper']")
+    CART_ITEM = By.CSS_SELECTOR, "#mini-cart li"
 
     def is_active(self):
         return self.session.is_displayed()
@@ -66,7 +76,7 @@ class CartDialog(BaseElement):
         self.click(By.CSS_SELECTOR, "#btn-minicart-close")
 
     def get_items(self) -> List["CartItem"]:
-        return [CartItem(el) for el in self.session.find_elements(By.CSS_SELECTOR, "#mini-cart li")]
+        return [CartItem(el) for el in self.session.find_elements(*self.CART_ITEM)]
 
     def clean_cart(self):
         assert self.is_active()
@@ -77,7 +87,7 @@ class CartDialog(BaseElement):
             item = items.pop()
             item.delete()
             # wait untill curr count is reduced
-            from selenium.webdriver.support.ui import WebDriverWait as Wait
+
             Wait(self.parent, 3).until_not(lambda _: self.is_active() and len(self.get_items()) == curr_count)
             items = self.get_items()
 
@@ -107,8 +117,7 @@ class ProductItem(BaseElement):
 
         self.hover()
         self.session.find_element(By.CSS_SELECTOR, "button.tocart").click()
-
-        Wait(self.parent, 3).until(lambda session: home_page.get_cart().items_count() > items_count)
+        self.wait.until(lambda session: home_page.get_cart().items_count() > items_count)
 
     def add_to_wishlist(self):
         ...

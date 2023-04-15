@@ -2,7 +2,7 @@ import pytest
 from selenium.webdriver.common.by import By
 
 from magento_softwaretesting_board import config
-from magento_softwaretesting_board.page import page
+from magento_softwaretesting_board.pageobject import page
 
 
 @pytest.fixture
@@ -27,6 +27,13 @@ def login(session):
         main_page.click_logout()
 
     assert not main_page.user_logged_in()
+
+
+@pytest.fixture
+def login_add_item(login, session):
+    home_page = page.HomePage(session)
+    home_page.get_products()[-1].add_to_cart()
+    yield
 
 
 def test_login(session):
