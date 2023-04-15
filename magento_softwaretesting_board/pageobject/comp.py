@@ -86,9 +86,9 @@ class CartDialog(BaseElement):
             curr_count = len(items)
             item = items.pop()
             item.delete()
-            # wait untill curr count is reduced
 
-            Wait(self.parent, 3).until_not(lambda _: self.is_active() and len(self.get_items()) == curr_count)
+            # wait until curr count is reduced
+            Wait(self.parent, 3).until(lambda _: self.is_active() and len(self.get_items()) < curr_count)
             items = self.get_items()
 
         return self
@@ -105,6 +105,9 @@ class CartItem(BaseElement):
         submit_button = By.XPATH, '//*[contains(@class, "modals-wrapper")]'\
                                   '//button[contains(@class, "action-accept")]'
         Wait(self.parent, 3).until(EC.element_to_be_clickable(submit_button)).click()
+
+    def get_quantity(self) -> int:
+        return int(self.session.find_element(By.CSS_SELECTOR, "input.item-qty.cart-item-qty").get_attribute("value"))
 
 
 class ProductItem(BaseElement):

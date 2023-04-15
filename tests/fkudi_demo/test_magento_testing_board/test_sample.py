@@ -19,6 +19,7 @@ def login(session):
     if cart.items_count() != 0:
         cart.get_cart_dialog().clean_cart().close()
 
+    assert cart.items_count() == 0  # fail early if cleanup not successful
     yield main_page
 
     # logout
@@ -60,28 +61,6 @@ def test_login_pageobject(session):
 
 
 @pytest.mark.usefixtures("login")
-def test_cart_not_empty(session):
-    """
-    check, that I am able to interact with cart
-    if it has at least 1 item
-    """
-    home_page = page.HomePage(session)
-    home_page.get_products()[-1].add_to_cart()
-
-    cart = home_page.get_cart()
-    assert cart.items_count() == 1
-
-    cart_dialog = cart.get_cart_dialog()
-    assert cart_dialog.is_active()
-    cart_dialog.close()
-    assert not cart_dialog.is_active()
-
-    cart.get_cart_dialog()
-    items = cart_dialog.get_items()
-    assert len(items) == 1
-
-
-@pytest.mark.usefixtures("login")
 def test_cart_empty(session):
     """
     check, that I am able to interact with cart if it is empty
@@ -98,3 +77,56 @@ def test_cart_empty(session):
     cart.get_cart_dialog()
     items = cart_dialog.get_items()
     assert len(items) == 0
+
+
+@pytest.mark.usefixtures("login_add_item")
+def test_cart_not_empty(session):
+    """
+    check, that I am able to interact with cart
+    if it has at least 1 item
+    """
+    home_page = page.HomePage(session)
+    cart = home_page.get_cart()
+    assert cart.items_count() == 1
+
+    cart_dialog = cart.get_cart_dialog()
+    assert cart_dialog.is_active()
+    cart_dialog.close()
+    assert not cart_dialog.is_active()
+
+    cart.get_cart_dialog()
+    items = cart_dialog.get_items()
+    assert len(items) == 1
+
+
+@pytest.mark.usefixtures("login")
+def test_cart_add_item(session):
+    """
+    add 1 item and check its quantity
+    """
+    home_page = page.HomePage(session)
+    home_page.get_products()[-1].add_to_cart()
+
+    cart = home_page.get_cart()
+    assert cart.items_count() == 1
+    assert len(cart.get_cart_dialog().get_items()) == 1
+
+
+@pytest.mark.usefixtures("login")
+def test_cart_add_item_twice(session):
+    """
+    add same item twice and check its quantity
+    """
+    home_page = page.HomePage(session)
+
+    home_page.get_products()[-1].add_to_cart()
+    cart = home_page.get_cart()
+    items = cart.get_cart_dialog().get_items()
+    assert len(items) == 1
+    assert items[0].get_quantity() == 1
+
+    home_page.get_products()[-1].add_to_cart()
+    cart = home_page.get_cart()
+    items = cart.get_cart_dialog().get_items()
+    assert len(items) == 1
+    assert items[0].get_quantity() == 2
