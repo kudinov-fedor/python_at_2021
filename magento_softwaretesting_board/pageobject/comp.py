@@ -7,13 +7,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains as AC
 from selenium.common import NoSuchElementException
 
+from magento_softwaretesting_board import config
 
 __all__ = ["BaseElement", "Cart", "CartDialog", "CartItem", "ProductItem"]
 
 
 class BaseElement:
 
-    EXPLICIT_WAIT = 3
+    EXPLICIT_WAIT = config.EXPLICIT_WAIT
 
     def __init__(self, session: WebElement):
         self.session = session
@@ -30,6 +31,9 @@ class BaseElement:
         return self
 
     def hover(self):
+        # for Firefox, looks like it has issues with scrolling during perform of AC hover
+        self.session.location_once_scrolled_into_view
+
         AC(self.parent).move_to_element(self.session).perform()
         return self
 
@@ -72,10 +76,19 @@ class CartDialog(BaseElement):
     def is_active(self):
         return self.session.is_displayed()
 
+    def is_empty(self):
+        return self.element_is_present(By.CSS_SELECTOR, ".subtitle.empty")
+
     def close(self):
         self.click(By.CSS_SELECTOR, "#btn-minicart-close")
 
     def get_items(self) -> List["CartItem"]:
+
+        # todo get rid of, looks like items do not appear in popup immediately
+        # so need to check that popup is ready at the moment when we are going to interact with it
+        import time
+        time.sleep(1)
+
         return [CartItem(el) for el in self.session.find_elements(*self.CART_ITEM)]
 
     def clean_cart(self):
@@ -88,7 +101,7 @@ class CartDialog(BaseElement):
             item.delete()
 
             # wait until curr count is reduced
-            Wait(self.parent, 3).until(lambda _: self.is_active() and len(self.get_items()) < curr_count)
+            self.wait.until(lambda _: self.is_active() and len(self.get_items()) < curr_count)
             items = self.get_items()
 
         return self

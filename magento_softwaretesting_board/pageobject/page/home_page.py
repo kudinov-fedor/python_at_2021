@@ -5,18 +5,19 @@ from selenium.webdriver.support.ui import WebDriverWait as Wait
 
 from magento_softwaretesting_board.pageobject.page import BasePage, LoginPage
 from magento_softwaretesting_board.pageobject.comp import ProductItem
+from magento_softwaretesting_board import config
 
 
 class HomePage(BasePage):
 
     def user_logged_in(self) -> bool:
         el = self.element_is_present(By.CSS_SELECTOR, ".greet.welcome .logged-in")
-        return el and "Welcome" in el.text
+        return el and config.USER_NAME in el.text
 
     def click_login(self):
         assert not self.user_logged_in()
         self.session.find_element(By.CSS_SELECTOR, ".header.links li.authorization-link").click()
-        return LoginPage(self.session)
+        return LoginPage(self.session).wait_load()
 
     def click_logout(self):
         assert self.user_logged_in()
