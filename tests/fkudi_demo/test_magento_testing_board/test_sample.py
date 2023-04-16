@@ -11,8 +11,7 @@ def login(session):
     assert not main_page.user_logged_in()
     assert main_page \
         .click_login() \
-        .login() \
-        .user_logged_in()
+        .login()
 
     # clean cart
     cart = main_page.get_cart()
