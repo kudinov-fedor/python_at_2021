@@ -1,7 +1,6 @@
-from time import sleep
-
 import pytest
 from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -18,7 +17,7 @@ def test_setup():
 
 
 def test_simple_alert():
-    alert_btn = driver.find_element_by_css_selector("#alertButton")
+    alert_btn = driver.find_element(By.CSS_SELECTOR, "#alertButton")
     alert_btn.click()
 
     alert = driver.switch_to.alert
@@ -29,7 +28,7 @@ def test_simple_alert():
 
 
 def test_delayed_alert():
-    delayed_alert_btn = driver.find_element_by_css_selector("#timerAlertButton")
+    delayed_alert_btn = driver.find_element(By.CSS_SELECTOR, "#timerAlertButton")
     delayed_alert_btn.click()
 
     wait = WebDriverWait(driver, 6)
@@ -43,26 +42,26 @@ def test_delayed_alert():
 
 
 def test_dismiss_alert():
-    alert_btn = driver.find_element_by_css_selector("#confirmButton")
+    alert_btn = driver.find_element(By.CSS_SELECTOR, "#confirmButton")
     alert_btn.click()
 
     alert = driver.switch_to.alert
     alert.dismiss()
 
-    result = driver.find_element_by_css_selector("#confirmResult").text
+    result = driver.find_element(By.CSS_SELECTOR, "#confirmResult").text
 
     assert result == "You selected Cancel"
 
 
 def test_prompt_alert():
-    alert_btn = driver.find_element_by_css_selector("#promtButton")
+    alert_btn = driver.find_element(By.CSS_SELECTOR, "#promtButton")
     alert_btn.click()
 
     alert = driver.switch_to.alert
     alert.send_keys("Lorem ipsum")
     alert.accept()
 
-    result = driver.find_element_by_css_selector("#promptResult").text
+    result = driver.find_element(By.CSS_SELECTOR, "#promptResult").text
 
     assert result == "You entered Lorem ipsum"
 
