@@ -65,10 +65,11 @@ def test_remove_entry(driver):
     assert len(removed_row) == 0
 
 
-@pytest.mark.parametrize("searched_name, expected_entry",
-                         [("Cierra", ["Cierra", "Vega", "39", "cierra@example.com", "10000", "Insurance"]),
-                          ("Alden", ["Alden", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]),
-                          ("Kierra", ["Kierra", "Gentry", "29", "kierra@example.com", "2000", "Legal"])])
+@pytest.mark.parametrize("searched_name, expected_entry",[
+    ("Cierra", ["Cierra", "Vega", "39", "cierra@example.com", "10000", "Insurance"]),
+    ("Alden", ["Alden", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]),
+    ("Kierra", ["Kierra", "Gentry", "29", "kierra@example.com", "2000", "Legal"])
+])
 def test_search_entry(searched_name, expected_entry, driver):
     search_box = driver.find_element_by_css_selector("#searchBox")
 
