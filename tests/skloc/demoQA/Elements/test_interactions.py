@@ -1,21 +1,14 @@
 import pytest
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.action_chains import ActionChains as AC
 from selenium.webdriver.common.by import By
 
 
-@pytest.fixture(autouse=True)
-def test_setup():
-    global driver
-    driver = Chrome()
-    driver.maximize_window()
+@pytest.fixture(autouse=True, scope="function")
+def test_setup(driver):
     driver.get("https://demoqa.com/droppable")
-    yield
-    driver.close()
-    driver.quit()
 
 
-def test_simple():
+def test_simple(driver):
     draggable_box = driver.find_element(By.CSS_SELECTOR, "#draggable")
     droppable_box = driver.find_element(By.CSS_SELECTOR, "#droppable")
 
@@ -26,7 +19,7 @@ def test_simple():
     assert droppable_box_text == "Dropped!"
 
 
-def test_revert_draggable():
+def test_revert_draggable(driver):
     revert_draggable_tab = driver.find_element(By.CSS_SELECTOR, "#droppableExample-tab-revertable")
     revert_draggable_tab.click()
 
@@ -41,8 +34,9 @@ def test_revert_draggable():
         .drag_and_drop(not_revertible, droppable_box)\
         .perform()
 
-    updated_location_revertible = driver.find_element(By.CSS_SELECTOR, "#droppableExample-tabpane-revertable #revertable").location["x"]
-    updated_location_not_revertible = driver.find_element(By.CSS_SELECTOR, "#droppableExample-tabpane-revertable #notRevertable").location["x"]
+    tab_el = driver.find_element(By.CSS_SELECTOR, "#droppableExample-tabpane-revertable")
+    updated_location_revertible = tab_el.find_element(By.CSS_SELECTOR, "#revertable").location["x"]
+    updated_location_not_revertible = tab_el.find_element(By.CSS_SELECTOR, "#notRevertable").location["x"]
 
     assert not_revertible_x_position != updated_location_not_revertible
     assert revertible_x_position == updated_location_revertible

@@ -1,22 +1,15 @@
 import pytest
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
 
-@pytest.fixture(autouse=True)
-def test_setup():
-    global driver
-    driver = Chrome()
-    driver.maximize_window()
+@pytest.fixture(autouse=True, scope="function")
+def test_setup(driver):
     driver.get("https://demoqa.com/text-box")
-    yield
-    driver.close()
-    driver.quit()
 
 
-def test_text_box():
+def test_text_box(driver):
     full_name = driver.find_element(By.XPATH, "//input[@id='userName']")
-    email = driver.find_element(By.XPATH,"//input[@id='userEmail']")
+    email = driver.find_element(By.XPATH, "//input[@id='userEmail']")
     current_address = driver.find_element(By.CSS_SELECTOR, "textarea#currentAddress")
     permanent_address = driver.find_element(By.CSS_SELECTOR, "textarea#permanentAddress")
     btn_submit = driver.find_element(By.CSS_SELECTOR, "button#submit")

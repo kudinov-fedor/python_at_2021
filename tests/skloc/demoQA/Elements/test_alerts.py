@@ -1,22 +1,15 @@
 import pytest
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@pytest.fixture(autouse=True)
-def test_setup():
-    global driver
-    driver = Chrome()
-    driver.maximize_window()
+@pytest.fixture(autouse=True, scope="function")
+def test_setup(driver):
     driver.get("https://demoqa.com/alerts")
-    yield
-    driver.close()
-    driver.quit()
 
 
-def test_simple_alert():
+def test_simple_alert(driver):
     alert_btn = driver.find_element(By.CSS_SELECTOR, "#alertButton")
     alert_btn.click()
 
@@ -27,21 +20,20 @@ def test_simple_alert():
     assert alert_text == "You clicked a button"
 
 
-def test_delayed_alert():
+def test_delayed_alert(driver):
     delayed_alert_btn = driver.find_element(By.CSS_SELECTOR, "#timerAlertButton")
     delayed_alert_btn.click()
 
     wait = WebDriverWait(driver, 6)
-    wait.until(EC.alert_is_present())
 
-    alert = driver.switch_to.alert
+    alert = wait.until(EC.alert_is_present())
     alert_text = alert.text
     alert.accept()
 
     assert alert_text == "This alert appeared after 5 seconds"
 
 
-def test_dismiss_alert():
+def test_dismiss_alert(driver):
     alert_btn = driver.find_element(By.CSS_SELECTOR, "#confirmButton")
     alert_btn.click()
 
@@ -53,7 +45,7 @@ def test_dismiss_alert():
     assert result == "You selected Cancel"
 
 
-def test_prompt_alert():
+def test_prompt_alert(driver):
     alert_btn = driver.find_element(By.CSS_SELECTOR, "#promtButton")
     alert_btn.click()
 

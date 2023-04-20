@@ -1,20 +1,12 @@
 import pytest
-from selenium.webdriver import Chrome
 
 
-@pytest.fixture(autouse=True)
-def test_setup():
-    # driver = Chrome('C:\webdrivers\chromedriver.exe')
-    global driver
-    driver = Chrome()
-    driver.maximize_window()
+@pytest.fixture(autouse=True, scope="function")
+def test_setup(driver):
     driver.get("https://demoqa.com/webtables")
-    yield
-    driver.close()
-    driver.quit()
 
 
-def test_add_entry():
+def test_add_entry(driver):
     add_btn = driver.find_element_by_id("addNewRecordButton")
 
     add_btn.click()
@@ -36,16 +28,13 @@ def test_add_entry():
     submit_btn.click()
 
     new_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div[not(div/span)]")
-    # "" for a last cell with edit and remove buttons
     expected_results = ["Johnny", "Bravo", "19", "jb@test.com", "15000", "HR"]
-    iterator = 0
 
-    for cell in new_row:
-        assert cell.text == expected_results[iterator]
-        iterator += 1
+    for cell, expected in zip(new_row, expected_results):
+        assert cell.text == expected
 
 
-def test_edit_entry():
+def test_edit_entry(driver):
     entry_edit_btn = driver.find_element_by_xpath("//div[div[text()='Alden']]//span[@id='edit-record-2']")
 
     entry_edit_btn.click()
@@ -60,14 +49,12 @@ def test_edit_entry():
     modified_row = driver.find_elements_by_xpath("//div[@class='rt-tr-group']/div[div[text()='Johnny']]/div[not("
                                                  "div/span)]")
     expected_results = ["Johnny", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]
-    iterator = 0
 
-    for cell in modified_row:
-        assert cell.text == expected_results[iterator]
-        iterator += 1
+    for cell, expected in zip(modified_row, expected_results):
+        assert cell.text == expected
 
 
-def test_remove_entry():
+def test_remove_entry(driver):
     entry_remove_btn = driver.find_element_by_xpath("//div[div[text()='Alden']]//span[@id='delete-record-2']")
 
     entry_remove_btn.click()
@@ -81,7 +68,7 @@ def test_remove_entry():
                          [("Cierra", ["Cierra", "Vega", "39", "cierra@example.com", "10000", "Insurance"]),
                           ("Alden", ["Alden", "Cantrell", "45", "alden@example.com", "12000", "Compliance"]),
                           ("Kierra", ["Kierra", "Gentry", "29", "kierra@example.com", "2000", "Legal"])])
-def test_search_entry(searched_name, expected_entry):
+def test_search_entry(searched_name, expected_entry, driver):
     search_box = driver.find_element_by_css_selector("#searchBox")
 
     search_box.send_keys(searched_name)
@@ -92,7 +79,5 @@ def test_search_entry(searched_name, expected_entry):
 
     assert not len(all_not_empty_rows) > 6
 
-    iterator = 0
-    for cell in all_not_empty_rows:
-        assert cell.text == expected_entry[iterator]
-        iterator += 1
+    for cell, expected in zip(all_not_empty_rows, expected_entry):
+        assert cell.text == expected
