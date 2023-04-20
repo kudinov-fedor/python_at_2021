@@ -1,4 +1,5 @@
 import pytest
+from selenium.webdriver.common.by import By
 
 
 @pytest.fixture(autouse=True, scope="function")
@@ -74,8 +75,8 @@ def test_search_entry(searched_name, expected_entry, driver):
     search_box.send_keys(searched_name)
 
     # Search should return a single row with 6 data cells
-    all_not_empty_rows = driver.find_elements_by_xpath(
-        "//div[@class='rt-tr-group']/div/div[not(span) and not(div/span)]")
+    all_not_empty_rows_locator = "//div[@class='rt-tr-group']/div/div[not(span) and not(div/span)]"
+    all_not_empty_rows = driver.find_elements(By.XPATH, all_not_empty_rows_locator)
 
     assert not len(all_not_empty_rows) > 6
 
