@@ -12,7 +12,7 @@ class HomePage(BasePage):
 
     def user_logged_in(self) -> bool:
         el = self.element_is_present(By.CSS_SELECTOR, ".greet.welcome .logged-in")
-        return el and config.USER_NAME in el.text
+        return el and "Welcome, " in el.text
 
     def click_login(self):
         assert not self.user_logged_in()

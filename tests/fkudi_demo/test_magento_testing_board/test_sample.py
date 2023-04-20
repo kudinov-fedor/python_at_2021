@@ -6,12 +6,13 @@ from magento_softwaretesting_board.pageobject import page
 
 
 @pytest.fixture
-def login(session):
+def login(session, user):
+
     main_page = page.HomePage(session).open()
     assert not main_page.user_logged_in()
     assert main_page \
         .click_login() \
-        .login()
+        .login(user["login"], user["password"])
 
     # clean cart
     cart = main_page.get_cart()
@@ -46,12 +47,12 @@ def test_login(session):
     session.find_element(By.CSS_SELECTOR, "#send2").click()
 
 
-def test_login_pageobject(session):
+def test_login_pageobject(session, user):
     main_page = page.HomePage(session).open()
     assert not main_page.user_logged_in()
     assert main_page\
         .click_login()\
-        .login()\
+        .login(user["login"], user["password"])\
         .user_logged_in()
 
     # logout
