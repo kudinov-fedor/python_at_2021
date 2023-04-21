@@ -1,0 +1,25 @@
+import pytest
+
+from selenium.webdriver import Chrome, Firefox
+
+
+@pytest.fixture
+def user(worker_id):
+    USERS = [
+        {"login": "test@some.com",
+         "password": "Test123!@#",
+         "name": "test"},
+        {"login": "test2@some.com",
+         "password": "Test123!@#",
+         "name": "test2"}
+    ]
+    return USERS[int(worker_id[-1])]  # worker_id: gw0, gw1, ...
+
+
+@pytest.fixture(params=[Firefox, Chrome])
+def session(request):
+    session = request.param()
+
+    with session:
+        session.maximize_window()
+        yield session
