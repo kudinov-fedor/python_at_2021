@@ -1,7 +1,13 @@
 import pytest, os, textwrap, copy
 from appium import webdriver
-from appium.webdriver.common.appiumby import AppiumBy
+
 from selenium.webdriver.common.by import By as SeleniumBy
+
+# depends on appium version
+try:
+    from appium.webdriver.common.appiumby import AppiumBy
+except ImportError:
+    from appium.webdriver.common.mobileby import MobileBy as AppiumBy
 
 
 class By(AppiumBy, SeleniumBy):
