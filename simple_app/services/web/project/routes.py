@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 def main():
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("per_page", 10))
-    users = User.query.paginate(page, per_page, error_out=False).items
+    users = User.query.paginate(page=page, per_page=per_page, error_out=False).items
     return render_template('main.html', users=users)
 
 
@@ -42,7 +42,7 @@ def users():
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("per_page", 10))
 
-    users = User.query.paginate(page, per_page, error_out=False)
+    users = User.query.paginate(page=page, per_page=per_page, error_out=False)
     return jsonify(data=[i.as_dict() for i in users.items])
 
 
