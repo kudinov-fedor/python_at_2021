@@ -1,12 +1,12 @@
-import os, copy
+import os
 
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-USER = os.environ["BOOK_APP_USER"]
-PASSWORD = os.environ["BOOK_APP_PASSWORD"]
+USER = os.environ.get("BOOK_APP_USER")
+PASSWORD = os.environ.get("BOOK_APP_PASSWORD")
 HOST = "https://demoqa.com"
 
 CAPABILITIES = [
-    copy.deepcopy(DesiredCapabilities.CHROME),
-    copy.deepcopy(DesiredCapabilities.FIREFOX),
-    copy.deepcopy(DesiredCapabilities.OPERA),
+    {"browserName": "chrome"},
+    {"browserName": "firefox",
+     "acceptInsecureCerts": True,
+     "moz:debuggerAddress": True},
 ]
