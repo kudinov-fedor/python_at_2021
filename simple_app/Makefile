@@ -28,5 +28,8 @@ prod_logs:
 	docker-compose -f docker-compose.prod.yml logs -f
 
 
+run_rest_test:
+	locust -H http://127.0.0.1:1337 -u 1000 -r 5 -t 300s --autostart -P 8089 RestApiTest
+
 run_test:
 	locust -H http://127.0.0.1:1337 -u 1000 -r 5 -t 300s --autostart -P 8089

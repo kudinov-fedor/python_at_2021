@@ -1,6 +1,6 @@
 from locust import HttpUser, between, task
 
-# locust -H http://127.0.0.1:5000  --autostart -u 1000 -r 2 -t 600s RestApiTest
+# locust -H http://127.0.0.1:1337  --autostart -u 1000 -r 2 -t 600s RestApiTest
 
 class RestApiTest(HttpUser):
     wait_time = between(1, 5)
@@ -10,7 +10,6 @@ class RestApiTest(HttpUser):
         self.client.get("/users")
 
 
-# locust -H http://127.0.0.1:5000  --autostart -u 1000 -r 2 -t 600s WebTestClient
 # locust -H http://127.0.0.1:1337  --autostart -u 1000 -r 2 -t 600s WebTestClient
 
 
