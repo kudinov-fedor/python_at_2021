@@ -1,6 +1,7 @@
 from requests import session
 
-from tests.mizo.constants import base_username, HOST2, PASSWORD
+from tests.mizo.constants import HOST2
+from tests.mizo.generate_user_names_and_set_test_password import set_credentials
 
 
 class LocustApiClient:
@@ -8,11 +9,10 @@ class LocustApiClient:
 
     host = HOST2
 
-    def __init__(self, login=base_username, password=PASSWORD):
-        self.login = login
-        self.password = password
+    def __init__(self):
         self.user_id = None
         self.client = session()
+        self.login, self.password = set_credentials()
 
     @property
     def token(self):
@@ -31,6 +31,7 @@ class LocustApiClient:
         self.client.headers.pop("Authorization", None)
 
     def user_create(self):
+
         res = self.client.post(HOST2 + "/Account/v1/User",
                                json={"userName": self.login,
                                      "password": self.password})

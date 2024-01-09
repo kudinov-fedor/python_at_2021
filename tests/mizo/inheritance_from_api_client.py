@@ -1,23 +1,21 @@
 from locust import HttpUser, between, task
 
 from tests.mizo.apiClient_for_locust import LocustApiClient
-from tests.mizo.generate_user_names_and_set_test_password import generate_next_username
-from tests.mizo.generate_user_names_and_set_test_password import set_test_password
+from tests.mizo.generate_user_names_and_set_test_password import set_credentials
 
 
 class AuthClient(HttpUser, LocustApiClient):
     wait_time = between(1, 5)
 
     def on_start(self):
-        self.login = generate_next_username()
-        self.password = set_test_password()
+        self.login, self.password = set_credentials()
         response = self.user_create()
         self.user_id = response.get("userID")
         self.login = response.get("username")
-
         # GET TOKEN
         response = self.generate_token()
         authorization_token = response.get("token")
+        print(self.login)
 
         # SET TOKEN:
         self.client.headers["Authorization"] = "Bearer " + authorization_token
