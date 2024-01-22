@@ -38,7 +38,7 @@ class AuthClient(HttpUser, LocustApiClient):
     @task
     def perform_add_book_to_collection_and_remove(self):
         # remove all books
-        self.client.delete(f"{HOST2}/BookStore/v1/books/UserId={self.user_id}",
+        self.client.delete(f"{HOST2}/BookStore/v1/Books?UserId={self.user_id}",
                            name=f"Delete Books for User {self.user_id}")
 
         # get all books
