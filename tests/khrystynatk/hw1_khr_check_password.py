@@ -26,4 +26,3 @@ def check_password(word):
                 has_symbols,
                 not_short,
                 not_long])
-#

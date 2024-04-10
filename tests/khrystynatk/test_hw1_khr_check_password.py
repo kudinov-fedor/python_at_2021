@@ -13,15 +13,16 @@ from tests.khrystynatk.hw1_khr_check_password import check_password
     ("aA!1", False),  # check pwd < 8 symbols
     ("AAAaaa!1", True),  # check pwd = 8 symbols
     ("AAAaaa!1" + "1" * 23, False),  # check pwd > 30 symbols
+    ("AAAaaa!1" + "1" * 22, True),  # check pwd = 30 symbols
     ("", False),  # check empty str
-    ("   A1^a   ", True)  # check spaces are counted as chars
+    ("AAA aaa 1@", True)  # check spaces are counted as chars
 ])
 def test_check_pass(pwd, res):
     assert check_password(pwd) == res
 
 
-@pytest.mark.skip(reason="not implemented")
-def test_pwd_is_30_chars():                           # check pwd is 30 chars long
+@pytest.mark.skip(reason="check skip mark")
+def test_pwd_is_30_chars():  # check skip mark
     assert check_password("AAAaaa!1" + "1" * 22)
 
 
@@ -30,19 +31,13 @@ def test_error():
         check_password(12345678)
 
 
-@pytest.mark.parametrize("func", [check_password])
-@pytest.mark.parametrize("pwd1, data1, res1", [
-    ("AAABBB1@", "abcdefghijklmnopqrstuvwxyz", False),
-    ("AAaAAA1!", "abcdefghijklmnopqrstuvwxyz", True),
-    ("AAaAAA1!", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", True),
-    ("aaa123$%", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", False)
+@pytest.mark.parametrize("pwd1, data1", [
+    ("AAA111!@", "abcdefghijklmnopqrstuvwxyz"),
+    ("aaa111!@", "ABCDEFGHIGKLMNOPQRSTUVWXYZ"),
+    ("AAAaaa#!", "0123456789"),
+    ("AAAaaa12", "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
 ])
-def test_lower_upper_case(func, pwd1, data1, res1):    # check pwd has lower/uppercase letters
-    passwd = pwd1
-    alphabet = data1
-    expected = res1
-    for char in passwd:
-        if char in alphabet:
-            expected = res1
-            break
-    assert func(word=pwd1) == expected
+def test_all_chars(pwd1, data1):
+    for j, v in enumerate(data1):
+        res1 = pwd1 + v
+        assert check_password(res1)
