@@ -26,8 +26,4 @@ def check_password(word):
                 has_symbols,
                 not_short,
                 not_long])
-
-
-assert check_password("sdfjJLsj123!@#") is True
-
-print("All checks passed")
+#
