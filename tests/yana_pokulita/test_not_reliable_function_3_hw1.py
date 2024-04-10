@@ -31,7 +31,7 @@ def test_not_reliable(mocker, values, res):
     assert not_reliable() == res
 
 
-def test_not_reliable_negative(mocker):
+def test_not_reliable_negative_scenario(mocker):
     mocker.patch.object(test_not_reliable_function_3_hw1,'random', side_effect=([0.1] * 11))
     with pytest.raises(RuntimeError) as exc_info:
         not_reliable()

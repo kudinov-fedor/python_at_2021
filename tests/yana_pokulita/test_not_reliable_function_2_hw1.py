@@ -2,6 +2,7 @@ from random import random
 import pytest
 from tests.yana_pokulita import test_not_reliable_function_2_hw1
 
+
 def not_reliable():
     res = random()
     if res < 0.5:
