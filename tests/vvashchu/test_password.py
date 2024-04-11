@@ -58,7 +58,6 @@ def test_special_characters(character):
     assert check_password("Qwerty1234" + character) is True
 
 
-# if all needed characters are present
 @pytest.mark.parametrize("pwd, res", [
     ("a34$%67%", False),                       # without upper case
     ("A34$%67%", False),                       # without lower case
