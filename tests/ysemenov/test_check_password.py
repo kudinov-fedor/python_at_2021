@@ -43,14 +43,14 @@ def check_password(word):
 
 
 @pytest.mark.parametrize("password,expected", [
-    pytest.param("Aaaaa1!", False, id="invalid password when: 7 chars (tc:1_1)"),
-    pytest.param("Aaaaaa1!", True, id="valid password when: 8 chars (tc:1_2)"),
-    pytest.param("Aaaaaaaaaaaaa1!", True, id="valid password when: 15 chars (tc:1_3)"),
-    pytest.param("Aaaaaaaaaaaaaa1Aaaaaaaaaaaaa1!", True, id="valid password when: 30 chars (tc:1_4)"),
-    pytest.param("Aaaaaaaaaaaaaa1Aaaaaaaaaaaaaa1!", False, id="invalid password when: 31 chars (tc:1_5)"),
-    pytest.param("AAAAAA1!", False, id="invalid password when: no lowercase (tc:2)"),
-    pytest.param("aaaaaa1!", False, id="invalid password when: no uppercase (tc:3)"),
-    pytest.param("Aaaaaa11", False, id="invalid password when: no special character (tc:4)"),
+    pytest.param("A1!a" + "a"*3, False, id="too short (tc:1_1)"),
+    pytest.param("A1!a" + "a"*4, True, id="min len (tc:1_2)"),
+    pytest.param("A1!a" + "a"*11, True, id="15 chars (tc:1_3)"),
+    pytest.param("A1!a" + "a"*26, True, id="max len (tc:1_4)"),
+    pytest.param("A1!a" + "a"*27, False, id="too long (tc:1_5)"),
+    pytest.param("AAAAAA1!", False, id="no lowercase (tc:2)"),
+    pytest.param("aaaaaa1!", False, id="no uppercase (tc:3)"),
+    pytest.param("Aaaaaa11", False, id="no special character (tc:4)"),
 ])
 def test_basic_rules(password, expected):
     """test whether the minimum requirements are covered (tc1-tc4) """
@@ -65,7 +65,13 @@ def test_basic_rules(password, expected):
 ])
 def test_every_character(char_set, template):
     """test each uppercase, lowercase, digit and special character (tc5-tc8)"""
+    failed_chars = ''
     for char in char_set:
         password = template + char
-        expected = check_password(password)
-        assert expected, f"'{password}' failed because of '{char}' character"
+        try:
+            expected = check_password(password)
+            assert expected
+        except AssertionError:
+            failed_chars += char
+    if failed_chars:
+        assert False, f"Failed characters are: {failed_chars}"
