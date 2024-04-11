@@ -1,5 +1,6 @@
 import pytest
 
+
 def check_password(word):
     """
     Length 8 - 30 symbols
@@ -9,9 +10,9 @@ def check_password(word):
     """
 
     has_letters = set(word).intersection("abcdefghijklmnopqrstuvwxyz")
-    has_big_letters = set(word).intersection("ABCDEFGHIJKMNOPQRSTUVWXYZ")
-    has_numbers = set(word).intersection("012356789")
-    has_symbols = set(word).intersection("!@#$%^&*()_+?><|\":}{\\[]")
+    has_big_letters = set(word).intersection("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    has_numbers = set(word).intersection("0123456789")
+    has_symbols = set(word).intersection("!#$%&'()*+,-./:;<=>?@][\^_`|~\":}{\\")
 
     not_short = len(word) >= 8
     not_long = len(word) <= 30
@@ -24,7 +25,6 @@ def check_password(word):
                 not_long])
 
 
-#password length
 @pytest.mark.parametrize("pwd, res", [
     ("Aaaaa1!", False),                         # <8
     ("Aaaaaa1!", True),                         # =8
@@ -32,18 +32,30 @@ def check_password(word):
     ("Aaaaaa1!" + "a" * 23, False)              # >30
 ])
 def test_length(pwd, res):
+    """
+    password length
+    """
     assert check_password(pwd) == res
 
 
-# if all possible characters can be used
-@pytest.mark.parametrize("characters, pwd", [
-    ("abcdefghijklmnopqrstuvwxyz", "QWER123!"),      # all lower case letters
-    ("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "qwer123!"),      # all upper case letters
-    ("0123456789", "qwerQWE!"),                      # all numbers
-    ("!@#$%^&*()_+?><|\":}{\\[]", "QWEqwe1")         # all symbols
-])
-def test_all_characters(characters, pwd):
-    assert check_password(characters+pwd) is False
+@pytest.mark.parametrize("number", "1234567890")
+def test_numbers(number):
+    assert check_password("Qwerty!" + number) is True
+
+
+@pytest.mark.parametrize("letter", "abcdefghijklmnopqrstuvwxyz")
+def test_lower_case_letters(letter):
+    assert check_password("A1234567!" + letter) is True
+
+
+@pytest.mark.parametrize("letter", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+def test_upper_case_letters(letter):
+    assert check_password("qwerty!1" + letter) is True
+
+
+@pytest.mark.parametrize("character", "!#$%&'()*+,-./:;<=>?@][\^_`|~\":}{\\")
+def test_special_characters(character):
+    assert check_password("Qwerty1234" + character) is True
 
 
 # if all needed characters are present
@@ -54,16 +66,16 @@ def test_all_characters(characters, pwd):
     ("Aaaa1234", False)                        # without symbols
 ])
 def test_needed_characters(pwd, res):
+    """
+    if all needed characters are present
+    """
     assert check_password(pwd) == res
 
 
 @pytest.mark.parametrize("pwd, res", [
     ("", False),                               # cannot be empty
     (" ", False),                              # cannot be with space only
-    ("QWук1234", False)                        # cannot be with not Latin letters
+    ("QWd!ук1234", False)                      # cannot be with not Latin letters
 ])
-def test_empty_space_notLatin(pwd, res):
+def test_empty_space_notlatin(pwd, res):
     assert check_password(pwd) == res
-
-
-
