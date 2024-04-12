@@ -145,5 +145,4 @@ def test_checkout_disabled_if_cart_empty(session):
 
     checkout_button=session.find_element(By.CSS_SELECTOR, "#checkout").is_enabled()
     assert checkout_button == False
-
     
