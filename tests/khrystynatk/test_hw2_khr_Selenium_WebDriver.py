@@ -1,9 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
-# from selenium.common import NoSuchElementException
-# from selenium.webdriver.remote.webdriver import WebDriver
-# from selenium.webdriver.remote.webelement import WebElement
+from selenium.common import NoSuchElementException
 
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"
@@ -12,51 +10,72 @@ LANDING_PG = "https://www.saucedemo.com/inventory.html"
 LOGOUT_PG = "https://www.saucedemo.com/"
 
 
-class AddTime(Chrome):
-    def execute(self, driver_command: str, params: dict = None) -> dict:
-        import time
-        time.sleep(1)
-        return super().execute(driver_command, params)
-
-
 @pytest.fixture
-def start_close_session():
-    session = AddTime()
+def driver():
+    session = Chrome()
+    session.implicitly_wait(0.5)
     yield session
     session.quit()
 
 
 @pytest.fixture(autouse=True)
-def login_to_system(start_close_session):
-    start_close_session.get(HOST)
-
-    # вхід в систему
-    start_close_session.find_element(By.ID, "user-name").send_keys(LOGIN)
-    start_close_session.find_element(By.ID, "password").send_keys(PASSWORD)
-    start_close_session.find_element(By.ID, "login-button").click()
+def login_to_system(driver):
+    driver.get(HOST)
+    driver.find_element(By.ID, "user-name").send_keys(LOGIN)
+    driver.find_element(By.ID, "password").send_keys(PASSWORD)
+    driver.find_element(By.ID, "login-button").click()
 
 
-# перевірити лендінг пейдж урлу
-def test_landing_page(start_close_session):
-    current_page = start_close_session.current_url
-    print(current_page)
+@pytest.fixture
+@pytest.mark.usefixtures("login_to_system")
+def add_to_cart(driver):
+    elements = driver.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
+    elements[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
+    elements[1].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
+    elements[2].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
+    cart_link = driver.find_element(By.CLASS_NAME, "shopping_cart_container")
+    cart_link.click()
+
+
+def test_landing_page(driver):
+    """
+    перевірити лендінг пейдж урлу
+    """
+    current_page = driver.current_url
     assert current_page == LANDING_PG
 
 
-# перевірити к-сть продуктів на сторінці
-def test_elements(start_close_session):
-    elements = start_close_session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
+def test_elements(driver):
+    """
+    перевірити к-сть продуктів на сторінці
+    """
+    elements = driver.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
     assert len(elements) == 6
 
 
-# перевірити логаут користувача
-def test_logout_user(start_close_session):
-    start_close_session.find_element(By.ID, "react-burger-menu-btn").click()
-    start_close_session.find_element(By.XPATH, ".//*[@id='logout_sidebar_link']").click()
-    current_page1 = start_close_session.current_url
-    cleared_un = start_close_session.find_element(By.ID, "user-name")
-    cleared_pwd = start_close_session.find_element(By.ID, "password").is_displayed()
-    print(current_page1)
-    assert current_page1 == LOGOUT_PG
-    assert cleared_un
-    assert cleared_pwd
+def test_logout_user(driver):
+    """
+    перевірити логаут користувача
+    """
+    driver.find_element(By.ID, "react-burger-menu-btn").click()
+    driver.find_element(By.XPATH, ".//*[@id='logout_sidebar_link']").click()
+    page_url = driver.current_url
+    assert page_url == LOGOUT_PG
+    assert driver.find_element(By.ID, "user-name").is_displayed()
+    assert driver.find_element(By.ID, "password").is_displayed()
+
+
+@pytest.mark.usefixtures("add_to_cart")
+def test_delete_all_from_cart(driver):
+    """
+    перевірити, що сторінка корзини пуста
+    перевірити поточну урлу корзини
+    """
+    items = driver.find_elements(By.CLASS_NAME, "cart_item")
+    items[0].find_element(By.CSS_SELECTOR, "button#remove-sauce-labs-backpack").click()
+    items[1].find_element(By.CSS_SELECTOR, "button#remove-sauce-labs-bike-light").click()
+    items[2].find_element(By.CSS_SELECTOR, "button#remove-sauce-labs-bolt-t-shirt").click()
+    cart = driver.find_element(By.ID, "shopping_cart_container")
+    with pytest.raises(NoSuchElementException):
+        cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    assert driver.current_url == "https://www.saucedemo.com/cart.html"
