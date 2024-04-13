@@ -27,13 +27,13 @@ def test_password_positive(res):
     pytest.param('Qwertyuiopasdfghjklzxcvbnmqw8@', id='Password with more that 30 symbols'),
     pytest.param("string with 123@", id='Password with several words')
 ])
+
+
 def test_password_negative(res):
     assert check_password(res) is False
 
-@pytest.mark.checkError
-@pytest.mark.parametrize(['res'], [
-    pytest.param(123, id='Password with integer value instead of string')
-])
-def test_raise_error(res):
+
+# Password with integer value instead of string
+def test_raise_error():
     with pytest.raises(TypeError):
-        assert check_password(res) is False
+        assert check_password(123) is False
