@@ -2,11 +2,7 @@ from tests.threc.not_reliable.not_reliable_function import not_reliable
 import pytest
 
 
-@pytest.mark.parametrize(["value"], [
-    pytest.param(0.5),
-    pytest.param(0.6),
-    pytest.param(2)
-])
+@pytest.mark.parametrize("value", [0.5, 0.6, 2])
 def test_not_reliable(mocker, value):
     mocker.patch('random.random', return_value=value)
     assert not_reliable() == value
