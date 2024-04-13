@@ -4,22 +4,19 @@ from tests.threc.not_reliable.not_reliable_function_2 import not_reliable
 import tests.threc.not_reliable.not_reliable_function_2 as result
 
 
-def test_not_reliable_2_0_5(mocker):
-    mocker.patch.object(result, 'random', return_value=0.5)
-    assert not_reliable() == 0.5
+@pytest.mark.parametrize(["value"], [
+    pytest.param(0.5),
+    pytest.param(0.6),
+    pytest.param(1)
+])
+def test_not_reliable_2(mocker, value):
+    mocker.patch.object(result, 'random', return_value=value)
+    assert not_reliable() == value
+    assert not_reliable() == value
+    assert not_reliable() == value
 
 
 def test_not_reliable_2_0_4(mocker):
     mocker.patch.object(result, 'random', return_value=0.4)
     with pytest.raises(RuntimeError):
         not_reliable()
-
-
-def test_not_reliable_2_1(mocker):
-    mocker.patch.object(result, 'random', return_value=1)
-    assert not_reliable() == 1
-
-
-def test_not_reliable_2_0_6(mocker):
-    mocker.patch.object(result, 'random', return_value=0.6)
-    assert not_reliable() == 0.6
