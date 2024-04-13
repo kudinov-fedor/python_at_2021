@@ -17,7 +17,6 @@ def check_password(word):
     has_numbers = set(word).intersection("012356789")
     has_symbols = set(word).intersection("!@#$%^&*()_+?><|\":}{\\[]")
 
-
     not_short = len(word) >= 8
     not_long = len(word) < 30
 
@@ -27,4 +26,3 @@ def check_password(word):
                 has_symbols,
                 not_short,
                 not_long])
-
