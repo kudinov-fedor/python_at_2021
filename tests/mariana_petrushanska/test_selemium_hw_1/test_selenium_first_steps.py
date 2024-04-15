@@ -3,7 +3,6 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 
-@pytest.mark.usefixtures("login")
 def test_no_order_with_0_items_possible(session):
     """
     Check that cart is empty when user logs in:
