@@ -10,25 +10,24 @@ class LoginPage:
     # BTN_LOGIN = (By.XPATH, "//*[@id='login-button']")
     LST_CREDS_UN = (By.CSS_SELECTOR, "#login_credentials")
     # LST_CREDS_UN = (By.XPATH, "//*[@id='login_credentials']")
-    LST_CREDS_PWD = (By.CSS_SELECTOR, "#root > div > div.login_wrapper > div.login_credentials_wrap > div > "
-                                      "div.login_password")
-    # LST_CREDS_PWD = (By.XPATH, "//*[@id='root']/div/div[@class='login_wrapper']/div[
-    #                  @class='login_credentials_wrap']/div/div[@class='login_password']")
+    LST_CREDS_PWD = (By.CSS_SELECTOR, "div.login_password")
+    # LST_CREDS_PWD = (By.XPATH, "//*div[@class='login_password']")
 
 
 class LandingPage:
     LST_ITEMS = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
     # LST_ITEMS = (By.XPATH, "//*[@class='inventory_list']/div")
-    BTN_ADD_TO_CART = (By.CSS_SELECTOR, "#inventory_container > div > div:nth-child(1) > "
-                                        "div.inventory_item_description > div.pricebar > button")
-    # BTN_ADD_TO_CART = (By.XPATH, ".//*[@class='pricebar']//button")
-    LNK_CART = (By.CSS_SELECTOR, "#shopping_cart_container > a")
-    # LNK_CART = (By.XPATH, "//*[@id='shopping_cart_container']/a")
-    IMG_CART_BADGE = (By.CSS_SELECTOR, "#shopping_cart_container > a.shopping_cart_badge")
+    BTN_ADD_TO_CART = (By.CSS_SELECTOR, ".pricebar .btn_inventory")
+    # BTN_ADD_TO_CART = (By.XPATH, ".//*[@class='pricebar']//*[contains(@class,'btn_inventory')]")
+    LNK_CART = (By.CSS_SELECTOR, ".shopping_cart_link")
+    # LNK_CART = (By.XPATH, "//*[@class='shopping_cart_link']")
+    IMG_CART_BADGE = (By.CSS_SELECTOR, ".shopping_cart_badge")
     # IMG_CART_BADGE = (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
 
 
 class CartItems:
+    CART_ITEMS = (By.CSS_SELECTOR, ".cart_item")
+    # CART_ITEMS = (By.XPATH, "//*[@class = 'cart_item']")
     CART_CONTAINER = (By.CSS_SELECTOR, "#shopping_cart_container")
     # CART_CONTAINER = (By.XPATH, "//*[@id='shopping_cart_container']"
     IMG_CART_BADGE = (By.CSS_SELECTOR, "#shopping_cart_container > a.shopping_cart_badge")
@@ -44,6 +43,5 @@ class CartItems:
 class SideMenu:
     BTN_BURGER_MENU = (By.CSS_SELECTOR, "button#react-burger-menu-btn")
     # BTN_BURGER_MENU = (By.XPATH, "//button[@id='react-burger-menu-btn']")
-    LNK_LOGOUT = (By.CSS_SELECTOR, "#menu_button_container > div > div.bm-menu-wrap > div.bm-menu > nav > "
-                                   "a#logout_sidebar_link")
-    # LNK_LOGOUT = (By.XPATH, "//*[@id='menu_button_container']/div/div[2]/div[1]/nav/a[@id='logout_sidebar_link']")
+    LNK_LOGOUT = (By.CSS_SELECTOR, ".bm-item-list #logout_sidebar_link")
+    # LNK_LOGOUT = (By.XPATH, "//*[contains(@class,'bm-item-list')]//*[@id='logout_sidebar_link']")
