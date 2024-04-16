@@ -1,7 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
-from selenium.webdriver.common.by import By
-HOST = "https://www.saucedemo.com/"
+from tests.threc.HW_saucedemo.locators import LoginPage
+import costants
 
 
 @pytest.fixture()
@@ -18,7 +18,12 @@ def login(session):
     """
     Log in to the site
     """
-    session.get(HOST)
-    session.find_element(By.ID, "user-name").send_keys("standard_user")
-    session.find_element(By.ID, "password").send_keys("secret_sauce")
-    session.find_element(By.ID, "login-button").click()
+    session.get(costants.URL_HOST)
+    # session.find_element(By.ID, "user-name").send_keys(LOGIN)
+    session.find_element(*LoginPage.login).send_keys(costants.LOGIN)
+
+    # session.find_element(By.ID, "password").send_keys(PASSWORD)
+    session.find_element(*LoginPage.password).send_keys(costants.PASSWORD)
+
+    # session.find_element(By.ID, "login-button").click()
+    session.find_element(*LoginPage.btnLogin).click()

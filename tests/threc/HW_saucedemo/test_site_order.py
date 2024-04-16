@@ -1,7 +1,11 @@
-from selenium.webdriver.common.by import By
+from tests.threc.HW_saucedemo.locators import CheckoutPage
+from tests.threc.HW_saucedemo.locators import ProductsPage
+from tests.threc.HW_saucedemo.locators import CartPage
+from tests.threc.HW_saucedemo.locators import FillForm
+import costants
 
 
-def test_item_details(session):
+def test_product_details(session):
     """
     Log in to the site
     Find first product
@@ -10,15 +14,15 @@ def test_item_details(session):
     Check opened URL
     Compare product name from Product list page with Product details page
     """
-    product_page = 'https://www.saucedemo.com/inventory-item.html?id=4'
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    item_name = items[0].find_element(By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name ").text
-    items[0].find_element(By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name ").click()
-    item_page = session.find_element(By.CSS_SELECTOR, ".inventory_details .inventory_details_name").text
-    assert item_name == item_page
-    current_page = session.current_url
-    assert current_page == product_page
+    products = session.find_elements(*ProductsPage.listProducts)
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    products[0].find_element(*ProductsPage.btnProductDetails).click()
+
+    product_details_page = session.find_element(*ProductsPage.productDetailsPage).text
+    assert product_name == product_details_page
+
+    assert session.current_url in costants.URL_PRODUCT_PAGE
 
 
 def test_add_to_card(session):
@@ -29,12 +33,14 @@ def test_add_to_card(session):
     Add this product to the cart
     Check the amount of added products to the card by amount on the badge
     """
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    assert len(items) == 6
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart_badge = cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    assert cart_badge.text == '1'
+    products = session.find_elements(*ProductsPage.listProducts)
+    assert len(products) == costants.PRODUCT_LENGTH
+
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart_badge = cart.find_element(*CartPage.cartBadge)
+    assert cart_badge.text == costants.CART_BADGE
 
 
 def test_add_all_cart(session):
@@ -44,12 +50,13 @@ def test_add_all_cart(session):
     Add all product to the cart
     Check the amount of added products to the cart by amount on the badge
     """
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    for i in range(6):
-        items[i].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart_badge = cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    assert cart_badge.text == '6'
+    products = session.find_elements(*ProductsPage.listProducts)
+    for i in range(costants.PRODUCT_LENGTH):
+        products[i].find_element(*ProductsPage.btnAddToCart).click()
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart_badge = cart.find_element(*CartPage.cartBadge)
+    assert cart_badge.text == costants.CART_BADGE_ALL_PRODUCTS
 
 
 def test_navigation_to_cart(session):
@@ -60,15 +67,16 @@ def test_navigation_to_cart(session):
     Open cart page
     Compare name of added product from the cart with the name of the product from the products page
     """
-    item_name = 'Sauce Labs Backpack'
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    item = items[0].find_element(By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name ").text
-    assert item == item_name
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]").click()
-    cart_item = session.find_element(By.CSS_SELECTOR, ".cart_item .inventory_item_name").text
-    assert item == cart_item
+    products = session.find_elements(*ProductsPage.listProducts)
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+
+    assert product_name == costants.PRODUCT_NAME
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart.find_element(*CartPage.cartBadge).click()
+    cart_product_name = session.find_element(*CartPage.cartProductName).text
+    assert product_name == cart_product_name
 
 
 def test_continue_shopping(session):
@@ -79,14 +87,14 @@ def test_continue_shopping(session):
     Click on the Continue shopping button
     Check the navigation to the Product page
     """
-    product_page = 'https://www.saucedemo.com/inventory.html'
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]").click()
-    session.find_element(By.ID, "continue-shopping").click()
-    current_page = session.current_url
-    assert current_page == product_page
+    products = session.find_elements(*ProductsPage.listProducts)
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart.find_element(*CartPage.cartBadge).click()
+
+    session.find_element(*CheckoutPage.btnContinueShopping).click()
+    assert session.current_url in costants.URL_MAIN_PRODUCT_PAGE
 
 
 def test_navigate_checkout(session):
@@ -96,14 +104,14 @@ def test_navigate_checkout(session):
     Click on the Checkout button
     Check that the Checkout step first is opened
     """
-    checkout_step_one_page = 'https://www.saucedemo.com/checkout-step-one.html'
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]").click()
-    session.find_element(By.ID, "checkout").click()
-    current_page = session.current_url
-    assert current_page == checkout_step_one_page
+    products = session.find_elements(*ProductsPage.listProducts)
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart.find_element(*CartPage.cartBadge).click()
+
+    session.find_element(*CheckoutPage.btnCheckout).click()
+    assert session.current_url in costants.URL_CHECKOUT_STEP_ONE
 
 
 def test_fill_order_form(session):
@@ -117,22 +125,28 @@ def test_fill_order_form(session):
     Click on the Finish button
     Check that the Finish page is opened
     """
-    finish_checkout = 'https://www.saucedemo.com/checkout-complete.html'
-    items = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    items[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-    item = items[0].find_element(By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name ").text
-    assert item == 'Sauce Labs Backpack'
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]").click()
-    session.find_element(By.ID, "checkout").click()
-    session.find_element(By.ID, "first-name").send_keys("Adam")
-    session.find_element(By.ID, "last-name").send_keys("Walter")
-    session.find_element(By.ID, "postal-code").send_keys("90210")
-    session.find_element(By.ID, "continue").click()
-    checkout_item = session.find_element(By.CSS_SELECTOR, ".cart_item_label .inventory_item_name").text
-    assert item == checkout_item
-    session.find_element(By.ID, "finish").click()
-    complete = session.find_element(By.CSS_SELECTOR, ".header_secondary_container .title").text
-    assert complete == 'Checkout: Complete!'
-    current_page = session.current_url
-    assert current_page == finish_checkout
+    products = session.find_elements(*ProductsPage.listProducts)
+    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    assert product_name == costants.PRODUCT_NAME
+
+    cart = session.find_element(*CartPage.shoppingCart)
+    cart.find_element(*CartPage.cartBadge).click()
+
+    session.find_element(*CheckoutPage.btnCheckout).click()
+
+    session.find_element(*FillForm.firstName).send_keys(costants.FIRST_NAME)
+    session.find_element(*FillForm.lastName).send_keys(costants.LAST_NAME)
+    session.find_element(*FillForm.zipCode).send_keys(costants.ZIPCODE)
+
+    session.find_element(*FillForm.btnContinue).click()
+
+    checkout_item = session.find_element(*CheckoutPage.checkoutItem).text
+
+    assert product_name == checkout_item
+
+    session.find_element(*FillForm.btnFinish).click()
+    finish_title = session.find_element(*FillForm.finishOrderTitle).text
+    assert finish_title == costants.COMPLETE_CHECKOUT
+
+    assert session.current_url in costants.URL_FINISH_CHECKOUT
