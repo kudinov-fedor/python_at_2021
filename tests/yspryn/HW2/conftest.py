@@ -30,9 +30,3 @@ def add_products_to_cart(session):
     elements = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
     elements[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
     elements[2].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-
-
-@pytest.fixture()
-def enter_cart(session):
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart.click()
