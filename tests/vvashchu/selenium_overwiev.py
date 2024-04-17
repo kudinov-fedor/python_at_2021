@@ -10,4 +10,3 @@ HOST = "https://www.saucedemo.com"
 
 session = Chrome().find
 session.get(HOST)
-
