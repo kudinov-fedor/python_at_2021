@@ -11,6 +11,7 @@ def test_success(mocker):
 
 
 def test_failure(mocker):
-    mocker.patch('tests.oshvetsova.os_homework_1.not_reliable_function_3.random', return_value=0.8)
+    mock = mocker.patch('tests.oshvetsova.os_homework_1.not_reliable_function_3.random', return_value=0.8)
     with pytest.raises(RuntimeError, match="Its too much, total tries: 11"):
         not_reliable()
+        assert mock.call_count == 11

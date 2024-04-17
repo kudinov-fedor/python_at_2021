@@ -24,7 +24,6 @@ def if_debug_on():
 
 
 def test_return_original(mocker):
-    print("this is firts test")
     assert if_debug_on() == CONFIG["debug"]
 
 

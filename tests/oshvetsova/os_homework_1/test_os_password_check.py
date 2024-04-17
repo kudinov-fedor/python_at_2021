@@ -1,4 +1,5 @@
 import pytest
+import string
 
 
 def check_password(word):
@@ -25,9 +26,6 @@ def check_password(word):
                 not_long])
 
 
-# assert check_password("sdfjJLsj123!@#") is True
-# print("All checks passed")
-
 # Test for has_big_letters
 @pytest.mark.parametrize("uc_letter", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 def test_upper_case_letters(uc_letter):
@@ -47,8 +45,8 @@ def test_numbers(numeric):
     password = f"PassWord{numeric}!"
     assert check_password(password), f"Password check failed for {password}"
 
-# Test for Special Characters
-@pytest.mark.parametrize("special_characters", "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~")
+
+@pytest.mark.parametrize("special_characters", string.punctuation)
 def test_special_characters(special_characters):
     password = f"PassWord123{special_characters}"
     assert check_password(password), f"Password check failed for {password}"
