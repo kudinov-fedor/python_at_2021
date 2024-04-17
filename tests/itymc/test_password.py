@@ -47,7 +47,7 @@ def test_all_numbers(numbers):
 
 
 # Test symbols can be used
-@pytest.mark.parametrize("symbols", "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~")
+@pytest.mark.parametrize("symbols", "?@!#$%&'()*+,-./:;<=>[\]^_`{|}~")
 def test_defined_symbols(symbols):
     pas = f"aaaAAA1{symbols}"
     assert check_password(pas) is True
