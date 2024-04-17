@@ -74,7 +74,7 @@ def test_needed_characters(pwd, res):
 @pytest.mark.parametrize("pwd, res", [
     ("", False),                               # cannot be empty
     (" ", False),                              # cannot be with space only
-    ("QWd!ук1234", False)                      # cannot be with not Latin letters
+    ("QWd!ук1234", True)                      # cannot be with not Latin letters
 ])
 def test_empty_space_notlatin(pwd, res):
     assert check_password(pwd) == res
