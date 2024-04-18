@@ -1,6 +1,6 @@
 import pytest
+from tests.yspryn.HW2.locators import *
 from selenium.common import NoSuchElementException
-from selenium.webdriver.common.by import By
 
 LOGIN_PAGE = "https://www.saucedemo.com/inventory.html"
 
@@ -15,7 +15,7 @@ def test_user_login(session):
 
 
 def test_products_available(session):
-    elements = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
+    elements = session.find_elements(*TABLE_PRODUCT_ITEMS)
     assert len(elements) == 6
 
 
@@ -24,8 +24,8 @@ def test_products_available(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_add_products_to_cart(session):
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart_badge = cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    cart = session.find_element(*BTN_CART_LOCATE)
+    cart_badge = cart.find_element(*TXT_CART_BADGE)
     assert cart_badge.text == '2'
 
 
@@ -34,16 +34,16 @@ def test_add_products_to_cart(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_all_from_cart(session):
-    cart = session.find_element(By.ID, "shopping_cart_container")
+    cart = session.find_element(*BTN_CART_LOCATE)
     cart.click()
 
-    products_in_cart = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
-    products_in_cart[0].find_element(By.CSS_SELECTOR, ".btn_secondary.btn_small.cart_button").click()
-    products_in_cart[1].find_element(By.CSS_SELECTOR, ".btn_secondary.btn_small.cart_button").click()
+    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
+    products_in_cart[0].find_element(*BTN_REMOVE_FROM_CART).click()
+    products_in_cart[1].find_element(*BTN_REMOVE_FROM_CART).click()
 
-    cart = session.find_element(By.ID, "shopping_cart_container")
+    cart = session.find_element(*BTN_CART_LOCATE)
     with pytest.raises(NoSuchElementException):
-        cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+        cart.find_element(*TXT_CART_BADGE)
         raise AssertionError
 
 
@@ -52,10 +52,10 @@ def test_remove_all_from_cart(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_one_item_from_cart(session):
-    cart = session.find_element(By.ID, "shopping_cart_container")
+    cart = session.find_element(*BTN_CART_LOCATE)
     cart.click()
 
-    products_in_cart = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
-    products_in_cart[0].find_element(By.CSS_SELECTOR, ".btn_secondary.btn_small.cart_button").click()
-    products_in_cart = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
+    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
+    products_in_cart[0].find_element(*BTN_REMOVE_FROM_CART).click()
+    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
     assert len(products_in_cart) == 1
