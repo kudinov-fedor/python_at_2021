@@ -17,8 +17,8 @@ def test_basic_flow(session):
     """
 
     # check indicator of cart
-    cart = session.find_element(*Locators.shoppingCart)
-    cart_badge = cart.find_element(*Locators.shoppingCartBadge)
+    cart = session.find_element(*Locators.ShoppingCart)
+    cart_badge = cart.find_element(*Locators.ShoppingCartBadge)
     assert cart_badge.text == '2'
 
     # go to cart
@@ -42,10 +42,10 @@ def test_basic_flow(session):
 
     # check that cart is empty
     session.find_element(*Locators.BackHomeBtn).click()
-    cart = session.find_element(*Locators.shoppingCart)
+    cart = session.find_element(*Locators.ShoppingCart)
 
     with pytest.raises(NoSuchElementException):
-        cart.find_element(*Locators.shoppingCartBadge)
+        cart.find_element(*Locators.ShoppingCartBadge)
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -60,8 +60,8 @@ def test_product_can_be_removed_flow(session):
     """
 
     # check indicator of cart
-    cart = session.find_element(*Locators.shoppingCart)
-    cart_badge = cart.find_element(*Locators.shoppingCartBadge)
+    cart = session.find_element(*Locators.ShoppingCart)
+    cart_badge = cart.find_element(*Locators.ShoppingCartBadge)
     assert cart_badge.text == '2'
 
     # go to cart
@@ -87,7 +87,7 @@ def test_cart_is_empty_after_login(session):
     """
 
     # go to cart
-    cart = session.find_element(*Locators.shoppingCart)
+    cart = session.find_element(*Locators.ShoppingCart)
     cart.click()
 
     # check nuber of items in the cart
@@ -102,7 +102,7 @@ def test_checkout_disabled_if_cart_empty(session):
     check checkout is disabled
     """
     # go to cart
-    cart = session.find_element(*Locators.shoppingCart)
+    cart = session.find_element(*Locators.ShoppingCart)
     cart.click()
 
     checkout_button = session.find_element(*Locators.CheckOutBtn).is_enabled()

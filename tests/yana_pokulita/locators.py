@@ -5,16 +5,16 @@ class Locators:
     # check cart indicator
 
     # (By.ID, "shopping_cart_container")
-    shoppingCart = (By.CSS_SELECTOR, ".primary_header .shopping_cart_container")
+    ShoppingCart = (By.CSS_SELECTOR, ".primary_header .shopping_cart_container")
     # (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    shoppingCartBadge = (By.CSS_SELECTOR, ".shopping_cart_link .shopping_cart_badge[data-test='shopping-cart-badge']")
+    ShoppingCartBadge = (By.CSS_SELECTOR, ".shopping_cart_badge")
 
     # check number of items in the cart
 
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     CartItems = (By.XPATH, ".//*[@class='cart_item']")
     # (By.ID, "checkout")
-    CheckOutBtn = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout'")
+    CheckOutBtn = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout']")
 
     # delete element from the cart
 
@@ -24,18 +24,18 @@ class Locators:
     # fill the form
 
     # (By.ID, "first-name")
-    FirstName = (By.CSS_SELECTOR, ".form_group .form_input[placeholder='First Name'")
+    FirstName = (By.CSS_SELECTOR, "#first-name")
     # (By.ID, "last-name")
-    LastName = (By.CSS_SELECTOR, ".form_group .form_input[placeholder='Last Name'")
+    LastName = (By.CSS_SELECTOR, "#last-name")
     # (By.ID, "postal-code")
-    PostalCode = (By.CSS_SELECTOR, ".form_group .form_input[placeholder='Zip/Postal Code'")
+    PostalCode = (By.CSS_SELECTOR, "#postal-code")
     # (By.ID, "continue")
-    btnContinue = (By.CSS_SELECTOR, ".checkout_buttons .submit-button[name='continue'")
+    btnContinue = (By.CSS_SELECTOR, "#continue")
 
     # order submission
 
     # (By.ID, "finish")
-    FinishBtn = (By.CSS_SELECTOR, ".cart_footer .cart_button[data-test='finish'")
+    FinishBtn = (By.CSS_SELECTOR, "#finish")
 
     # go back to products
 
