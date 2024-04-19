@@ -1,5 +1,5 @@
 import pytest
-from tests.yspryn.HW2.locators import *
+from tests.yspryn.HW2 import locators
 from selenium.common import NoSuchElementException
 
 LOGIN_PAGE = "https://www.saucedemo.com/inventory.html"
@@ -15,7 +15,7 @@ def test_user_login(session):
 
 
 def test_products_available(session):
-    elements = session.find_elements(*TABLE_PRODUCT_ITEMS)
+    elements = session.find_elements(*locators.LandingPage.TABLE_PRODUCT_ITEMS)
     assert len(elements) == 6
 
 
@@ -24,8 +24,8 @@ def test_products_available(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_add_products_to_cart(session):
-    cart = session.find_element(*BTN_CART_LOCATE)
-    cart_badge = cart.find_element(*TXT_CART_BADGE)
+    cart = session.find_element(*locators.LandingPage.BTN_CART_LOCATE)
+    cart_badge = cart.find_element(*locators.LandingPage.TXT_CART_BADGE)
     assert cart_badge.text == '2'
 
 
@@ -34,16 +34,16 @@ def test_add_products_to_cart(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_all_from_cart(session):
-    cart = session.find_element(*BTN_CART_LOCATE)
+    cart = session.find_element(*locators.LandingPage.BTN_CART_LOCATE)
     cart.click()
 
-    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
-    products_in_cart[0].find_element(*BTN_REMOVE_FROM_CART).click()
-    products_in_cart[1].find_element(*BTN_REMOVE_FROM_CART).click()
+    products_in_cart = session.find_elements(*locators.CartPage.TABLE_ITEMS_IN_CART)
+    products_in_cart[0].find_element(*locators.CartPage.BTN_REMOVE_FROM_CART).click()
+    products_in_cart[1].find_element(*locators.CartPage.BTN_REMOVE_FROM_CART).click()
 
-    cart = session.find_element(*BTN_CART_LOCATE)
+    cart = session.find_element(*locators.LandingPage.BTN_CART_LOCATE)
     with pytest.raises(NoSuchElementException):
-        cart.find_element(*TXT_CART_BADGE)
+        cart.find_element(*locators.LandingPage.TXT_CART_BADGE)
         raise AssertionError
 
 
@@ -52,10 +52,10 @@ def test_remove_all_from_cart(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_one_item_from_cart(session):
-    cart = session.find_element(*BTN_CART_LOCATE)
+    cart = session.find_element(*locators.LandingPage.BTN_CART_LOCATE)
     cart.click()
 
-    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
-    products_in_cart[0].find_element(*BTN_REMOVE_FROM_CART).click()
-    products_in_cart = session.find_elements(*TABLE_ITEMS_IN_CART)
+    products_in_cart = session.find_elements(*locators.CartPage.TABLE_ITEMS_IN_CART)
+    products_in_cart[0].find_element(*locators.CartPage.BTN_REMOVE_FROM_CART).click()
+    products_in_cart = session.find_elements(*locators.CartPage.TABLE_ITEMS_IN_CART)
     assert len(products_in_cart) == 1
