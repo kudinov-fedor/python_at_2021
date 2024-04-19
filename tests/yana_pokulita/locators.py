@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
 
 
-class Locators:
+class Cart:
     # check cart indicator
 
     # (By.ID, "shopping_cart_container")
-    ShoppingCart = (By.CSS_SELECTOR, ".primary_header .shopping_cart_container")
+    ShoppingCart = (By.CSS_SELECTOR, ".shopping_cart_container")
     # (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
     ShoppingCartBadge = (By.CSS_SELECTOR, ".shopping_cart_badge")
 
@@ -14,12 +14,12 @@ class Locators:
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     CartItems = (By.XPATH, ".//*[@class='cart_item']")
     # (By.ID, "checkout")
-    CheckOutBtn = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout']")
+    CheckOutBtn = (By.CSS_SELECTOR, ".checkout_button[name='checkout']")
 
     # delete element from the cart
 
     # (By.CSS_SELECTOR, "button#remove-sauce-labs-backpack")
-    Remove1stItemBtn = (By.XPATH, "//*[@id='remove-sauce-labs-backpack']")
+    Remove1stItemBtn = (By.XPATH, "//button[@id='remove-sauce-labs-backpack']")
 
     # fill the form
 
@@ -35,7 +35,8 @@ class Locators:
     # order submission
 
     # (By.ID, "finish")
-    FinishBtn = (By.CSS_SELECTOR, "#finish")
+    # (By.CSS_SELECTOR, "#finish")
+    FinishBtn = (By.XPATH, "//button[@id= 'finish']")
 
     # go back to products
 
@@ -43,7 +44,7 @@ class Locators:
     BackHomeBtn = (By.CSS_SELECTOR, '#back-to-products')
 
 
-class ForConfTest:
+class LoginPage:
     # loging to the system
 
     # (By.ID, "user-name")
@@ -53,11 +54,11 @@ class ForConfTest:
     # (By.ID, "login-button")
     LoginBtn = (By.NAME, "login-button")
 
+
+class ProductPage:
     # adding elements
 
     # (By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    Elements = (By.XPATH, "//*[@class='inventory_item_description']//div[2]")
+    Elements = (By.XPATH, "//div[contains(@class, 'inventory_list')]//div[contains(@class, 'inventory_item_description')]")
     # (By.XPATH, ".//*[@class='pricebar']//button")
-    Element1 = (By.CSS_SELECTOR, ".pricebar .btn_inventory")
-    # (By.XPATH, ".//*[@class='pricebar']//button")
-    Element3 = (By.CSS_SELECTOR, ".pricebar .btn_inventory")
+    Element = (By.CSS_SELECTOR, ".pricebar button")
