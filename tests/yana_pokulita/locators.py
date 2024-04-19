@@ -5,7 +5,7 @@ class Cart:
     # check cart indicator
 
     # (By.ID, "shopping_cart_container")
-    ShoppingCart = (By.CSS_SELECTOR, ".shopping_cart_container")
+    ShoppingCart = (By.CSS_SELECTOR, "#shopping_cart_container")
     # (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
     ShoppingCartBadge = (By.CSS_SELECTOR, ".shopping_cart_badge")
 
@@ -14,7 +14,7 @@ class Cart:
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     CartItems = (By.XPATH, ".//*[@class='cart_item']")
     # (By.ID, "checkout")
-    CheckOutBtn = (By.CSS_SELECTOR, ".checkout_button[name='checkout']")
+    CheckOutBtn = (By.CSS_SELECTOR, "#checkout")
 
     # delete element from the cart
 
