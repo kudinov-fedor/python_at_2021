@@ -5,6 +5,11 @@ import constants
 
 
 def test_textbox(driver):
+    driver.find_element(By.ID, 'userName').send_keys(constants.FIRST_NAME)
+    driver.find_element(By.ID, 'userEmail').send_keys(constants.USER_EMAIL)
+    driver.find_element(By.ID, 'currentAddress').send_keys(constants.CURRENT_ADDRESS)
+    driver.find_element(By.ID, 'permanentAddress').send_keys(constants.PERMANENT_ADDRESS)
+
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
     ActionChains(driver)\
