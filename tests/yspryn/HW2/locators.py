@@ -28,5 +28,5 @@ class CartPage:
     # before-> (By.CSS_SELECTOR, ".cart_list .cart_item")
     TABLE_ITEMS_IN_CART = (By.XPATH, "//*[contains(@class,'cart_list')]/*[@class='cart_item']")
     # before-> (By.CSS_SELECTOR, ".btn_secondary.btn_small.cart_button")
-    BTN_REMOVE_FROM_CART = (By.XPATH, "//*[contains(@class,'btn_secondary')][contains(@class,'btn_small')]"
+    BTN_REMOVE_FROM_CART = (By.XPATH, ".//*[contains(@class,'btn_secondary')][contains(@class,'btn_small')]"
                                       "[contains(@class,'cart_button')]")
