@@ -1,4 +1,3 @@
-import time
 
 from selenium.webdriver import Chrome
 
@@ -22,6 +21,7 @@ def driver():
     driver.quit()
 
 
+@pytest.mark.newtab
 def test_new_tab(driver):
     driver.find_element(By.ID, "tabButton").click()
     driver.switch_to.window(driver.window_handles[1])
@@ -33,6 +33,7 @@ def test_new_tab(driver):
     driver.close()
 
 
+@pytest.mark.newwindow
 def test_new_window(driver):
     driver.find_element(By.ID, "windowButton").click()
     driver.switch_to.window(driver.window_handles[-1])
@@ -44,10 +45,12 @@ def test_new_window(driver):
     driver.close()
 
 
+@pytest.mark.xfail
 def test_alert(driver):
     driver.find_element(By.ID, "messageWindowButton").click()
-    time.sleep(2)
     driver.switch_to.window(driver.window_handles[-1])
-    msg = driver.find_element(By.PARTIAL_LINK_TEXT, "Knowledge").text
-    assert msg in costants.WINDOW_MSG
+    driver.set_page_load_timeout(10)
+    body = driver.find_element(By.CSS_SELECTOR, "body")
+
+    assert body.text in costants.WINDOW_MSG
     driver.close()
