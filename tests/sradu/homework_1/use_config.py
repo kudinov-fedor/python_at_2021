@@ -14,6 +14,5 @@ CONFIG = {
     "c": 123
 }
 
-
 def if_debug_on():
     return CONFIG["debug"]
