@@ -1,29 +1,15 @@
 import pytest
-from selenium.webdriver import Chrome, ActionChains
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 
-EL1 = 'Cras justo odio'
-EL2 = 'Dapibus ac facilisis in'
-EL3 = 'Morbi leo risus'
-EL4 = 'Porta ac consectetur ac'
+HOST = 'https://demoqa.com'
 ACTIVE_TAB = 'Grid'
 
 
-@pytest.fixture()
-def driver():
-    driver = Chrome()
-    driver.get('https://demoqa.com/selectable')
-
-    driver.implicitly_wait(3)
-
-    yield driver
-
-    # tear down
-    driver.quit()
-
-
+@pytest.mark.usefixture("driver")
 def test_selectable_list(driver):
+    driver.get(HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-list")
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
@@ -31,27 +17,30 @@ def test_selectable_list(driver):
         .scroll_from_origin(scroll_origin, 0, 200) \
         .perform()
 
-    driver.find_element(By.XPATH, "//*[@id='verticalListContainer']/li[1]").click()
-    driver.find_element(By.XPATH, "//*[@id='verticalListContainer']/li[2]").click()
-    driver.find_element(By.XPATH, "//*[@id='verticalListContainer']/li[3]").click()
-    driver.find_element(By.XPATH, "//*[@id='verticalListContainer']/li[4]").click()
+    lines = driver.find_elements(By.CSS_SELECTOR, ".list-group-item")
 
-    el1 = driver.find_element(By.XPATH, "//li[1][contains(@class,'active list-group-item-action')]").text
-    assert el1 in EL1
+    lines[0].click()
+    first_line_text = lines[0].text
+    assert first_line_text in "Cras justo odio"
 
-    el2 = driver.find_element(By.XPATH, "//li[2][contains(@class,'active list-group-item-action')]").text
-    assert el2 in EL2
+    lines[1].click()
+    first_line_text = lines[1].text
+    assert first_line_text in "Dapibus ac facilisis in"
 
-    el3 = driver.find_element(By.XPATH, "//li[3][contains(@class,'active list-group-item-action')]").text
-    assert el3 in EL3
+    lines[2].click()
+    first_line_text = lines[2].text
+    assert first_line_text in "Morbi leo risus"
 
-    el4 = driver.find_element(By.XPATH, "//li[4][contains(@class,'active list-group-item-action')]").text
-    assert el4 in EL4
+    lines[3].click()
+    first_line_text = lines[3].text
+    assert first_line_text in "Porta ac consectetur ac"
 
     driver.close()
 
 
+@pytest.mark.usefixture("driver")
 def test_selectable_grid(driver):
+    driver.get(HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-grid").click()
     active = driver.find_element(By.XPATH, "//a[contains(@aria-selected,'true')]").text
     assert active in ACTIVE_TAB
@@ -62,22 +51,32 @@ def test_selectable_grid(driver):
         .scroll_from_origin(scroll_origin, 0, 200) \
         .perform()
 
-    driver.find_element(By.XPATH, "//*[@id='row1']/li[1]").click()
-    driver.find_element(By.XPATH, "//*[@id='row1']/li[2]").click()
-    driver.find_element(By.XPATH, "//*[@id='row1']/li[3]").click()
-    driver.find_element(By.XPATH, "//*[@id='row2']/li[1]").click()
+    driver.find_element(By.CSS_SELECTOR, "#gridContainer")
+    rows = driver.find_elements(By.CSS_SELECTOR, ".list-group")
+    row_1 = rows[1]
+    cells = row_1.find_elements(By.CSS_SELECTOR, ".list-group-item")
 
-    el1 = driver.find_element(By.XPATH, "//li[1][contains(@class,'active list-group-item-action')]").text
-    assert el1 in 'One'
+    cells[0].click()
+    second_cell_text = cells[0].text
+    assert second_cell_text in "One"
 
-    el2 = driver.find_element(By.XPATH, "//li[2][contains(@class,'active list-group-item-action')]").text
-    assert el2 in 'Two'
+    cells[1].click()
+    second_cell_text = cells[1].text
+    assert second_cell_text in "Two"
 
-    el3 = driver.find_element(By.XPATH, "//li[3][contains(@class,'active list-group-item-action')]").text
-    assert el3 in 'Three'
+    cells[2].click()
+    second_cell_text = cells[2].text
+    assert second_cell_text == "Three"
 
-    # не розумію як перейти на другий рядок ((((
-    el4 = driver.find_element(By.XPATH, "//row[2]/li[1][contains(@class,'active list-group-item-action')]").text
-    assert el4 in 'Four'
+    row_2 = rows[2]
+    cells = row_2.find_elements(By.CSS_SELECTOR, ".list-group-item")
+
+    cells[0].click()
+    second_cell_text = cells[0].text
+    assert second_cell_text in "Four"
+
+    cells[1].click()
+    second_cell_text = cells[1].text
+    assert second_cell_text in "Five"
 
     driver.close()
