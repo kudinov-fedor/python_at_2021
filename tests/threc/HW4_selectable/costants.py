@@ -1,3 +1,4 @@
+
 HOST = 'https://demoqa.com'
 
 ACTIVE_TAB = 'Grid'
