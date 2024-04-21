@@ -2,14 +2,12 @@ import pytest
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
-
-HOST = 'https://demoqa.com'
-ACTIVE_TAB = 'Grid'
+from tests.threc.HW4_selectable import costants
 
 
 @pytest.mark.usefixture("driver")
 def test_selectable_list(driver):
-    driver.get(HOST + '/selectable')
+    driver.get(costants.HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-list")
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
@@ -20,8 +18,8 @@ def test_selectable_list(driver):
     lines = driver.find_elements(By.CSS_SELECTOR, ".list-group-item")
 
     lines[0].click()
-    first_line_text = lines[0].text
-    assert first_line_text in "Cras justo odio"
+    line_text = lines[0].text
+    assert line_text in "Cras justo odio"
 
     lines[1].click()
     first_line_text = lines[1].text
@@ -35,15 +33,16 @@ def test_selectable_list(driver):
     first_line_text = lines[3].text
     assert first_line_text in "Porta ac consectetur ac"
 
-    driver.close()
+    selected = driver.find_elements(By.XPATH, "//ul[@id='verticalListContainer']/li[contains(@class, 'active')]")
+    assert len(selected) == 4
 
 
 @pytest.mark.usefixture("driver")
 def test_selectable_grid(driver):
-    driver.get(HOST + '/selectable')
+    driver.get(costants.HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-grid").click()
     active = driver.find_element(By.XPATH, "//a[contains(@aria-selected,'true')]").text
-    assert active in ACTIVE_TAB
+    assert active in costants.ACTIVE_TAB
 
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
@@ -79,4 +78,5 @@ def test_selectable_grid(driver):
     second_cell_text = cells[1].text
     assert second_cell_text in "Five"
 
-    driver.close()
+    selected = driver.find_elements(By.XPATH, "//div/li[contains(@class, 'active')]")
+    assert len(selected) == 5
