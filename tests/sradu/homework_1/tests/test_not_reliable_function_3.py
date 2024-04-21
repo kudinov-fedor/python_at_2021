@@ -8,6 +8,7 @@ def test_not_reliable_success_first_try(mocker):
     assert result >= 0.888
     assert  tries == 1
 
+
 def test_not_reliable_success_maximum_tries(mocker):
     sequence_of_returns = [0.1, 0.887, 0.0, 0.01, 0.1, 0.887, 0.0, 0.01, 0.01, 0.888]
     mocker.patch('tests.sradu.homework_1.not_reliable_function_3.random', side_effect=sequence_of_returns)
@@ -15,9 +16,9 @@ def test_not_reliable_success_maximum_tries(mocker):
     assert result >= 0.888
     assert tries == 10
 
+
 def test_not_reliable_failure(mocker):
     sequence_of_returns = [0.1] * 11
     mocker.patch('tests.sradu.homework_1.not_reliable_function_3.random', side_effect=sequence_of_returns)
-    with pytest.raises(RuntimeError) as exception_info:
+    with pytest.raises(RuntimeError, match="Its too much, total tries: 11"):
         not_reliable()
-    assert "Its too much, total tries: 11" in str(exception_info.value)

@@ -10,6 +10,5 @@ def test_not_reliable_success(mocker):
 
 def test_not_reliable_failure(mocker):
     mocker.patch('tests.sradu.homework_1.not_reliable_function_2.random', return_value=0.49)
-    with pytest.raises(RuntimeError) as exception_info:
+    with pytest.raises(RuntimeError, match=r"Res is less than 0.5:\s+0.49"):
         not_reliable()
-    assert "Res is less than 0.5:  0.49" in str(exception_info.value)
