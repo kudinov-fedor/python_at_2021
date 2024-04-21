@@ -10,5 +10,5 @@ def test_not_reliable_success(mocker):
 
 def test_not_reliable_failure(mocker):
     mocker.patch.object(random, 'random', return_value=0.4)
-    with pytest.raises(RuntimeError, match=r"Res is less than 0.5:\s+0.4"):
+    with pytest.raises(RuntimeError, match="Res is less than 0.5:  0.4"):
         not_reliable()
