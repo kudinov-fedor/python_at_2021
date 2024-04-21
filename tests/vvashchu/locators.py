@@ -48,6 +48,6 @@ class LoginPage:
 class ProductPage:
     # додавання елементів
     # (By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    elements = (By.XPATH, "//div[contains(@class, 'inventory_list')]//div[contains(@class, 'inventory_item_description')]")
+    cart_items = (By.XPATH, "//div[contains(@class, 'inventory_list')]//div[contains(@class, 'inventory_item_description')]")
     # (By.XPATH, ".//*[@class='pricebar']//button")
-    element = (By.CSS_SELECTOR, ".pricebar button")
+    cart_items = (By.CSS_SELECTOR, ".pricebar button")
