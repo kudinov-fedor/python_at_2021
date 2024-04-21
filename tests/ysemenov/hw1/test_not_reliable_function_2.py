@@ -1,19 +1,21 @@
-
-
 import pytest
 from tests.ysemenov.hw1.not_reliable_function_2 import not_reliable
+from tests.ysemenov.hw1 import not_reliable_function_2 as module
 
 
-def test_not_reliable(mocker):
-    # return 0.4
-    mocker.patch('tests.ysemenov.hw1.not_reliable_function_2.random', return_value=0.4)
+@pytest.mark.parametrize("random_value, expected_output", [
+    pytest.param(0.5, 0.5, id="equal to 0.5"),
+    pytest.param(0.6, 0.6, id="equal to 0.6"),
+])
+def test_not_reliable_positive(random_value, expected_output, mocker):
+    mocker.patch.object(module, 'random', return_value=random_value)
+    assert not_reliable() == expected_output
+
+
+@pytest.mark.parametrize("random_value, expected_output", [
+    pytest.param(0.4, None, id="runtime error"),
+])
+def test_not_reliable_negative(random_value, expected_output, mocker):
+    mocker.patch.object(module, 'random', return_value=random_value)
     with pytest.raises(RuntimeError):
         not_reliable()
-
-    # return 0.5
-    mocker.patch('tests.ysemenov.hw1.not_reliable_function_2.random', return_value=0.5)
-    assert not_reliable() == 0.5
-
-    # return 0.6
-    mocker.patch('tests.ysemenov.hw1.not_reliable_function_2.random', return_value=0.6)
-    assert not_reliable() == 0.6
