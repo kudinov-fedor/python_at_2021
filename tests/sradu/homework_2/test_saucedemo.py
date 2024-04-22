@@ -1,16 +1,16 @@
 import pytest
 from selenium.webdriver import Chrome
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 
-# Constants
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"
 PASSWORD = "secret_sauce"
 
 
-# Fixture for Chrome browser
 @pytest.fixture(scope="function")
 def session():
     session = Chrome()
@@ -62,3 +62,50 @@ def test_add_products_to_cart_and_checkout(session, login):
     cart = session.find_element(By.ID, "shopping_cart_container")
     with pytest.raises(NoSuchElementException):
         cart.find_element(By.CLASS_NAME, "shopping_cart_badge")
+
+
+""" перевірити кількість і назви menu items
+1 - клікнути по burger menu button
+2 - перевірити кількість items
+3 - перевірити порядок найменувань items
+"""
+
+
+def test_menu_items(session, login):
+    WebDriverWait(session, 10).until(EC.element_to_be_clickable((By.ID, "react-burger-menu-btn"))).click()
+    WebDriverWait(session, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, ".bm-menu a[id]")))
+    size = len(session.find_elements(By.CSS_SELECTOR, ".bm-menu a[id]"))
+    assert size == 4
+
+    actual_menu_links = session.find_elements(By.CSS_SELECTOR, ".bm-menu a[id]")
+    expected_menu_links_texts = ["All Items", "About", "Logout", "Reset App State"]
+    assert len(actual_menu_links) == 4, f"Expected 4 menu items, but found {len(actual_menu_links)}"
+
+    for actual_link, expected_link_text in zip(actual_menu_links, expected_menu_links_texts):
+        assert actual_link.text == expected_link_text, f"Expected '{expected_link_text}', but got '{actual_link.text}'"
+
+
+"""перевірити сортування в порядку зростанння
+1 - клікнути по dropdown сортування
+2 - клікнути Price (low to high) 
+3 - перевірити, що ціни на картках з товарами йдуть у зростаючому порядку
+"""
+
+
+def test_prices_in_ascending_order(session, login):
+    WebDriverWait(session, 10).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "select[data-test='product-sort-container']"))
+    ).click()
+
+    WebDriverWait(session, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//option[text()='Price (low to high)']"))
+    ).click()
+
+    WebDriverWait(session, 10).until(
+        EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "div[data-test='inventory-item-price']")))
+
+    price_elements = session.find_elements(By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
+    prices_values = [float(price_element.text.replace('$', '')) for price_element in price_elements]
+
+    print(f"Expected prices: {prices_values}")
+    assert prices_values == sorted(prices_values), f"Prices are not in the ascending order: {prices_values}"
