@@ -109,3 +109,4 @@ def test_prices_in_ascending_order(session, login):
 
     print(f"Expected prices: {prices_values}")
     assert prices_values == sorted(prices_values), f"Prices are not in the ascending order: {prices_values}"
+
