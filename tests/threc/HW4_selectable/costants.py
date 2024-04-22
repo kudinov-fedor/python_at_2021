@@ -1,8 +1,6 @@
 HOST = 'https://demoqa.com'
 
-ACTIVE_TAB = 'Grid'
-
-LIST = {
+LIST = [
     'home',
     'desktop',
     'notes',
@@ -20,10 +18,4 @@ LIST = {
     'downloads',
     'wordFile',
     'excelFile'
-}
-
-SHORT_LIST = {
-    'commands',
-    'desktop',
-    'notes'
-}
+]

@@ -1,9 +1,8 @@
-import pytest
+
 from selenium.webdriver.common.by import By
 from tests.threc.HW4_selectable import costants
 
 
-@pytest.mark.usefixture("driver")
 def test_radio(driver):
     driver.get(costants.HOST + '/radio-button')
 

@@ -1,11 +1,10 @@
-import pytest
+
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 from tests.threc.HW4_selectable import costants
 
 
-@pytest.mark.usefixture("driver")
 def test_selectable_list(driver):
     driver.get(costants.HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-list")
@@ -19,30 +18,31 @@ def test_selectable_list(driver):
 
     lines[0].click()
     line_text = lines[0].text
-    assert line_text in "Cras justo odio"
+    assert line_text == "Cras justo odio"
 
     lines[1].click()
-    first_line_text = lines[1].text
-    assert first_line_text in "Dapibus ac facilisis in"
+    line_text = lines[1].text
+    assert line_text == "Dapibus ac facilisis in"
 
     lines[2].click()
-    first_line_text = lines[2].text
-    assert first_line_text in "Morbi leo risus"
+    line_text = lines[2].text
+    assert line_text == "Morbi leo risus"
 
     lines[3].click()
-    first_line_text = lines[3].text
-    assert first_line_text in "Porta ac consectetur ac"
+    line_text = lines[3].text
+    assert line_text == "Porta ac consectetur ac"
 
-    selected = driver.find_elements(By.XPATH, "//ul[@id='verticalListContainer']/li[contains(@class, 'active')]")
+    # selected = driver.find_elements(By.XPATH, "//ul[@id='verticalListContainer']/li[contains(@class, 'active')]")
+    selected = driver.find_elements(By.XPATH, "//*[@id='verticalListContainer']/li[contains(@class, 'active')]")
     assert len(selected) == 4
 
 
-@pytest.mark.usefixture("driver")
 def test_selectable_grid(driver):
+    active_tab = 'Grid'
     driver.get(costants.HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-grid").click()
     active = driver.find_element(By.XPATH, "//a[contains(@aria-selected,'true')]").text
-    assert active in costants.ACTIVE_TAB
+    assert active in active_tab
 
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
@@ -57,11 +57,11 @@ def test_selectable_grid(driver):
 
     cells[0].click()
     second_cell_text = cells[0].text
-    assert second_cell_text in "One"
+    assert second_cell_text == "One"
 
     cells[1].click()
     second_cell_text = cells[1].text
-    assert second_cell_text in "Two"
+    assert second_cell_text == "Two"
 
     cells[2].click()
     second_cell_text = cells[2].text
@@ -72,11 +72,12 @@ def test_selectable_grid(driver):
 
     cells[0].click()
     second_cell_text = cells[0].text
-    assert second_cell_text in "Four"
+    assert second_cell_text == "Four"
 
     cells[1].click()
     second_cell_text = cells[1].text
-    assert second_cell_text in "Five"
+    assert second_cell_text == "Five"
 
-    selected = driver.find_elements(By.XPATH, "//div/li[contains(@class, 'active')]")
+    # selected = driver.find_elements(By.XPATH, "//div/li[contains(@class, 'active')]")
+    selected = driver.find_elements(By.XPATH, "//*[contains(@class, 'active')][contains(@class, 'list-group-item')]")
     assert len(selected) == 5
