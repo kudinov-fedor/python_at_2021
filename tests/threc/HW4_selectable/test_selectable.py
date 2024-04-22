@@ -2,11 +2,11 @@
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
-from tests.threc.HW4_selectable import costants
+from tests.threc.HW4_selectable.conftest import HOST
 
 
 def test_selectable_list(driver):
-    driver.get(costants.HOST + '/selectable')
+    driver.get(HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-list")
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
@@ -39,7 +39,7 @@ def test_selectable_list(driver):
 
 def test_selectable_grid(driver):
     active_tab = 'Grid'
-    driver.get(costants.HOST + '/selectable')
+    driver.get(HOST + '/selectable')
     driver.find_element(By.ID, "demo-tab-grid").click()
     active = driver.find_element(By.XPATH, "//a[contains(@aria-selected,'true')]").text
     assert active in active_tab

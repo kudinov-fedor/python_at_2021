@@ -1,6 +1,8 @@
 from selenium.webdriver import Chrome
 import pytest
 
+HOST = 'https://demoqa.com'
+
 
 @pytest.fixture()
 def driver():
