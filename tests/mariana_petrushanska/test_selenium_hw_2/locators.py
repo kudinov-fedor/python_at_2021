@@ -12,9 +12,9 @@ class LoginPage:
 
 class ProductsPage:
     # LST_ITEMS = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    LST_ITEMS = (By.XPATH, "//*[@class='inventory_list']/div")
+    LST_ITEMS = (By.XPATH, "//*[contains(@class, 'inventory_list')]//*[contains(@class, 'inventory_item_description')]")
     # BTN_ADD_TO_CART = (By.XPATH, ".//*[@class='pricebar']//button")
-    BTN_ADD_TO_CART = (By.CSS_SELECTOR, ".pricebar .btn_inventory")
+    BTN_ADD_TO_CART = (By.CSS_SELECTOR, ".pricebar button")
 
 
 class CartItems:
@@ -23,7 +23,7 @@ class CartItems:
     # IMG_CART_BADGE = (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
     IMG_CART_BADGE = (By.CSS_SELECTOR, ".shopping_cart_badge")
     # LST_CART_ITEMS = (By.CSS_SELECTOR, ".cart_list .cart_item")
-    LST_CART_ITEMS = (By.XPATH, "//*[@class = 'cart_item']")
+    LST_CART_ITEMS = (By.XPATH, ".//*[@class='cart_item']")
     # BTN_REMOVE_SECOND_ITEM = (By.ID, "remove-sauce-labs-fleece-jacket")
     BTN_REMOVE_SECOND_ITEM = (By.XPATH, "//*[@id='remove-sauce-labs-fleece-jacket']")
     # BTN_CHECKOUT = (By.ID, "checkout")

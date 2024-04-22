@@ -1,10 +1,7 @@
 import pytest
 from selenium.common import NoSuchElementException
 from tests.mariana_petrushanska.test_selenium_hw_2 import constants
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import CartItems
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import InformationPage
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import OverviewPage
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import SuccessPage
+from tests.mariana_petrushanska.test_selenium_hw_2.locators import CartItems, InformationPage, OverviewPage, SuccessPage
 
 
 def test_no_order_with_0_items_possible(session):
