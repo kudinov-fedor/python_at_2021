@@ -1,11 +1,10 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.mariana_petrushanska.test_selenium_hw_2 import constants
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import LoginPage
-from tests.mariana_petrushanska.test_selenium_hw_2.locators import ProductsPage
+from tests.mariana_petrushanska.test_selenium_hw_2.locators import LoginPage, ProductsPage
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="function")
 def session():
     session = Chrome()
     yield session
