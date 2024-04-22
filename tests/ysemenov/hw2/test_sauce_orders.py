@@ -17,7 +17,6 @@ def session():
     session.quit()
 
 
-@pytest.mark.usefixtures("session")
 def test_order_product(session):
     """
     1. Log into the web store
@@ -65,7 +64,6 @@ def test_order_product(session):
     assert title_complete == "Thank you for your order!"
 
 
-@pytest.mark.usefixtures("session")
 def test_add_remove_item(session):
     """
     1. Log into the web store
@@ -114,15 +112,10 @@ def test_add_remove_item(session):
     # 9. Verify cart label changed to none
     cart = session.find_element(By.ID, "shopping_cart_container")
 
-    try:
+    with pytest.raises(NoSuchElementException):
         cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    except NoSuchElementException:
-        pass
-    else:
-        raise AssertionError
 
 
-@pytest.mark.usefixtures("session")
 def test_add_to_cart_thru_product_page(session):
     """
     1. Log into the web store
@@ -158,12 +151,8 @@ def test_add_to_cart_thru_product_page(session):
     # 6. Verify cart items label is null
     cart = session.find_element(By.ID, "shopping_cart_container")
 
-    try:
+    with pytest.raises(NoSuchElementException):
         cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    except NoSuchElementException:
-        pass
-    else:
-        raise AssertionError
 
     # 7. Go back to products page
     session.find_element(By.ID, "back-to-products").click()
