@@ -106,7 +106,6 @@ def test_prices_in_ascending_order(session):
     wait_and_click(session, By.CSS_SELECTOR, "select[data-test='product-sort-container']")
     wait_and_click(session, By.XPATH, "//option[text()='Price (low to high)']")
 
-
     price_elements = wait_until_all_elements_visible(session, By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
 
     # прибрати знак долара та конвернути значення цін до float
