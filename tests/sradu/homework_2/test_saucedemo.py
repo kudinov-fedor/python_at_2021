@@ -1,13 +1,23 @@
 import pytest
+from typing import List
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException
 
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"
 PASSWORD = "secret_sauce"
+
+
+def wait_and_click(session, by, locator):
+    WebDriverWait(session, 5).until(EC.element_to_be_clickable((by, locator))).click()
+
+
+def wait_until_all_elements_visible(session, by, locator) -> List[WebElement]:
+    return WebDriverWait(session, 5).until(EC.visibility_of_all_elements_located((by, locator)))
 
 
 @pytest.fixture(scope="function")
@@ -22,7 +32,7 @@ def session():
 def login(session):
     session.find_element(By.ID, "user-name").send_keys(LOGIN)
     session.find_element(By.ID, "password").send_keys(PASSWORD)
-    session.find_element(By.ID, "login-button").click()
+    wait_and_click(session, By.ID, "login-button")
 
 
 @pytest.mark.usefixtures("login")
@@ -70,17 +80,18 @@ def test_menu_items(session):
     2 - перевірити кількість items
     3 - перевірити порядок найменувань items
     """
-    WebDriverWait(session, 5).until(EC.element_to_be_clickable((By.ID, "react-burger-menu-btn"))).click()
-    WebDriverWait(session, 5).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, ".bm-menu a[id]")))
-    size = len(session.find_elements(By.CSS_SELECTOR, ".bm-menu a[id]"))
-    assert size == 4
 
-    actual_menu_links = session.find_elements(By.CSS_SELECTOR, ".bm-menu a[id]")
+    # перейти у меню
+    wait_and_click(session, By.ID, "react-burger-menu-btn")
+
+    # перевірити кількість items меню
+    menu_items = wait_until_all_elements_visible(session, By.CSS_SELECTOR, ".bm-menu a[id]")
+    assert len(menu_items) == 4
+
+    # перевірити порядок найменувань items меню
     expected_menu_links_texts = ["All Items", "About", "Logout", "Reset App State"]
-    assert len(actual_menu_links) == 4, f"Expected 4 menu items, but found {len(actual_menu_links)}"
-
-    for actual_link, expected_link_text in zip(actual_menu_links, expected_menu_links_texts):
-        assert actual_link.text == expected_link_text, f"Expected '{expected_link_text}', but got '{actual_link.text}'"
+    actual_menu_links_texts = [item.text for item in menu_items]
+    assert actual_menu_links_texts == expected_menu_links_texts, f"Expected menu item texts do not match"
 
 
 @pytest.mark.usefixtures("login")
@@ -90,18 +101,16 @@ def test_prices_in_ascending_order(session):
     2 - клікнути Price (low to high)
     3 - перевірити, що ціни на картках з товарами йдуть у зростаючому порядку
     """
-    wait = WebDriverWait(session, 5)
 
-    checks = [EC.element_to_be_clickable((By.CSS_SELECTOR, "select[data-test='product-sort-container']")),
-              EC.element_to_be_clickable((By.XPATH, "//option[text()='Price (low to high)']"))
-              ]
+    # налаштувати сортування у порядку зростання
+    wait_and_click(session, By.CSS_SELECTOR, "select[data-test='product-sort-container']")
+    wait_and_click(session, By.XPATH, "//option[text()='Price (low to high)']")
 
-    for check in checks:
-        wait.until(check).click()
 
-    wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "div[data-test='inventory-item-price']")))
+    price_elements = wait_until_all_elements_visible(session, By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
 
-    price_elements = session.find_elements(By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
+    # прибрати знак долара та конвернути значення цін до float
     prices_values = [float(price_element.text.replace('$', '')) for price_element in price_elements]
 
+    # перевірити поточні ціни відсортованні в порядку зростання
     assert prices_values == sorted(prices_values), f"Prices are not in the ascending order: {prices_values}"
