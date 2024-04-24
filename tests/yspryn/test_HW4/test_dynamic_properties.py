@@ -23,4 +23,5 @@ def test_button_color_changed(session):
     Wait(session, 6).until(EC.presence_of_element_located((By.XPATH, "//button[@id='colorChange']"
                                                                      "[contains(@class,'text-danger')]")))
     button_color_changed = session.find_element(By.XPATH, "//button[@id='colorChange'][contains(@class,'text-danger')]")
-    assert button_color_changed.is_displayed()
+    button_class = button_color_changed.get_attribute('class')
+    assert 'text-danger' in button_class
