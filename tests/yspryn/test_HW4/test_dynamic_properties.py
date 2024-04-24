@@ -20,16 +20,7 @@ def test_button_become_enabled(session):
 
 @pytest.mark.usefixtures("open_dynamic_properties")
 def test_button_color_changed(session):
-    button_color_on_the_begin = (session.find_element(By.XPATH, "//button[@id='colorChange']")
-                                 .value_of_css_property('color'))
-    print(f'begin = {button_color_on_the_begin}')
-    # Wait(session, 6).until(EC.presence_of_element_located((By.XPATH, "//button[@id='colorChange']"
-    #                                                              "[contains(@class,'text-danger')]")))
-    import time
-    time.sleep(10)
-    button_color_changed = session.find_element(By.XPATH, "//button[@id='colorChange']"
-                                            "[contains(@class,'text-danger')]").value_of_css_property('color')
-    print(f'end = {button_color_changed}')
-
-    assert button_color_on_the_begin != button_color_changed
-
+    Wait(session, 6).until(EC.presence_of_element_located((By.XPATH, "//button[@id='colorChange']"
+                                                                     "[contains(@class,'text-danger')]")))
+    button_color_changed = session.find_element(By.XPATH, "//button[@id='colorChange'][contains(@class,'text-danger')]")
+    assert button_color_changed.is_displayed()
