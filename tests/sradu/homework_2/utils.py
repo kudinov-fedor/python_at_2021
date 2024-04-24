@@ -10,4 +10,3 @@ def wait_and_click(session, by, locator):
 
 def wait_until_all_elements_visible(session, by, locator) -> List[WebElement]:
     return WebDriverWait(session, 5).until(EC.visibility_of_all_elements_located((by, locator)))
-
