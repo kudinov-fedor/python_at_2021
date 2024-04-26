@@ -4,12 +4,12 @@ from tests.khrystynatk.hw5_khr_Page_object.locators1 import CartItemsLoc
 
 class CartPage(BasePage):
 
-    def remove_cart_items(self):
+    def remove_cart_items(self, index):
         items = self.driver.find_elements(*CartItemsLoc.CART_ITEMS)
-        items[0].find_element(*CartItemsLoc.BTN_REMOVE_FIRST).click()
-        items[1].find_element(*CartItemsLoc.BTN_REMOVE_SECOND).click()
-        items[2].find_element(*CartItemsLoc.BTN_REMOVE_THIRD).click()
+        items[index].find_element(*CartItemsLoc.BTN_REMOVE).click()
 
-    def cart_container(self):
+    def get_cart_badge(self):
         cart = self.driver.find_element(*CartItemsLoc.CART_CONTAINER)
-        cart.find_element(*CartItemsLoc.IMG_CART_BADGE)
+        if not cart.find_element(*CartItemsLoc.IMG_CART_BADGE).is_displayed():
+            return False
+        return True

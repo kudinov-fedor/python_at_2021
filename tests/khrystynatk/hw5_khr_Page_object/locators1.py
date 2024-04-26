@@ -32,12 +32,7 @@ class CartItemsLoc:
     # CART_CONTAINER = (By.XPATH, "//*[@id='shopping_cart_container']"
     IMG_CART_BADGE = (By.CSS_SELECTOR, "#shopping_cart_container > a.shopping_cart_badge")
     # IMG_CART_BADGE = (By.XPATH, "//*[@id='shopping_cart_container']/a/span[contains(@class, 'shopping_cart_badge')]")
-    BTN_REMOVE_FIRST = (By.CSS_SELECTOR, "button#remove-sauce-labs-backpack")
-    # BTN_REMOVE_FIRST = (By.XPATH, "//*[@id='remove-sauce-labs-backpack']")
-    BTN_REMOVE_SECOND = (By.CSS_SELECTOR, "button#remove-sauce-labs-bike-light")
-    # BTN_REMOVE_SECOND = (By.XPATH, "//*[@id = 'remove-sauce-labs-bike-light']")
-    BTN_REMOVE_THIRD = (By.CSS_SELECTOR, "button#remove-sauce-labs-bolt-t-shirt")
-    # BTN_REMOVE_THIRD = (By.XPATH, "//*[@id='remove-sauce-labs-bolt-t-shirt']")
+    BTN_REMOVE = (By.CSS_SELECTOR, "button.cart_button")
 
 
 class SideMenuLoc:
