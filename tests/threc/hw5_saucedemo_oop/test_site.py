@@ -1,7 +1,8 @@
-from tests.threc.hw5_saucedemo_oop.locators import CheckoutPage
-from tests.threc.hw5_saucedemo_oop.locators import ProductsPage
-from tests.threc.hw5_saucedemo_oop.locators import CartPage
-from tests.threc.hw5_saucedemo_oop.locators import FillForm
+from tests.threc.hw5_saucedemo_oop.locators import LocCheckoutPage
+from tests.threc.hw5_saucedemo_oop.locators import LocProductsPage
+from tests.threc.hw5_saucedemo_oop.locators import LocCartPage
+from tests.threc.hw5_saucedemo_oop.locators import LocFillForm
+from tests.threc.hw5_saucedemo_oop.page_object.product_page import ProductPage
 import constants
 
 
@@ -14,12 +15,16 @@ def test_product_details(session):
     Check opened URL
     Compare product name from Product list page with Product details page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
-    products[0].find_element(*ProductsPage.btnProductDetails).click()
+    products = ProductPage(session)
+    items = products.list_products()
 
-    product_details_page = session.find_element(*ProductsPage.productDetailsPage).text
+    item = products.line_product(items, 0)
+    products.add_cart(item)
+
+    product_name = products.product_label(items, 0)
+    products.product_details(items, 0)
+
+    product_details_page = session.find_element(*LocProductsPage.productDetailsPage).text
     assert product_name == product_details_page
 
     assert session.current_url in constants.URL_PRODUCT_PAGE
@@ -33,13 +38,15 @@ def test_add_to_card(session):
     Add this product to the cart
     Check the amount of added products to the card by amount on the badge
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    assert len(products) == constants.PRODUCT_LENGTH
+    products = ProductPage(session)
+    items = products.list_products()
+    assert len(items) == constants.PRODUCT_LENGTH
 
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    item = products.line_product(items, 0)
+    products.add_cart(item)
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart_badge = cart.find_element(*CartPage.cartBadge)
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart_badge = cart.find_element(*LocCartPage.cartBadge)
     assert cart_badge.text == constants.CART_BADGE
 
 
@@ -50,12 +57,15 @@ def test_add_all_cart(session):
     Add all product to the cart
     Check the amount of added products to the cart by amount on the badge
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    for i in range(constants.PRODUCT_LENGTH):
-        products[i].find_element(*ProductsPage.btnAddToCart).click()
+    products = ProductPage(session)
+    items = products.list_products()
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart_badge = cart.find_element(*CartPage.cartBadge)
+    for i in range(constants.PRODUCT_LENGTH):
+        item = products.line_product(items, i)
+        products.add_cart(item)
+
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart_badge = cart.find_element(*LocCartPage.cartBadge)
     assert cart_badge.text == constants.CART_BADGE_ALL_PRODUCTS
 
 
@@ -67,15 +77,19 @@ def test_navigation_to_cart(session):
     Open cart page
     Compare name of added product from the cart with the name of the product from the products page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    products = ProductPage(session)
+    items = products.list_products()
+
+    item = products.line_product(items, 0)
+    products.add_cart(item)
+
+    product_name = products.product_label(items, 0)
 
     assert product_name == constants.PRODUCT_NAME
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
-    cart_product_name = session.find_element(*CartPage.cartProductName).text
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart.find_element(*LocCartPage.cartBadge).click()
+    cart_product_name = session.find_element(*LocCartPage.cartProductName).text
     assert product_name == cart_product_name
 
 
@@ -87,13 +101,16 @@ def test_continue_shopping(session):
     Click on the Continue shopping button
     Check the navigation to the Product page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    products = ProductPage(session)
+    items = products.list_products()
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    item = products.line_product(items, 0)
+    products.add_cart(item)
 
-    session.find_element(*CheckoutPage.btnContinueShopping).click()
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart.find_element(*LocCartPage.cartBadge).click()
+
+    session.find_element(*LocCheckoutPage.btnContinueShopping).click()
     assert session.current_url in constants.URL_MAIN_PRODUCT_PAGE
 
 
@@ -104,13 +121,16 @@ def test_navigate_checkout(session):
     Click on the Checkout button
     Check that the Checkout step first is opened
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    products = ProductPage(session)
+    items = products.list_products()
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    item = products.line_product(items, 0)
+    products.add_cart(item)
 
-    session.find_element(*CheckoutPage.btnCheckout).click()
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart.find_element(*LocCartPage.cartBadge).click()
+
+    session.find_element(*LocCheckoutPage.btnCheckout).click()
     assert session.current_url in constants.URL_CHECKOUT_STEP_ONE
 
 
@@ -125,28 +145,32 @@ def test_fill_order_form(session):
     Click on the Finish button
     Check that the Finish page is opened
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    products = ProductPage(session)
+    items = products.list_products()
+
+    item = products.line_product(items, 0)
+    products.add_cart(item)
+
+    product_name = items[0].find_element(*LocProductsPage.btnProductDetails).text
     assert product_name == constants.PRODUCT_NAME
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    cart = session.find_element(*LocCartPage.shoppingCart)
+    cart.find_element(*LocCartPage.cartBadge).click()
 
-    session.find_element(*CheckoutPage.btnCheckout).click()
+    session.find_element(*LocCheckoutPage.btnCheckout).click()
 
-    session.find_element(*FillForm.firstName).send_keys(constants.FIRST_NAME)
-    session.find_element(*FillForm.lastName).send_keys(constants.LAST_NAME)
-    session.find_element(*FillForm.zipCode).send_keys(constants.ZIPCODE)
+    session.find_element(*LocFillForm.firstName).send_keys(constants.FIRST_NAME)
+    session.find_element(*LocFillForm.lastName).send_keys(constants.LAST_NAME)
+    session.find_element(*LocFillForm.zipCode).send_keys(constants.ZIPCODE)
 
-    session.find_element(*FillForm.btnContinue).click()
+    session.find_element(*LocFillForm.btnContinue).click()
 
-    checkout_item = session.find_element(*CheckoutPage.checkoutItem).text
+    checkout_item = session.find_element(*LocCheckoutPage.checkoutItem).text
 
     assert product_name == checkout_item
 
-    session.find_element(*FillForm.btnFinish).click()
-    finish_title = session.find_element(*FillForm.finishOrderTitle).text
+    session.find_element(*LocFillForm.btnFinish).click()
+    finish_title = session.find_element(*LocFillForm.finishOrderTitle).text
     assert finish_title == constants.COMPLETE_CHECKOUT
 
     assert session.current_url in constants.URL_FINISH_CHECKOUT

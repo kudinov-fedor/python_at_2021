@@ -1,6 +1,6 @@
 from tests.threc.hw5_saucedemo_oop import constants
 from tests.threc.hw5_saucedemo_oop.page_object.base_page import BasePage
-from tests.threc.hw5_saucedemo_oop.locators import SignupPage
+from tests.threc.hw5_saucedemo_oop.locators import LocSignupPage
 
 
 class LoginPage(BasePage):
@@ -8,8 +8,8 @@ class LoginPage(BasePage):
         self.driver.get(constants.URL_HOST)
 
     def fill_form(self, login, password):
-        self.driver.find_element(*SignupPage.login).send_keys(login)
-        self.driver.find_element(*SignupPage.password).send_keys(password)
+        self.driver.find_element(*LocSignupPage.login).send_keys(login)
+        self.driver.find_element(*LocSignupPage.password).send_keys(password)
 
     def submit(self):
-        self.driver.find_element(*SignupPage.btnLogin).click()
+        self.driver.find_element(*LocSignupPage.btnLogin).click()

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class SignupPage:
+class LocSignupPage:
     # login = (By.ID, "user-name")
     login = (By.CSS_SELECTOR, ".login-box .input_error[placeholder='Username']")
 
@@ -12,7 +12,7 @@ class SignupPage:
     btnLogin = (By.CSS_SELECTOR, ".submit-button.btn_action[name='login-button']")
 
 
-class ProductsPage:
+class LocProductsPage:
     # listProducts = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
     listProducts = (By.XPATH, "//*[@class='inventory_item_description']//div[2]")
 
@@ -26,7 +26,7 @@ class ProductsPage:
     productDetailsPage = (By.XPATH, "//*[@id='inventory_item_container']/div/div/div[2]/div[1]")
 
 
-class CartPage:
+class LocCartPage:
     # shoppingCart = (By.ID, "shopping_cart_container")
     shoppingCart = (By.CSS_SELECTOR, ".primary_header .shopping_cart_container")
 
@@ -37,7 +37,7 @@ class CartPage:
     cartProductName = (By.XPATH, "//*[@id='item_4_title_link']/div")
 
 
-class CheckoutPage:
+class LocCheckoutPage:
     # btnCheckout = (By.ID, "checkout")
     btnCheckout = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout'")
 
@@ -48,7 +48,7 @@ class CheckoutPage:
     btnContinueShopping = (By.CSS_SELECTOR, ".cart_footer .btn_medium[name='continue-shopping'")
 
 
-class FillForm:
+class LocFillForm:
     # firstName = (By.ID, "first-name")
     firstName = (By.CSS_SELECTOR, ".form_group .form_input[placeholder='First Name'")
 
