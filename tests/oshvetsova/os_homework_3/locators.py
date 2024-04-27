@@ -58,7 +58,6 @@ class ShoppingCart:
     # (By.ID, "back-to-products")
     BACK_TO_PRODUCT = (By.CSS_SELECTOR, "#back-to-products")
 
-
     # remove one product
 
     # (By.CSS_SELECTOR, "button#remove-sauce-labs-backpack")
