@@ -1,0 +1,6 @@
+HOST = "https://www.saucedemo.com"
+USERNAME = "standard_user"
+PASSWORD = "secret_sauce"
+LANDING_PG = "https://www.saucedemo.com/inventory.html"
+LOGOUT_PG = "https://www.saucedemo.com/"
+CART_PG = "https://www.saucedemo.com/cart.html"
