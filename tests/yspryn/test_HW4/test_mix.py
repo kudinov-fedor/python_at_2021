@@ -1,13 +1,13 @@
 import pytest
-from selenium.common import NoAlertPresentException, NoSuchElementException
+from selenium.common import NoAlertPresentException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.common.action_chains import ActionChains as AC
 from selenium.webdriver.support import expected_conditions as EC
 
 
-@pytest.mark.usefixtures("open_tool_tips")
 def test_tooltip_for_button(session):
+    session.get("https://demoqa.com/tool-tips")
     button = session.find_element(By.CSS_SELECTOR, "button.btn-success#toolTipButton")
     AC(session).move_to_element(button).perform()
     Wait(session, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#buttonToolTip")))
@@ -15,27 +15,28 @@ def test_tooltip_for_button(session):
     assert tooltip.text == 'You hovered over the Button'
 
 
-@pytest.mark.usefixtures("open_progress_bar")
 def test_progress_bar(session):
+    session.get("https://demoqa.com/progress-bar")
     session.find_element(By.CSS_SELECTOR, "button#startStopButton").click()
     Wait(session, 11).until(EC.text_to_be_present_in_element((By.XPATH, "//*[@id='progressBar']/div"), '100%'))
     progress_bar = session.find_element(By.XPATH, "//*[@id='progressBar']/div")
     assert progress_bar.text == '100%'
 
 
-@pytest.mark.usefixtures("open_alerts")
 def test_alert(session):
+    session.get("https://demoqa.com/alerts")
     session.find_element(By.CSS_SELECTOR, "button#alertButton").click()
     alert = session.switch_to.alert
     assert alert
     alert.accept()
+
+    """to make sure there is no Alert anymore"""
     with pytest.raises(NoAlertPresentException):
-        alert.accept()
-        raise AssertionError
+        session.switch_to.alert
 
 
-@pytest.mark.usefixtures("open_frames")
 def test_text_in_frames(session):
+    session.get("https://demoqa.com/frames")
     session.switch_to.frame('frame1')
     frame = session.find_element(By.CSS_SELECTOR, "h1#sampleHeading")
     assert frame.text == 'This is a sample page'
@@ -44,6 +45,6 @@ def test_text_in_frames(session):
     frame = session.find_element(By.XPATH, "//*[@id='sampleHeading']")
     assert frame.text == 'This is a sample page'
     session.switch_to.parent_frame()
-    with pytest.raises(NoSuchElementException):
-        session.find_element(By.XPATH, "//*[@id='sampleHeading']")
-        raise AssertionError
+
+    """to make sure we switched to main page"""
+    assert not session.find_elements(By.XPATH, "//*[@id='sampleHeading']")
