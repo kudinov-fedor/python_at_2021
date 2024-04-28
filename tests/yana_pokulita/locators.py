@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class Cart:
+class CartLocators:
     # check cart indicator
 
     # (By.ID, "shopping_cart_container")
@@ -19,7 +19,8 @@ class Cart:
     # delete element from the cart
 
     # (By.CSS_SELECTOR, "button#remove-sauce-labs-backpack")
-    Remove1stItemBtn = (By.XPATH, "//button[@id='remove-sauce-labs-backpack']")
+    # Remove1stItemBtn = (By.XPATH, "//button[@id='remove-sauce-labs-backpack']")
+    RemoveItemBtn = (By.CSS_SELECTOR, "button.cart_button")
 
     # fill the form
 
@@ -44,7 +45,7 @@ class Cart:
     BackHomeBtn = (By.CSS_SELECTOR, '#back-to-products')
 
 
-class LoginPage:
+class LoginPageLocators:
     # loging to the system
 
     # (By.ID, "user-name")
@@ -55,7 +56,7 @@ class LoginPage:
     LoginBtn = (By.NAME, "login-button")
 
 
-class ProductPage:
+class ProductPageLocators:
     # adding elements
 
     # (By.CSS_SELECTOR, ".inventory_list .inventory_item")

@@ -1,6 +1,6 @@
 import pytest
 from selenium.common import NoSuchElementException
-from tests.yana_pokulita.locators import Cart
+from tests.yana_pokulita.HW4_DemoQA import page
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -17,35 +17,38 @@ def test_basic_flow(session):
     """
 
     # check indicator of cart
-    cart = session.find_element(*Cart.ShoppingCart)
-    cart_badge = cart.find_element(*Cart.ShoppingCartBadge)
-    assert cart_badge.text == '2'
+    cart = page.CartPage(session)
+    cart.cart_elements()
+    cart_indicator = page.CartPage(session)
+    cart_indicator.cart_badge()
+    assert cart_indicator.cart_badge().text == '2'
 
     # go to cart
-    cart.click()
+    cart.go_to_cart()
 
     # check nuber of items in the cart
-    items = session.find_elements(*Cart.CartItems)
-    assert len(items) == 2
+    elements_in_cart = page.CartPage(session)
+    elements_in_cart.get_cart_items()
+    assert len(elements_in_cart.get_cart_items()) == 2
 
     # go to checkout
-    session.find_element(*Cart.CheckOutBtn).click()
+    cart.go_to_checkout()
 
     # fill the order form
-    session.find_element(*Cart.FirstName).send_keys("Jonh")
-    session.find_element(*Cart.LastName).send_keys("Adams")
-    session.find_element(*Cart.PostalCode).send_keys("001011")
-    session.find_element(*Cart.btnContinue).click()
+    checkout_page = page.CheckoutInformationPage(session)
+    checkout_page.fill_order_form('Jonh', 'Adams', '001011')
 
     # order submission
-    session.find_element(*Cart.FinishBtn).click()
+    checkout_page = page.CheckoutOverviewPage(session)
+    checkout_page.finish_order()
 
     # check that cart is empty
-    session.find_element(*Cart.BackHomeBtn).click()
-    cart = session.find_element(*Cart.ShoppingCart)
+    checkout_page = page.CheckoutCompletePage(session)
+    checkout_page.back_to_products()
+    cart = page.CartPage(session)
 
     with pytest.raises(NoSuchElementException):
-        cart.find_element(*Cart.ShoppingCartBadge)
+        cart.cart_badge()
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -60,23 +63,26 @@ def test_product_can_be_removed_flow(session):
     """
 
     # check indicator of cart
-    cart = session.find_element(*Cart.ShoppingCart)
-    cart_badge = cart.find_element(*Cart.ShoppingCartBadge)
-    assert cart_badge.text == '2'
+    cart = page.CartPage(session)
+    cart.cart_elements()
+    cart_indicator = page.CartPage(session)
+    cart_indicator.cart_badge()
+    assert cart_indicator.cart_badge().text == '2'
 
     # go to cart
-    cart.click()
+    cart.go_to_cart()
 
     # check nuber of items in the cart
-    items = session.find_elements(*Cart.CartItems)
-    assert len(items) == 2
+    elements_in_cart = page.CartPage(session)
+    elements_in_cart.get_cart_items()
+    assert len(elements_in_cart.get_cart_items()) == 2
 
     # delete element
-    items[0].find_element(*Cart.Remove1stItemBtn).click()
+    elements_in_cart.remove_cart_item(0)
 
     # check nuber of items in the cart
-    items = session.find_elements(*Cart.CartItems)
-    assert len(items) == 1
+    elements_in_cart.get_cart_items()
+    assert len(elements_in_cart.get_cart_items()) == 1
 
 
 def test_cart_is_empty_after_login(session):
@@ -87,12 +93,13 @@ def test_cart_is_empty_after_login(session):
     """
 
     # go to cart
-    cart = session.find_element(*Cart.ShoppingCart)
-    cart.click()
+    cart = page.CartPage(session)
+    cart.go_to_cart()
 
     # check nuber of items in the cart
-    items = session.find_elements(*Cart.CartItems)
-    assert len(items) == 0
+    elements_in_cart = page.CartPage(session)
+    elements_in_cart.get_cart_items()
+    assert len(elements_in_cart.get_cart_items()) == 0
 
 
 def test_checkout_disabled_if_cart_empty(session):
@@ -102,8 +109,8 @@ def test_checkout_disabled_if_cart_empty(session):
     check checkout is disabled
     """
     # go to cart
-    cart = session.find_element(*Cart.ShoppingCart)
-    cart.click()
+    cart = page.CartPage(session)
+    cart.go_to_cart()
 
-    checkout_button = session.find_element(*Cart.CheckOutBtn).is_enabled()
-    assert checkout_button is False
+    cart.checkout_btn_status()
+    assert cart.checkout_btn_status() is False
