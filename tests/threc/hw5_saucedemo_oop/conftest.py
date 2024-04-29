@@ -1,6 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.threc.hw5_saucedemo_oop.page_object.login_page import LoginPage as LP
+from tests.threc.hw5_saucedemo_oop.page_object.base_page import BasePage
 import constants
 
 
@@ -21,4 +22,7 @@ def login(driver):
     login_page = LP(driver)
     login_page.open()
     login_page.fill_form(constants.LOGIN, constants.PASSWORD)
-    login_page.submit()
+
+    # login_page.submit()
+    login_page.click_elem(login_page.submit_btn())
+
