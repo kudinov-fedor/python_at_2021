@@ -3,6 +3,8 @@ from tests.threc.hw5_saucedemo_oop.locators import LocProductsPage
 from tests.threc.hw5_saucedemo_oop.locators import LocCartPage
 from tests.threc.hw5_saucedemo_oop.locators import LocFillForm
 from tests.threc.hw5_saucedemo_oop.page_object.product_page import ProductPage
+from tests.threc.hw5_saucedemo_oop.page_object.product_details_page import ProductDetailsPage
+from tests.threc.hw5_saucedemo_oop.page_object.cart_page import CartPage
 import constants
 
 
@@ -16,15 +18,16 @@ def test_product_details(session):
     Compare product name from Product list page with Product details page
     """
     products = ProductPage(session)
-    items = products.list_products()
+    products.list_products()
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
-    product_name = products.product_label(items, 0)
-    products.product_details(items, 0)
+    product_name = products.product_label(item)
+    products.product_details(item)
 
-    product_details_page = session.find_element(*LocProductsPage.productDetailsPage).text
+    details = ProductDetailsPage(session)
+    product_details_page = details.product_details_label()
     assert product_name == product_details_page
 
     assert session.current_url in constants.URL_PRODUCT_PAGE
@@ -42,12 +45,14 @@ def test_add_to_card(session):
     items = products.list_products()
     assert len(items) == constants.PRODUCT_LENGTH
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart_badge = cart.find_element(*LocCartPage.cartBadge)
-    assert cart_badge.text == constants.CART_BADGE
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart_badge = cart.cart_badge_label(cart_item)
+
+    assert cart_badge == constants.CART_BADGE
 
 
 def test_add_all_cart(session):
@@ -58,15 +63,16 @@ def test_add_all_cart(session):
     Check the amount of added products to the cart by amount on the badge
     """
     products = ProductPage(session)
-    items = products.list_products()
+    products.list_products()
 
     for i in range(constants.PRODUCT_LENGTH):
-        item = products.line_product(items, i)
-        products.add_cart(item)
+        item = products.line_product(i)
+        products.add_to_cart(item)
 
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart_badge = cart.find_element(*LocCartPage.cartBadge)
-    assert cart_badge.text == constants.CART_BADGE_ALL_PRODUCTS
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart_badge = cart.cart_badge_label(cart_item)
+    assert cart_badge == constants.CART_BADGE_ALL_PRODUCTS
 
 
 def test_navigation_to_cart(session):
@@ -78,15 +84,21 @@ def test_navigation_to_cart(session):
     Compare name of added product from the cart with the name of the product from the products page
     """
     products = ProductPage(session)
-    items = products.list_products()
+    products.list_products()
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
-    product_name = products.product_label(items, 0)
+    product_name = products.product_label(0)
 
     assert product_name == constants.PRODUCT_NAME
 
+    # cart = CartPage(session)
+    # cart_item = cart.shopping_cart_badge()
+    # // not working here
+    # cart.find_element(*LocCartPage.cartBadge).click()
+    # cart_product_name = session.find_element(*LocCartPage.cartProductName).text
+    # assert product_name == cart_product_name
     cart = session.find_element(*LocCartPage.shoppingCart)
     cart.find_element(*LocCartPage.cartBadge).click()
     cart_product_name = session.find_element(*LocCartPage.cartProductName).text
@@ -102,11 +114,14 @@ def test_continue_shopping(session):
     Check the navigation to the Product page
     """
     products = ProductPage(session)
-    items = products.list_products()
+    products.list_products()
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
+    # cart = CartPage(session)
+    # cart_item = cart.shopping_cart_badge()
+    # cart.find_element(*LocCartPage.cartBadge).click()
     cart = session.find_element(*LocCartPage.shoppingCart)
     cart.find_element(*LocCartPage.cartBadge).click()
 
@@ -122,11 +137,14 @@ def test_navigate_checkout(session):
     Check that the Checkout step first is opened
     """
     products = ProductPage(session)
-    items = products.list_products()
+    products.list_products()
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
+    # cart = CartPage(session)
+    # cart_item = cart.shopping_cart_badge()
+    # cart.find_element(*LocCartPage.cartBadge).click()
     cart = session.find_element(*LocCartPage.shoppingCart)
     cart.find_element(*LocCartPage.cartBadge).click()
 
@@ -148,12 +166,15 @@ def test_fill_order_form(session):
     products = ProductPage(session)
     items = products.list_products()
 
-    item = products.line_product(items, 0)
-    products.add_cart(item)
+    item = products.line_product(0)
+    products.add_to_cart(item)
 
     product_name = items[0].find_element(*LocProductsPage.btnProductDetails).text
     assert product_name == constants.PRODUCT_NAME
 
+    # cart = CartPage(session)
+    # cart_item = cart.shopping_cart_badge()
+    # cart.find_element(*LocCartPage.cartBadge).click()
     cart = session.find_element(*LocCartPage.shoppingCart)
     cart.find_element(*LocCartPage.cartBadge).click()
 
