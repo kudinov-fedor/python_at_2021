@@ -9,5 +9,5 @@ class InformationPage(BasePage):
         self.driver.find_element(*InformationPageLoc.TXT_LAST_NAME).send_keys(surname)
         self.driver.find_element(*InformationPageLoc.TXT_POSTAL_CODE).send_keys(zip)
 
-    def go_to_overview_page(self):
+    def submit_form(self):
         self.driver.find_element(*InformationPageLoc.BTN_CONTINUE).click()

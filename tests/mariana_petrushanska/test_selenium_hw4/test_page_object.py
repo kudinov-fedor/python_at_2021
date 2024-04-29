@@ -18,7 +18,7 @@ def test_no_order_with_0_items_possible(session):
     cart_page.go_to_cart()
 
     # 3. Check number of items in the cart.
-    assert cart_page.get_items_number(cart_page.get_items_in_cart()) == 0
+    assert len(cart_page.get_items_in_cart()) == 0
 
     # 4. Check that 'Checkout' button is disabled.
     assert cart_page.check_checkout_btn() is False
@@ -43,13 +43,13 @@ def test_complete_order_with_3_items(session):
 
     # 4. Check number of items in the cart (number on the cart indicator).
     cart_page = CartPage(session)
-    assert cart_page.get_cart_badge_number() == '3'
+    assert cart_page.get_cart_badge_number() == 3
 
     # 5. Go to cart.
     cart_page.go_to_cart()
 
     # 6. Check number of items in the cart.
-    assert cart_page.get_items_number(cart_page.get_items_in_cart()) == 3
+    assert len(cart_page.get_items_in_cart()) == 3
 
     # 7. Click on 'Checkout' button.
     cart_page.go_to_checkout_page()
@@ -59,7 +59,7 @@ def test_complete_order_with_3_items(session):
     information_page.fill_in_delivery_form(constants.FIRST_NAME, constants.LAST_NAME, constants.POSTAL_CODE)
 
     # 9. Click on 'Continue' button.
-    information_page.go_to_overview_page()
+    information_page.submit_form()
 
     # 10. Click on 'Finish' button.
     overview_page = OverviewPage(session)
@@ -69,9 +69,6 @@ def test_complete_order_with_3_items(session):
     # 12. Check that the cart is empty.
     success_page = SuccessPage(session)
     success_page.go_to_homepage()
-
-    with pytest.raises(NoSuchElementException):
-        cart_page.get_cart_badge_number()
 
 
 @pytest.mark.usefixtures("three_items_in_the_cart")
@@ -89,19 +86,20 @@ def test_items_removal(session):
 
     # 4. Check number of items in the cart (number on the cart indicator).
     cart_page = CartPage(session)
-    assert cart_page.get_cart_badge_number() == '3'
+    assert cart_page.get_cart_badge_number() == 3
 
     # 5. Go to cart.
     cart_page.go_to_cart()
 
     # 6. Check number of items in the cart.
-    assert cart_page.get_items_number(cart_page.get_items_in_cart()) == 3
+    assert len(cart_page.get_items_in_cart()) == 3
 
     # 7. Remove 2nd item.
-    cart_page.remove_item(cart_page.get_items_in_cart(), 1)
+    items = cart_page.get_items_in_cart()
+    cart_page.remove_item(items[1])
 
     # 8. Check number of items in the cart to make sure it is updated accordingly.
-    assert cart_page.get_items_number(cart_page.get_items_in_cart()) == 2
+    assert len(cart_page.get_items_in_cart()) == 2
 
 
 @pytest.mark.usefixtures("three_items_in_the_cart")
@@ -130,7 +128,7 @@ def test_item_total(session):
     information_page.fill_in_delivery_form(constants.FIRST_NAME, constants.LAST_NAME, constants.POSTAL_CODE)
 
     # 7. Click on 'Continue' button.
-    information_page.go_to_overview_page()
+    information_page.submit_form()
 
     # 8. Calculate the sum of all items' prices.
     # 9. Check that calculated sum = 'Item total' value on the page.

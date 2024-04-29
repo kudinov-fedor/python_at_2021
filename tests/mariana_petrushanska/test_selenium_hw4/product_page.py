@@ -8,9 +8,5 @@ class ProductsPage(BasePage):
         items = self.driver.find_elements(*ProductsPageLoc.LST_ITEMS)
         return items
 
-    def get_separate_item(self, index):
-        item = self.get_available_items()[index]
-        return item
-
     def add_to_cart(self, item):
         item.find_element(*ProductsPageLoc.BTN_ADD_TO_CART).click()
