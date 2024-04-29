@@ -5,7 +5,7 @@ from selenium.webdriver import Chrome
 HOST = "https://demoqa.com"
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def session():
     my_session = Chrome()
     my_session.implicitly_wait(1)
