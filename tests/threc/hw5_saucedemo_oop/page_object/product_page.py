@@ -7,7 +7,7 @@ class ProductPage(BasePage):
         products = self.driver.find_elements(*LocProductsPage.listProducts)
         return products
 
-    def line_product(self, index):
+    def line_product(self, index: int):
         one_product = self.list_products()[index]
         return one_product
 

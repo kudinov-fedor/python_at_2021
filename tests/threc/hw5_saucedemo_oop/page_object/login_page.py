@@ -7,7 +7,7 @@ class LoginPage(BasePage):
     def open(self):
         self.driver.get(constants.URL_HOST)
 
-    def fill_form(self, login, password):
+    def fill_form(self, login: str, password: str):
         self.driver.find_element(*LocSignupPage.login).send_keys(login)
         self.driver.find_element(*LocSignupPage.password).send_keys(password)
 

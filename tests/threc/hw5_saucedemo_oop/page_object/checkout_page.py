@@ -4,7 +4,7 @@ from tests.threc.hw5_saucedemo_oop.locators import LocCheckoutPage
 
 
 class CheckoutPage(BasePage):
-    def checkout_fill_form(self, first_name, last_name, zip_code):
+    def checkout_fill_form(self, first_name: str, last_name: str, zip_code: str):
         self.driver.find_element(*LocFillForm.firstName).send_keys(first_name)
         self.driver.find_element(*LocFillForm.lastName).send_keys(last_name)
         self.driver.find_element(*LocFillForm.zipCode).send_keys(zip_code)
