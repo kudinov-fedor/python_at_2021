@@ -3,11 +3,6 @@ from selenium.webdriver import Chrome
 from tests.yana_pokulita.HW4_DemoQA import page
 from tests.yana_pokulita.HW4_DemoQA.page import constants
 
-#
-# HOST = "https://www.saucedemo.com"
-# LOGIN = "standard_user"
-# PASSORD = "secret_sauce"
-
 
 @pytest.fixture
 def session():
