@@ -1,10 +1,9 @@
-from tests.threc.hw5_saucedemo_oop.locators import LocCheckoutPage
 from tests.threc.hw5_saucedemo_oop.locators import LocProductsPage
-from tests.threc.hw5_saucedemo_oop.locators import LocCartPage
-from tests.threc.hw5_saucedemo_oop.locators import LocFillForm
 from tests.threc.hw5_saucedemo_oop.page_object.product_page import ProductPage
 from tests.threc.hw5_saucedemo_oop.page_object.product_details_page import ProductDetailsPage
 from tests.threc.hw5_saucedemo_oop.page_object.cart_page import CartPage
+from tests.threc.hw5_saucedemo_oop.page_object.checkout_page import CheckoutPage
+from tests.threc.hw5_saucedemo_oop.page_object.finish_page import FinishPage
 import constants
 
 
@@ -89,20 +88,14 @@ def test_navigation_to_cart(session):
     item = products.line_product(0)
     products.add_to_cart(item)
 
-    product_name = products.product_label(0)
+    product_name = products.product_label(item)
 
     assert product_name == constants.PRODUCT_NAME
 
-    # cart = CartPage(session)
-    # cart_item = cart.shopping_cart_badge()
-    # // not working here
-    # cart.find_element(*LocCartPage.cartBadge).click()
-    # cart_product_name = session.find_element(*LocCartPage.cartProductName).text
-    # assert product_name == cart_product_name
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart.find_element(*LocCartPage.cartBadge).click()
-    cart_product_name = session.find_element(*LocCartPage.cartProductName).text
-    assert product_name == cart_product_name
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart.btn_click(cart_item)
+    assert cart.cart_product_name() == product_name
 
 
 def test_continue_shopping(session):
@@ -119,13 +112,10 @@ def test_continue_shopping(session):
     item = products.line_product(0)
     products.add_to_cart(item)
 
-    # cart = CartPage(session)
-    # cart_item = cart.shopping_cart_badge()
-    # cart.find_element(*LocCartPage.cartBadge).click()
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart.find_element(*LocCartPage.cartBadge).click()
-
-    session.find_element(*LocCheckoutPage.btnContinueShopping).click()
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart.btn_click(cart_item)
+    cart.btn_click(cart.cart_continue_btn())
     assert session.current_url in constants.URL_MAIN_PRODUCT_PAGE
 
 
@@ -142,13 +132,11 @@ def test_navigate_checkout(session):
     item = products.line_product(0)
     products.add_to_cart(item)
 
-    # cart = CartPage(session)
-    # cart_item = cart.shopping_cart_badge()
-    # cart.find_element(*LocCartPage.cartBadge).click()
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart.find_element(*LocCartPage.cartBadge).click()
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart.btn_click(cart_item)
+    cart.btn_click(cart.cart_checkout_btn())
 
-    session.find_element(*LocCheckoutPage.btnCheckout).click()
     assert session.current_url in constants.URL_CHECKOUT_STEP_ONE
 
 
@@ -172,26 +160,20 @@ def test_fill_order_form(session):
     product_name = items[0].find_element(*LocProductsPage.btnProductDetails).text
     assert product_name == constants.PRODUCT_NAME
 
-    # cart = CartPage(session)
-    # cart_item = cart.shopping_cart_badge()
-    # cart.find_element(*LocCartPage.cartBadge).click()
-    cart = session.find_element(*LocCartPage.shoppingCart)
-    cart.find_element(*LocCartPage.cartBadge).click()
+    cart = CartPage(session)
+    cart_item = cart.shopping_cart_badge()
+    cart.btn_click(cart_item)
+    cart.btn_click(cart.cart_checkout_btn())
 
-    session.find_element(*LocCheckoutPage.btnCheckout).click()
-
-    session.find_element(*LocFillForm.firstName).send_keys(constants.FIRST_NAME)
-    session.find_element(*LocFillForm.lastName).send_keys(constants.LAST_NAME)
-    session.find_element(*LocFillForm.zipCode).send_keys(constants.ZIPCODE)
-
-    session.find_element(*LocFillForm.btnContinue).click()
-
-    checkout_item = session.find_element(*LocCheckoutPage.checkoutItem).text
-
+    checkout = CheckoutPage(session)
+    checkout.checkout_fill_form(constants.FIRST_NAME, constants.LAST_NAME, constants.ZIPCODE)
+    checkout.checkout_btn_click(checkout.checkout_submit_btn())
+    checkout_item = checkout.checkout_product_label()
     assert product_name == checkout_item
 
-    session.find_element(*LocFillForm.btnFinish).click()
-    finish_title = session.find_element(*LocFillForm.finishOrderTitle).text
+    checkout.checkout_btn_click(checkout.checkout_finish_btn())
+    finish = FinishPage(session)
+    finish_title = finish.finish_title()
     assert finish_title == constants.COMPLETE_CHECKOUT
 
     assert session.current_url in constants.URL_FINISH_CHECKOUT
