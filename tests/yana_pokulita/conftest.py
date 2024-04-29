@@ -1,11 +1,12 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.yana_pokulita.HW4_DemoQA import page
+from tests.yana_pokulita.HW4_DemoQA.page import constants
 
-
-HOST = "https://www.saucedemo.com"
-LOGIN = "standard_user"
-PASSORD = "secret_sauce"
+#
+# HOST = "https://www.saucedemo.com"
+# LOGIN = "standard_user"
+# PASSORD = "secret_sauce"
 
 
 @pytest.fixture
@@ -20,7 +21,7 @@ def login(session):
 
     login_page = page.LoginPage(session)
     login_page.open()
-    login_page.fill_form(LOGIN, PASSORD)
+    login_page.fill_form(constants.LOGIN, constants.PASSWORD)
 
 
 @pytest.fixture
@@ -28,11 +29,10 @@ def login(session):
 def cart_with_2_items(session):
 
     elements_page = page.ProductsPage(session)
-    elements_page.get_elements()
-    assert len(elements_page.get_elements()) == 6
+    assert len(elements_page.get_products()) == 6
 
-    elements_page.move_to_cart(0)
-    elements_page.move_to_cart(3)
+    elements_page.move_product_to_cart(0)
+    elements_page.move_product_to_cart(3)
 
 
 
