@@ -12,3 +12,11 @@ class BasePage:
 
     def go_to_cart(self):
         self.driver.find_element(*CartItemsLoc.IMG_CART).click()
+
+    def get_cart_badge_number(self):
+        cart = self.driver.find_element(*CartItemsLoc.IMG_CART)
+        try:
+            cart_badge = cart.find_element(*CartItemsLoc.IMG_CART_BADGE)
+        except NoSuchElementException:
+            return 0
+        return int(cart_badge.text)

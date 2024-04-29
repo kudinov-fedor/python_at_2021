@@ -1,7 +1,6 @@
 import pytest
-from selenium.common import NoSuchElementException
 from tests.mariana_petrushanska.test_selenium_hw4 import constants
-from tests.mariana_petrushanska.test_selenium_hw4 import CartPage, InformationPage, OverviewPage, SuccessPage
+from tests.mariana_petrushanska.test_selenium_hw4 import CartPage, InformationPage, OverviewPage, SuccessPage, ProductsPage
 
 
 def test_no_order_with_0_items_possible(session):
@@ -14,10 +13,11 @@ def test_no_order_with_0_items_possible(session):
     """
 
     # 2. Click on the cart item.
-    cart_page = CartPage(session)
-    cart_page.go_to_cart()
+    product_page = ProductsPage(session)
+    product_page.go_to_cart()
 
     # 3. Check number of items in the cart.
+    cart_page = CartPage(session)
     assert len(cart_page.get_items_in_cart()) == 0
 
     # 4. Check that 'Checkout' button is disabled.
@@ -42,13 +42,14 @@ def test_complete_order_with_3_items(session):
     """
 
     # 4. Check number of items in the cart (number on the cart indicator).
-    cart_page = CartPage(session)
-    assert cart_page.get_cart_badge_number() == 3
+    product_page = ProductsPage(session)
+    assert product_page.get_cart_badge_number() == 3
 
     # 5. Go to cart.
-    cart_page.go_to_cart()
+    product_page.go_to_cart()
 
     # 6. Check number of items in the cart.
+    cart_page = CartPage(session)
     assert len(cart_page.get_items_in_cart()) == 3
 
     # 7. Click on 'Checkout' button.
@@ -85,13 +86,14 @@ def test_items_removal(session):
     """
 
     # 4. Check number of items in the cart (number on the cart indicator).
-    cart_page = CartPage(session)
-    assert cart_page.get_cart_badge_number() == 3
+    product_page = ProductsPage(session)
+    assert product_page.get_cart_badge_number() == 3
 
     # 5. Go to cart.
-    cart_page.go_to_cart()
+    product_page.go_to_cart()
 
     # 6. Check number of items in the cart.
+    cart_page = CartPage(session)
     assert len(cart_page.get_items_in_cart()) == 3
 
     # 7. Remove 2nd item.
@@ -117,10 +119,11 @@ def test_item_total(session):
     """
 
     # 4. Go to cart.
-    cart_page = CartPage(session)
-    cart_page.go_to_cart()
+    product_page = ProductsPage(session)
+    product_page.go_to_cart()
 
     # 5. Click on 'Checkout' button.
+    cart_page = CartPage(session)
     cart_page.go_to_checkout_page()
 
     # 6. Fill in user's information.

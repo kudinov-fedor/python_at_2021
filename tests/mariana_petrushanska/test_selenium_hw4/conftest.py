@@ -23,9 +23,9 @@ def login(session):
 @pytest.mark.usefixture("login")
 def three_items_in_the_cart(session):
     products_page = ProductsPage(session)
-    assert len(products_page.get_available_items()) == 6
-
     items = products_page.get_available_items()
+    assert len(items) == 6
+
     products_page.add_to_cart(items[0])
     products_page.add_to_cart(items[3])
     products_page.add_to_cart(items[5])
