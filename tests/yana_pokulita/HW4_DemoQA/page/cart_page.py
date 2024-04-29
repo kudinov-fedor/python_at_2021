@@ -10,8 +10,6 @@ class CartPage(BasePage):
         return cart_elements
 
     def get_cart_badge(self):
-        # cart_badge = self.driver.find_element(*CartLocators.ShoppingCartBadge)
-        # return cart_badge
         cart = self.driver.find_element(*CartLocators.ShoppingCart)
         try:
             cart_badge = cart.find_element(*CartLocators.ShoppingCartBadge)
@@ -30,8 +28,6 @@ class CartPage(BasePage):
         self.driver.find_element(*CartLocators.CheckOutBtn).click()
 
     def remove_cart_item(self, index):
-        # items = self.driver.find_elements(*CartLocators.CartItems)
-        # items[index].find_element(*CartLocators.RemoveItemBtn).click()
         items = self.get_cart_items()
         items[index].find_element(*CartLocators.RemoveItemBtn).click()
 
