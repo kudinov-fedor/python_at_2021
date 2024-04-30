@@ -7,10 +7,8 @@ class BasePage:
         self.driver = driver
 
     def open_page(self, host):
-        from tests.khrystynatk.pages.login_page import LoginPage
-
         self.driver.get(host)
-        return LoginPage(self.driver)
+        return self
 
     def get_url(self):
         return self.driver.current_url
