@@ -1,17 +1,16 @@
+from tests.khrystynatk.pages.base_elements import ProductsElement
 from tests.khrystynatk.pages.base_page import BasePage
 from tests.khrystynatk.pages.locators1 import LandingPageLoc, SideMenuLoc
 
 
 class ItemsPage(BasePage):
+    def get_products_container(self) -> ProductsElement:
+        container = self.driver.find_element(*LandingPageLoc.ITEMS_CONTAINER)
+        return ProductsElement(container)
 
     def find_product_rows(self):
         elements = self.driver.find_elements(*LandingPageLoc.LST_ITEMS)
         return elements
-
-# розбити метод, щоб він виконував лише одну дію (прокинути product в параметри)
-    def add_to_cart(self, index):
-        self.find_product_rows()[index].find_element(*LandingPageLoc.BTN_ADD_TO_CART).click()
-        return self
 
     def logout_from_side_menu(self):
         from tests.khrystynatk.pages.login_page import LoginPage

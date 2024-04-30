@@ -15,10 +15,13 @@ class LoginPageLoc:
 
 
 class LandingPageLoc:
+    ITEMS_CONTAINER = (By.CSS_SELECTOR, "#inventory_container")
     LST_ITEMS = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
     # LST_ITEMS = (By.XPATH, "//*[@class='inventory_list']/div")
     BTN_ADD_TO_CART = (By.CSS_SELECTOR, ".pricebar .btn_inventory")
     # BTN_ADD_TO_CART = (By.XPATH, ".//*[@class='pricebar']//*[contains(@class,'btn_inventory')]")
+    LNK_OPEN_PRODUCT = (By.CSS_SELECTOR, "div.inventory_item_name")
+    TXT_PRODUCT_PRICE = (By.CSS_SELECTOR, "div.inventory_item_price")
     LNK_CART = (By.CSS_SELECTOR, ".shopping_cart_link")
     # LNK_CART = (By.XPATH, "//*[@class='shopping_cart_link']")
     IMG_CART_BADGE = (By.CSS_SELECTOR, ".shopping_cart_badge")
@@ -27,14 +30,14 @@ class LandingPageLoc:
 
 class CartItemsLoc:
     CART_ITEMS = (By.CSS_SELECTOR, ".cart_item")
-    # CART_ITEMS = (By.XPATH, "//*[@class = 'cart_item']")
     CART_CONTAINER = (By.CSS_SELECTOR, "#shopping_cart_container")
     # CART_CONTAINER = (By.XPATH, "//*[@id='shopping_cart_container']"
-    IMG_CART_BADGE = (By.CSS_SELECTOR, "#shopping_cart_container > a.shopping_cart_badge")
+    IMG_CART_BADGE = (By.CSS_SELECTOR, "span.shopping_cart_badge")
     # IMG_CART_BADGE = (By.XPATH, "//*[@id='shopping_cart_container']/a/span[contains(@class, 'shopping_cart_badge')]")
     BTN_REMOVE = (By.CSS_SELECTOR, "button.cart_button")
     BTN_CHECKOUT = (By.CSS_SELECTOR, "button.checkout_button")
     BTN_CONTINUE_SHOPPING = (By.CSS_SELECTOR, "#continue-shopping")
+    ITEM_QUANTITY = (By.CSS_SELECTOR, ".cart_quantity")
 
 
 class SideMenuLoc:
@@ -61,4 +64,4 @@ class CheckoutLoc:
 
 class CheckoutCompleteLoc:
     COMPLETE_CONTAINER = (By.CSS_SELECTOR, "#checkout_complete_container")
-    BTN_BACK_HOME = (By.CSS_SELECTOR, "button#back-to-products") # redirects to items page
+    BTN_BACK_HOME = (By.CSS_SELECTOR, "button#back-to-products")

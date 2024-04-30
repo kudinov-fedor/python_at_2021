@@ -14,7 +14,7 @@ class LoginPage(BasePage):
     def find_password_field(self):
         return self.driver.find_element(*LoginPageLoc.TXT_PASSWORD)
 
-    def go_to_items_page(self):
+    def submit_form(self):
         from tests.khrystynatk.pages.items_page import ItemsPage
 
         self.driver.find_element(*LoginPageLoc.BTN_LOGIN).click()

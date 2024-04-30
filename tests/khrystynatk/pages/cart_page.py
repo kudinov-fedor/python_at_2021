@@ -1,18 +1,22 @@
 from tests.khrystynatk.pages.base_page import BasePage
 from tests.khrystynatk.pages.locators1 import CartItemsLoc
 from selenium.common import NoSuchElementException
+from tests.khrystynatk.pages.base_elements import CartElement
 
 
 class CartPage(BasePage):
+    def get_products_container(self) -> CartElement:
+        container = self.driver.find_element(*CartItemsLoc.CART_ITEMS)
+        return CartElement(container)
 
-    def remove_cart_item(self, index):
-        items = self.driver.find_elements(*CartItemsLoc.CART_ITEMS)
-        items[index].find_element(*CartItemsLoc.BTN_REMOVE).click()
+    def find_cart_rows(self) -> list:
+        elements = self.driver.find_elements(*CartItemsLoc.CART_ITEMS)
+        return elements
 
     def get_cart_badge(self):
         cart = self.driver.find_element(*CartItemsLoc.CART_CONTAINER)
         try:
-            cart.find_element(*CartItemsLoc.IMG_CART_BADGE).is_displayed()
+            cart_badge = cart.find_element(*CartItemsLoc.IMG_CART_BADGE)
         except NoSuchElementException:
             return 0
-        return 1
+        return int(cart_badge.text)
