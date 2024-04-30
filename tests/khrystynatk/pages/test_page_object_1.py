@@ -56,7 +56,7 @@ def test_logout_user(driver):
 
 def test_delete_from_cart(driver):
     """
-    перевірити, що сторінка корзини пуста (карт бедж відсутній)
+    перевірити, карт бедж відповідає к-сті продуктів у корзині
     перевірити поточну урлу корзини
     """
     landing_page = pages.LoginPage(driver)
