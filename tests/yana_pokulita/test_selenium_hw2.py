@@ -16,16 +16,15 @@ def test_basic_flow(session):
     """
 
     # check indicator of cart
+
     cart = page.CartPage(session)
-    cart_indicator = page.CartPage(session)
-    assert cart_indicator.get_cart_badge() == 2
+    assert cart.get_cart_badge() == 2
 
     # go to cart
     cart.go_to_cart_page()
 
     # check nuber of items in the cart
-    elements_in_cart = page.CartPage(session)
-    assert len(elements_in_cart.get_cart_items()) == 2
+    assert len(cart.get_cart_items()) == 2
 
     # go to checkout
     cart.go_to_checkout_page()
@@ -41,7 +40,7 @@ def test_basic_flow(session):
     # check that cart is empty
     checkout_page = page.CheckoutCompletePage(session)
     checkout_page.back_to_products()
-    assert cart_indicator.get_cart_badge() == 0
+    assert cart.get_cart_badge() == 0
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -56,22 +55,20 @@ def test_product_can_be_removed_flow(session):
     """
 
     # check indicator of cart
-    cart_page = page.CartPage(session)
-    cart_indicator = page.CartPage(session)
-    assert cart_indicator.get_cart_badge() == 2
+    cart = page.CartPage(session)
+    assert cart.get_cart_badge() == 2
 
     # go to cart
-    cart_page.go_to_cart_page()
+    cart.go_to_cart_page()
 
     # check nuber of items in the cart
-    elements_in_cart = page.CartPage(session)
-    assert len(elements_in_cart.get_cart_items()) == 2
+    assert len(cart.get_cart_items()) == 2
 
     # delete element
-    elements_in_cart.remove_cart_item(0)
+    cart.remove_cart_item(0)
 
     # check nuber of items in the cart
-    assert len(elements_in_cart.get_cart_items()) == 1
+    assert len(cart.get_cart_items()) == 1
 
 
 def test_cart_is_empty_after_login(session):
@@ -86,8 +83,7 @@ def test_cart_is_empty_after_login(session):
     cart.go_to_cart_page()
 
     # check nuber of items in the cart
-    elements_in_cart = page.CartPage(session)
-    assert len(elements_in_cart.get_cart_items()) == 0
+    assert len(cart.get_cart_items()) == 0
 
 
 def test_checkout_disabled_if_cart_empty(session):
