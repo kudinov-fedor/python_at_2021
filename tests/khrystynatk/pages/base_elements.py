@@ -40,10 +40,11 @@ class CartElement(BaseElement):
         return int(quantity)
 
     def get_product_name(self) -> str:
-        return self.get_product_name()
+        return self.find_element(*CartItemsLoc.LNK_OPEN_PRODUCT).text
 
     def get_product_price(self) -> float:
-        return self.get_product_price()
+        price = self.find_element(*CartItemsLoc.TXT_PRODUCT_PRICE).text.replace("$", "")
+        return float(price)
 
     def remove_cart_item(self):
         return self.find_element(*CartItemsLoc.BTN_REMOVE).click()

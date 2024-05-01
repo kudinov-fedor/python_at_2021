@@ -3,16 +3,17 @@ from tests.khrystynatk.pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    def input_creds(self, username, password):
-        self.driver.find_element(*LoginPageLoc.TXT_USERNAME).send_keys(username)
-        self.driver.find_element(*LoginPageLoc.TXT_PASSWORD).send_keys(password)
-        return self
 
     def find_username_field(self):
         return self.driver.find_element(*LoginPageLoc.TXT_USERNAME)
 
     def find_password_field(self):
         return self.driver.find_element(*LoginPageLoc.TXT_PASSWORD)
+
+    def input_creds(self, username, password):
+        self.find_username_field().send_keys(username)
+        self.find_password_field().send_keys(password)
+        return self
 
     def submit_form(self):
         from tests.khrystynatk.pages.items_page import ItemsPage

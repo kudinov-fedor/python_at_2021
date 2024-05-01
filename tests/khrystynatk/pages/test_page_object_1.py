@@ -1,7 +1,6 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.khrystynatk import pages
-from tests.khrystynatk.pages.base_elements import ProductsElement, CartElement
 from tests.khrystynatk.pages.constants import HOST, USERNAME, PASSWORD, LANDING_PG, LOGOUT_PG, CART_PG
 
 
@@ -33,12 +32,12 @@ def test_elements(driver):
     """
     login_page = pages.LoginPage(driver).open_page(HOST)
     items_page = login_page.input_creds(USERNAME, PASSWORD)\
-        .submit_form().find_product_rows()
-    product = ProductsElement(items_page[0])
+        .submit_form()
+    products = items_page.find_product_rows()
 
-    assert len(items_page) == 6
-    assert "Sauce Labs" in product.get_product_name()
-    assert 0 < product.get_price() < 100
+    assert len(products) == 6
+    assert "Sauce Labs" in products[0].get_product_name()
+    assert 0 < products[0].get_price() < 100
 
 
 def test_logout_user(driver):
@@ -63,17 +62,16 @@ def test_delete_from_cart(driver):
     landing_page.open_page(HOST)
     items_page = landing_page.input_creds(USERNAME, PASSWORD).submit_form()
     products = items_page.find_product_rows()
-    product_1 = ProductsElement(products[0])
-    product_2 = ProductsElement(products[1])
-    product_3 = ProductsElement(products[2])
-    product_1.add_to_cart()
-    product_2.add_to_cart()
-    product_3.add_to_cart()
+    products[0].add_to_cart()
+    products[1].add_to_cart()
+    products[2].add_to_cart()
 
     cart_page = items_page.go_to_cart()
-    products = cart_page.find_cart_rows()
-    product = CartElement(products[0])
-    product.remove_cart_item()
-
+    cart_products = cart_page.find_cart_rows()
+    cart_products[0].remove_cart_item()
+    
     assert cart_page.get_url() == CART_PG
     assert cart_page.get_cart_badge() == 2
+    assert "Sauce Labs" in (cart_products[1].get_product_name())
+    assert 0 < (cart_products[1].get_product_price()) < 100
+    assert cart_products[1].get_product_quantity() == 1
