@@ -23,22 +23,34 @@ def test_add_products_to_cart(session):
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_all_from_cart(session):
-    """make sure there are 2 items in cart"""
-    assert pages.CatalogPage(session).check_number_of_items_added_to_cart() == 2
+    """this test case verifies that cart is empty after removing all items"""
+    catalog_page = pages.CatalogPage(session)
+    cart_page = pages.CartPage(session)
 
-    """remove 2 items from cart and check that cart is empty"""
-    pages.CatalogPage(session).go_to_cart()
-    pages.CartPage(session).remove_item_from_cart(0)
-    pages.CartPage(session).remove_item_from_cart(0)
-    assert pages.CatalogPage(session).check_number_of_items_added_to_cart() == 0
+    # verify that there are 2 items in cart before deletion
+    assert catalog_page.check_number_of_items_added_to_cart() == 2
+
+    # removing 2 items from cart
+    catalog_page.go_to_cart()
+    cart_page.remove_item_from_cart(0)
+    cart_page.remove_item_from_cart(0)
+
+
+    # verifying that cart is empty
+    assert catalog_page.check_number_of_items_added_to_cart() == 0
 
 
 @pytest.mark.usefixtures("add_products_to_cart")
 def test_remove_one_item_from_cart(session):
-    """make sure there are 2 items in cart"""
-    assert pages.CatalogPage(session).check_number_of_items_added_to_cart() == 2
+    """this test case verifies that 1 item is left in cart after removing another one"""
+    catalog_page = pages.CatalogPage(session)
+    cart_page = pages.CartPage(session)
 
-    """remove only 1 item from cart and check that 1 left"""
-    pages.CatalogPage(session).go_to_cart()
-    pages.CartPage(session).remove_item_from_cart(0)
-    assert pages.CatalogPage(session).check_number_of_items_added_to_cart() == 1
+    # verify that there are 2 items in cart before deletion
+    assert catalog_page.check_number_of_items_added_to_cart() == 2
+
+    # removing 1 item from cart
+    catalog_page.go_to_cart()
+    cart_page.remove_item_from_cart(0)
+    # verify that another 1 item is left in cart
+    assert catalog_page.check_number_of_items_added_to_cart() == 1
