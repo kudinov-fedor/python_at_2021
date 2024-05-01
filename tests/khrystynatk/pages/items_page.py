@@ -4,13 +4,10 @@ from tests.khrystynatk.pages.locators1 import LandingPageLoc, SideMenuLoc
 
 
 class ItemsPage(BasePage):
-    def get_products_container(self) -> ProductsElement:
-        container = self.driver.find_element(*LandingPageLoc.ITEMS_CONTAINER)
-        return ProductsElement(container)
 
-    def find_product_rows(self):
+    def find_product_rows(self) -> list[ProductsElement]:
         elements = self.driver.find_elements(*LandingPageLoc.LST_ITEMS)
-        return elements
+        return [ProductsElement(el) for el in elements]
 
     def logout_from_side_menu(self):
         from tests.khrystynatk.pages.login_page import LoginPage

@@ -38,6 +38,8 @@ class CartItemsLoc:
     BTN_CHECKOUT = (By.CSS_SELECTOR, "button.checkout_button")
     BTN_CONTINUE_SHOPPING = (By.CSS_SELECTOR, "#continue-shopping")
     ITEM_QUANTITY = (By.CSS_SELECTOR, ".cart_quantity")
+    LNK_OPEN_PRODUCT = (By.CSS_SELECTOR, "div.inventory_item_name")
+    TXT_PRODUCT_PRICE = (By.CSS_SELECTOR, "div.inventory_item_price")
 
 
 class SideMenuLoc:

@@ -5,13 +5,10 @@ from tests.khrystynatk.pages.base_elements import CartElement
 
 
 class CartPage(BasePage):
-    def get_products_container(self) -> CartElement:
-        container = self.driver.find_element(*CartItemsLoc.CART_ITEMS)
-        return CartElement(container)
 
-    def find_cart_rows(self) -> list:
+    def find_cart_rows(self) -> list[CartElement]:
         elements = self.driver.find_elements(*CartItemsLoc.CART_ITEMS)
-        return elements
+        return [CartElement(el) for el in elements]
 
     def get_cart_badge(self):
         cart = self.driver.find_element(*CartItemsLoc.CART_CONTAINER)
