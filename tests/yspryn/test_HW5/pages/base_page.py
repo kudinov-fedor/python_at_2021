@@ -10,8 +10,8 @@ class BasePage:
     def open_page(self):
         self.driver.get(self.HOST)
 
-    def find_element(self, by, locator):
+    def find_element(self, by: str, locator: str):
         return self.driver.find_element(by, locator)
 
-    def find_elements(self, by, locator):
+    def find_elements(self, by: str, locator: str):
         return self.driver.find_elements(by, locator)
