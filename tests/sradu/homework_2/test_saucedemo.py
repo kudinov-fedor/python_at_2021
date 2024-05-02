@@ -4,7 +4,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-from tests.sradu.homework_2.utils import wait_and_click, wait_until_all_elements_visible
+from tests.sradu.homework_2.utils import wait_for_element, wait_until_all_elements_visible
 
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"
@@ -23,7 +23,7 @@ def session():
 def login(session):
     session.find_element(By.ID, "user-name").send_keys(LOGIN)
     session.find_element(By.ID, "password").send_keys(PASSWORD)
-    wait_and_click(session, By.ID, "login-button")
+    wait_for_element(session, By.ID, "login-button").click()
 
 
 @pytest.mark.usefixtures("login")
@@ -73,7 +73,7 @@ def test_menu_items(session):
     """
 
     # перейти у меню
-    wait_and_click(session, By.ID, "react-burger-menu-btn")
+    wait_for_element(session, By.ID, "react-burger-menu-btn").click()
 
     # перевірити кількість items меню
     menu_items = wait_until_all_elements_visible(session, By.CSS_SELECTOR, ".bm-menu a[id]")
@@ -94,8 +94,8 @@ def test_prices_in_ascending_order(session):
     """
 
     # налаштувати сортування у порядку зростання
-    wait_and_click(session, By.CSS_SELECTOR, "select[data-test='product-sort-container']")
-    wait_and_click(session, By.XPATH, "//option[text()='Price (low to high)']")
+    wait_for_element(session, By.CSS_SELECTOR, "select[data-test='product-sort-container']").click()
+    wait_for_element(session, By.XPATH, "//option[text()='Price (low to high)']").click()
 
     price_elements = wait_until_all_elements_visible(session, By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
 
