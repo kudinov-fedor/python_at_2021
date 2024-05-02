@@ -26,4 +26,3 @@ def test_click_me_button(session):
     AC(session).click(click_me).perform()
     click_me_text = session.find_element(*Buttons.TXT_CLICK_ME).text
     assert click_me_text == "You have done a dynamic click"
-
