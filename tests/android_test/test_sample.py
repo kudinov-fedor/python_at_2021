@@ -27,7 +27,7 @@ class By(AppiumBy, SeleniumBy):
 
 EXECUTOR = 'http://127.0.0.1:4723/wd/hub'
 ANDROID_BASE_CAPS = {
-    'app': os.path.abspath('/Users/fkudi/PycharmProjects/python_at_2021/tests/android_test/ApiDemos-debug.apk'),
+    'app': os.path.abspath('./ApiDemos-debug.apk'),
     'platformName': 'Android',
     'automationName': 'UiAutomator2',
     "noSign": "true",
