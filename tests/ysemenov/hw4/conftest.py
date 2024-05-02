@@ -8,6 +8,6 @@ HOST = "https://demoqa.com/"
 @pytest.fixture(scope="function")
 def session():
     session = Chrome()
-    session.implicitly_wait(5)
+    session.implicitly_wait(0.2)
     yield session
     session.quit()
