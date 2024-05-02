@@ -28,4 +28,3 @@ def test_visible_after(session):
     WebDriverWait(session, 6).until(EC.presence_of_element_located(DynamicProperties.BTN_VISIBLE_AFTER))
     visible_button = session.find_element(*DynamicProperties.BTN_VISIBLE_AFTER)
     assert visible_button.is_displayed()
-
