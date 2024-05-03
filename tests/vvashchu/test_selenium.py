@@ -1,41 +1,7 @@
 import pytest
-from selenium.webdriver import Chrome, ChromeOptions
 from selenium.common import NoSuchElementException
-from selenium.webdriver.common.by import By
-
-HOST = "https://www.saucedemo.com"
-LOGIN = "standard_user"
-PASSORD = "secret_sauce"
-
-
-@pytest.fixture
-def session():
-    config = ChromeOptions()
-    config.add_argument("--incognito")
-    session = Chrome(options=config)
-    yield session
-    session.quit()
-
-
-@pytest.fixture(autouse=True)
-def login(session):
-    session.get(HOST)
-
-    # вхід в систему
-    session.find_element(By.ID, "user-name").send_keys(LOGIN)
-    session.find_element(By.ID, "password").send_keys(PASSORD)
-    session.find_element(By.ID, "login-button").click()
-
-
-@pytest.fixture
-@pytest.mark.usefixtures("login")
-def cart_with_2_items(session):
-    elements = session.find_elements(By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    assert len(elements) == 6
-
-    elements[0].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
-
-    elements[2].find_element(By.XPATH, ".//*[@class='pricebar']//button").click()
+from tests.vvashchu.locators import Cart
+from tests.vvashchu.locators import ProductPage
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -50,35 +16,35 @@ def test_basic(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart_badge = cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    cart = session.find_element(*ProductPage.cart)
+    cart_badge = cart.find_element(*ProductPage.cart_badge)
     assert cart_badge.text == '2'
 
     # перехід в корзину
     cart.click()
 
     # перевірка кількості елементів в корзині
-    items = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
-    assert len(items) == 2
+    cart_items = session.find_elements(*Cart.cart_items)
+    assert len(cart_items) == 2
 
     # перехід до оформлення замовлення
-    session.find_element(By.ID, "checkout").click()
+    session.find_element(*Cart.checkout_btn).click()
 
     # заповнення форми замовлення
-    session.find_element(By.ID, "first-name").send_keys("Lilia")
-    session.find_element(By.ID, "last-name").send_keys("Broks")
-    session.find_element(By.ID, "postal-code").send_keys("001011")
-    session.find_element(By.ID, "continue").click()
+    session.find_element(*Cart.FirstName).send_keys("Lilia")
+    session.find_element(*Cart.LastName).send_keys("Broks")
+    session.find_element(*Cart.PostalCode).send_keys("001011")
+    session.find_element(*Cart.continue_btn).click()
 
     # виконання замовлення
-    session.find_element(By.ID, "finish").click()
+    session.find_element(*Cart.finish_btn).click()
 
     # перевірка, що корзина пуста
-    session.find_element(By.ID, "back-to-products").click()
-    cart = session.find_element(By.ID, "shopping_cart_container")
+    session.find_element(*Cart.back_home_btn).click()
+    cart = session.find_element(*ProductPage.cart)
 
     with pytest.raises(NoSuchElementException):
-        cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+        cart.find_element(*ProductPage.cart_badge)
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -92,23 +58,23 @@ def test_product_can_be_removed(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(By.ID, "shopping_cart_container")
-    cart_badge = cart.find_element(By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    cart = session.find_element(*ProductPage.cart)
+    cart_badge = cart.find_element(*ProductPage.cart_badge)
     assert cart_badge.text == '2'
 
     # перехід в корзину
     cart.click()
 
     # перевірка кількості елементів в корзині
-    items = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
-    assert len(items) == 2
+    cart_items = session.find_elements(*Cart.cart_items)
+    assert len(cart_items) == 2
 
     # видалення елементу
-    items[0].find_element(By.CSS_SELECTOR, "button#remove-sauce-labs-backpack").click()
+    cart_items[0].find_element(*Cart.remove_first_item_btn).click()
 
     # перевірка кількості елементів в корзині
-    items = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
-    assert len(items) == 1
+    cart_items = session.find_elements(*Cart.cart_items)
+    assert len(cart_items) == 1
 
 
 def test_checkout_disabled_if_cart_empty(session):
@@ -118,12 +84,12 @@ def test_checkout_disabled_if_cart_empty(session):
     """
 
     # перехід в корзину
-    cart = session.find_element(By.ID, "shopping_cart_container")
+    cart = session.find_element(*ProductPage.cart)
     cart.click()
 
     # перевірка кількості елементів в корзині
-    items = session.find_elements(By.CSS_SELECTOR, ".cart_list .cart_item")
+    items = session.find_elements(*Cart.cart_items)
     assert len(items) == 0
 
-    checkout_button = session.find_element(By.CSS_SELECTOR, "#checkout").is_enabled()
-    assert checkout_button is False
+    checkout_button = session.find_element(*Cart.checkout_btn).is_enabled()
+    assert checkout_button is True
