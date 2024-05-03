@@ -1,6 +1,7 @@
 import pytest
 from selenium.common import NoSuchElementException
 from tests.vvashchu.locators import Cart
+from tests.vvashchu.locators import ProductPage
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -15,8 +16,8 @@ def test_basic(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(*Cart.cart)
-    cart_badge = cart.find_element(*Cart.cart_badge)
+    cart = session.find_element(*ProductPage.cart)
+    cart_badge = cart.find_element(*ProductPage.cart_badge)
     assert cart_badge.text == '2'
 
     # перехід в корзину
@@ -40,10 +41,10 @@ def test_basic(session):
 
     # перевірка, що корзина пуста
     session.find_element(*Cart.back_home_btn).click()
-    cart = session.find_element(*Cart.cart)
+    cart = session.find_element(*ProductPage.cart)
 
     with pytest.raises(NoSuchElementException):
-        cart.find_element(*Cart.cart_badge)
+        cart.find_element(*ProductPage.cart_badge)
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -57,8 +58,8 @@ def test_product_can_be_removed(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(*Cart.cart)
-    cart_badge = cart.find_element(*Cart.cart_badge)
+    cart = session.find_element(*ProductPage.cart)
+    cart_badge = cart.find_element(*ProductPage.cart_badge)
     assert cart_badge.text == '2'
 
     # перехід в корзину
@@ -83,7 +84,7 @@ def test_checkout_disabled_if_cart_empty(session):
     """
 
     # перехід в корзину
-    cart = session.find_element(*Cart.cart)
+    cart = session.find_element(*ProductPage.cart)
     cart.click()
 
     # перевірка кількості елементів в корзині

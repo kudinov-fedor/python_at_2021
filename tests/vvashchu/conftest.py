@@ -31,8 +31,8 @@ def login(session):
 @pytest.mark.usefixtures("login")
 def cart_with_2_items(session):
 
-    cart_items = session.find_elements(*ProductPage.cart_items)
+    cart_items = session.find_elements(*ProductPage.product)
     assert len(cart_items) == 6
 
-    cart_items[0].find_element(*ProductPage.cart_item).click()
-    cart_items[2].find_element(*ProductPage.cart_item).click()
+    cart_items[0].find_element(*ProductPage.product_add_to_cart_btn).click()
+    cart_items[2].find_element(*ProductPage.product_add_to_cart_btn).click()
