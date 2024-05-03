@@ -13,27 +13,15 @@ class LocSignupPage:
 
 
 class LocProductsPage:
-    # listProducts = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    listProducts = (By.XPATH, "//*[@class='inventory_item_description']//div[2]")
-
-    # btnAddToCard = (By.XPATH, ".//*[@class='pricebar']//button")
-    btnAddToCart = (By.CSS_SELECTOR, ".pricebar .btn_inventory ")
-
-    # btnProductDetails = (By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name")
-    btnProductDetails = (By.XPATH, "//*[@id='item_4_title_link']/div")
-
-    # productDetailsPage = (By.CSS_SELECTOR, ".inventory_details .inventory_details_name")
+    listProducts = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
+    btnAddToCart = (By.CSS_SELECTOR, ".pricebar button")
+    btnProductDetails = (By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name")
     productDetailsPage = (By.XPATH, "//*[@id='inventory_item_container']/div/div/div[2]/div[1]")
 
 
 class LocCartPage:
-    # shoppingCart = (By.ID, "shopping_cart_container")
-    shoppingCart = (By.CSS_SELECTOR, ".primary_header .shopping_cart_container")
-
-    # cartBadge = (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    cartBadge = (By.CSS_SELECTOR, ".shopping_cart_link .shopping_cart_badge[data-test='shopping-cart-badge']")
-
-    # cartProductName = (By.CSS_SELECTOR, ".cart_item .inventory_item_name")
+    cartBadge = (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    cartLink = (By.CSS_SELECTOR, ".shopping_cart_container .shopping_cart_link")
     cartProductName = (By.XPATH, "//*[@id='item_4_title_link']/div")
 
 
@@ -41,8 +29,7 @@ class LocCheckoutPage:
     # btnCheckout = (By.ID, "checkout")
     btnCheckout = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout'")
 
-    # checkoutItem = (By.CSS_SELECTOR, ".cart_item_label .inventory_item_name")
-    checkoutItem = (By.XPATH, "//*[@id='item_4_title_link']/div")
+    checkoutItem = (By.CSS_SELECTOR, ".cart_item_label .inventory_item_name")
 
     # btnContinueShopping = (By.ID, "continue-shopping")
     btnContinueShopping = (By.CSS_SELECTOR, ".cart_footer .btn_medium[name='continue-shopping'")
@@ -64,5 +51,5 @@ class LocFillForm:
     # btnFinish = (By.ID, "finish")
     btnFinish = (By.CSS_SELECTOR, ".cart_footer .cart_button[data-test='finish'")
 
-    # finishOrderTitle = (By.CSS_SELECTOR, ".header_secondary_container .title")
-    finishOrderTitle = (By.XPATH, "//*[@id='header_container']/div[2]/span")
+    finishOrderTitle = (By.CSS_SELECTOR, ".header_secondary_container .title")
+    # finishOrderTitle = (By.XPATH, "//*[@id='header_container']/div[2]/span")

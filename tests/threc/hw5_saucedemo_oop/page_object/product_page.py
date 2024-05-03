@@ -3,19 +3,18 @@ from tests.threc.hw5_saucedemo_oop.locators import LocProductsPage
 
 
 class ProductPage(BasePage):
-    def list_products(self):
-        products = self.find_elems(*LocProductsPage.listProducts)
-        return products
+    def get_list_products(self):
+        # List of products
+        return self.find_elements(*LocProductsPage.listProducts)
 
-    def line_product(self, index: int):
-        one_product = self.list_products()[index]
-        return one_product
+    def add_product_to_cart(self, index):
+        # Add product to cart
+        self.click(self.get_list_products()[index].find_element(*LocProductsPage.btnAddToCart))
 
+    def find_and_get_product_label(self, index):
+        # Find and get product label
+        return self.get_list_products()[index].find_element(*LocProductsPage.btnProductDetails).text
 
-    def product_label(self, product):
-        label = product.find_element(*LocProductsPage.btnProductDetails)
-        return label.text
-
-    def product_details(self, product):
-        product_details_btn = product.find_element(*LocProductsPage.btnProductDetails)
-        return product_details_btn
+    def link_to_product_details(self):
+        # navigate to the product details page
+        self.click(self.find_element(*LocProductsPage.btnProductDetails))
