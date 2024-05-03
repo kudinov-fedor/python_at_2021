@@ -30,11 +30,11 @@ class ShoppingCartLocators:
     # prev => By.CLASS_NAME, "shopping_cart_badge"
     ICON_CART_BADGE = (By.CSS_SELECTOR, "span[data-test='shopping-cart-badge']")
     # prev => By.ID, "shopping_cart_container"
-    DIV_CART_CONTAINER = (By.CSS_SELECTOR, "div[id='shopping_cart_container']")
+    DIV_CART_CONTAINER = (By.CSS_SELECTOR, "#shopping_cart_container")
     # prev => By.CSS_SELECTOR, ".cart_list .cart_item"
     DIV_CART_ITEM = (By.XPATH, "//div[@data-test='inventory-item']")
     # prev => By.ID, "checkout"
-    BTN_CHECKOUT = (By.XPATH, "//button[@id='checkout']")
+    BTN_CHECKOUT = (By.CSS_SELECTOR, "#checkout")
 
 
 class CheckoutInfoLocators:
