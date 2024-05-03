@@ -1,22 +1,22 @@
 from tests.threc.hw5_saucedemo_oop.page_object.base_page import BasePage
-from tests.threc.hw5_saucedemo_oop.locators import LocFillForm
-from tests.threc.hw5_saucedemo_oop.locators import LocCheckoutPage
+from tests.threc.hw5_saucedemo_oop.locators import LocFillForm, LocCheckoutPage
 
 
 class CheckoutPage(BasePage):
-    def checkout_fill_form(self, first_name: str, last_name: str, zip_code: str):
-        self.find_elem(*LocFillForm.firstName).send_keys(first_name)
-        self.find_elem(*LocFillForm.lastName).send_keys(last_name)
-        self.find_elem(*LocFillForm.zipCode).send_keys(zip_code)
+    def fill_form(self, first_name: str, last_name: str, zip_code: str):
+        # fill checkout form
+        self.find_element(*LocFillForm.firstName).send_keys(first_name)
+        self.find_element(*LocFillForm.lastName).send_keys(last_name)
+        self.find_element(*LocFillForm.zipCode).send_keys(zip_code)
 
-    def checkout_submit_btn(self):
-        submit_btn = self.find_elem(*LocFillForm.btnContinue)
-        return submit_btn
+    def find_and_click_submit_btn(self):
+        # submit checkout form
+        self.click(self.find_element(*LocFillForm.btnContinue))
 
-    def checkout_product_label(self):
-        label = self.find_elem(*LocCheckoutPage.checkoutItem)
-        return label.text
+    def find_and_get_product_label(self):
+        # find product name and get this name
+        return self.find_element(*LocCheckoutPage.checkoutItem).text
 
-    def checkout_finish_btn(self):
-        finish_btn = self.find_elem(*LocFillForm.btnFinish)
-        return finish_btn
+    def find_and_click_finish_btn(self):
+        # find finish button and click it
+        self.click(self.find_element(*LocFillForm.btnFinish))

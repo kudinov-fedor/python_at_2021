@@ -1,26 +1,31 @@
+from selenium.common import NoSuchElementException
+
 from tests.threc.hw5_saucedemo_oop.page_object.base_page import BasePage
-from tests.threc.hw5_saucedemo_oop.locators import LocCartPage
-from tests.threc.hw5_saucedemo_oop.locators import LocCheckoutPage
+from tests.threc.hw5_saucedemo_oop.locators import LocCartPage, LocCheckoutPage
 
 
 class CartPage(BasePage):
-    def shopping_cart_badge(self):
-        cart = self.find_elem(*LocCartPage.shoppingCart)
-        cart_badge = cart.find_element(*LocCartPage.cartBadge)
+
+    def get_badge_value(self):
+        try:
+            # amount of added products from the data on the badge
+            cart_badge = self.driver.find_element(*LocCartPage.cartBadge).text
+        except NoSuchElementException:
+            return 0
         return cart_badge
 
-    def cart_badge_label(self, cart_badge):
-        label = cart_badge.text
-        return label
+    def open_cart(self):
+        # open cart page
+        return self.click(self.find_element(*LocCartPage.cartLink))
 
-    def cart_product_name(self):
-        name = self.find_elem(*LocCartPage.cartProductName)
-        return name.text
+    def get_product_name(self):
+        # get added to cart product name
+        return self.find_element(*LocCartPage.cartProductName).text
 
-    def cart_continue_btn(self):
-        continue_btn = self.find_elem(*LocCheckoutPage.btnContinueShopping)
-        return continue_btn
+    def find_and_click_continue_btn(self):
+        # find button continue and click it
+        self.click(self.find_element(*LocCheckoutPage.btnContinueShopping))
 
-    def cart_checkout_btn(self):
-        checkout_btn = self.find_elem(*LocCheckoutPage.btnCheckout)
-        return checkout_btn
+    def find_and_click_checkout_btn(self):
+        # find button checkout and click it
+        self.click(self.find_element(*LocCheckoutPage.btnCheckout))
