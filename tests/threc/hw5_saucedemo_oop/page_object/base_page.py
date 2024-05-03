@@ -13,5 +13,6 @@ class BasePage:
     def find_elements(self, by, locator):
         return self.driver.find_elements(by, locator)
 
-    def text(self, by, locator):
-        return self.find_element(by, locator).text
+    @staticmethod
+    def text(label):
+        return label.text

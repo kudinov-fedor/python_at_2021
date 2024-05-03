@@ -15,7 +15,7 @@ class CheckoutPage(BasePage):
 
     def find_and_get_product_label(self):
         # find product name and get this name
-        return self.text(*LocCheckoutPage.checkoutItem)
+        return self.text(self.find_element(*LocCheckoutPage.checkoutItem))
 
     def find_and_click_finish_btn(self):
         # find finish button and click it
