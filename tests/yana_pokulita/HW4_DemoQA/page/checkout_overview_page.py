@@ -5,4 +5,4 @@ from tests.yana_pokulita.locators import CartLocators
 class CheckoutOverviewPage(BasePage):
 
     def finish_order(self):
-        self.driver.find_element(*CartLocators.FinishBtn).click()
+        self.click(*CartLocators.FinishBtn)
