@@ -9,7 +9,7 @@ class LoginPageLocators:
 
 class ProductsPageLocators:
     # prev => By.ID, "react-burger-menu-btn"
-    BTN_BURGER_MENU = (By.CSS_SELECTOR, "button#react-burger-menu-btn")
+    BTN_BURGER_MENU = (By.CSS_SELECTOR, "#react-burger-menu-btn")
     # prev => By.CSS_SELECTOR, ".bm-menu a[id]"
     LINK_MENU_ITEM = (By.CSS_SELECTOR, "a.menu-item")
     # prev =>  By.CSS_SELECTOR, "select[data-test='product-sort-container']"
@@ -38,12 +38,12 @@ class ShoppingCartLocators:
 
 
 class CheckoutInfoLocators:
-    IP_FIRST_NAME = (By.CSS_SELECTOR, "input[data-test='firstName']")  # By.ID, "first-name"
-    IP_LAST_NAME = (By.CSS_SELECTOR, "input[data-test='lastName']")  # By.ID, "last-name"
-    IP_POSTAL_CODE = (By.CSS_SELECTOR, "input[data-test='postalCode']")  # By.ID, "postal-code"
-    BTN_CONTINUE = (By.CSS_SELECTOR, "input[data-test='continue']")  # By.ID, "continue"
+    IP_FIRST_NAME = (By.CSS_SELECTOR, "#first-name")  # By.ID, "first-name"
+    IP_LAST_NAME = (By.CSS_SELECTOR, "#last-name")  # By.ID, "last-name"
+    IP_POSTAL_CODE = (By.CSS_SELECTOR, "#postal-code")  # By.ID, "postal-code"
+    BTN_CONTINUE = (By.CSS_SELECTOR, "#continue")  # By.ID, "continue"
 
 
 class CheckoutOverviewLocators:
-    BTN_FINISH = (By.CSS_SELECTOR, "button[data-test='finish']")  # By.ID, "finish"
-    BTN_BACK_HOME = (By.CSS_SELECTOR, "button[data-test=back-to-products]")  # By.ID, "back-to-products"
+    BTN_FINISH = (By.CSS_SELECTOR, "#finish")  # By.ID, "finish"
+    BTN_BACK_HOME = (By.CSS_SELECTOR, "#back-to-products")  # By.ID, "back-to-products"
