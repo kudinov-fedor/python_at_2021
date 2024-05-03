@@ -1,7 +1,6 @@
 import pytest
 
 from selenium.webdriver import Chrome
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 from tests.sradu.homework_3.utils import wait_for_element, wait_until_all_elements_visible
