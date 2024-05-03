@@ -11,4 +11,4 @@ class LoginPage(BasePage):
     def fill_form(self, login, password):
         self.driver.find_element(*LoginPageLocators.UserName).send_keys(login)
         self.driver.find_element(*LoginPageLocators.Password).send_keys(password)
-        self.driver.find_element(*LoginPageLocators.LoginBtn).click()
+        self.click(*LoginPageLocators.LoginBtn)

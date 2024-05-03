@@ -8,4 +8,4 @@ class CheckoutInformationPage(BasePage):
         self.driver.find_element(*CartLocators.FirstName).send_keys(first_name)
         self.driver.find_element(*CartLocators.LastName).send_keys(last_name)
         self.driver.find_element(*CartLocators.PostalCode).send_keys(postal_code)
-        self.driver.find_element(*CartLocators.btnContinue).click()
+        self.click(*CartLocators.btnContinue)

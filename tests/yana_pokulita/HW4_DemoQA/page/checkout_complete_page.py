@@ -5,4 +5,4 @@ from tests.yana_pokulita.locators import CartLocators
 class CheckoutCompletePage(BasePage):
 
     def back_to_products(self):
-        self.driver.find_element(*CartLocators.BackHomeBtn).click()
+        self.click(*CartLocators.BackHomeBtn)
