@@ -1,24 +1,24 @@
 import pytest
 from selenium.webdriver import Chrome
-from tests.threc.hw5_saucedemo_oop.page_object.login_page import LoginPage as LP
+from tests.threc.hw5_saucedemo_oop.page_object.login_page import LoginPage
 import constants
 
 
 @pytest.fixture()
-def session():
-    session = Chrome()
-    yield session
+def driver():
+    driver = Chrome()
+    yield driver
 
     # tear down
-    session.quit()
+    driver.quit()
 
 
 @pytest.fixture(autouse=True)
-def login(session):
+def login(driver):
     """
     Log in to the site
     """
-    login_page = LP(session)
+    login_page = LoginPage(driver)
     login_page.open()
     login_page.fill_form(constants.LOGIN, constants.PASSWORD)
-    login_page.submit()
+    login_page.submit_login_form()

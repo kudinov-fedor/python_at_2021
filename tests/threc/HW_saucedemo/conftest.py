@@ -1,7 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.threc.HW_saucedemo.locators import LoginPage
-import costants
+import constants
 
 
 @pytest.fixture()

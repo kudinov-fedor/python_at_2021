@@ -1,11 +1,12 @@
-from tests.threc.hw5_saucedemo_oop.locators import CheckoutPage
-from tests.threc.hw5_saucedemo_oop.locators import ProductsPage
-from tests.threc.hw5_saucedemo_oop.locators import CartPage
-from tests.threc.hw5_saucedemo_oop.locators import FillForm
+from tests.threc.hw5_saucedemo_oop.page_object.product_page import ProductPage
+from tests.threc.hw5_saucedemo_oop.page_object.product_details_page import ProductDetailsPage
+from tests.threc.hw5_saucedemo_oop.page_object.cart_page import CartPage
+from tests.threc.hw5_saucedemo_oop.page_object.checkout_page import CheckoutPage
+from tests.threc.hw5_saucedemo_oop.page_object.finish_page import FinishPage
 import constants
 
 
-def test_product_details(session):
+def test_product_details(driver):
     """
     Log in to the site
     Find first product
@@ -14,18 +15,23 @@ def test_product_details(session):
     Check opened URL
     Compare product name from Product list page with Product details page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
-    products[0].find_element(*ProductsPage.btnProductDetails).click()
+    product_page = ProductPage(driver)
 
-    product_details_page = session.find_element(*ProductsPage.productDetailsPage).text
-    assert product_name == product_details_page
+    products = product_page.get_list_products()
+    assert len(products) == 6
 
-    assert session.current_url in constants.URL_PRODUCT_PAGE
+    product = products[0]
+    product_name = product_page.find_and_get_product_name(product)
+    product_page.link_to_product_details(product)
+
+    product_details_page = ProductDetailsPage(driver)
+    product_details_name = product_details_page.get_product_name()
+    assert product_name == product_details_name
+    #
+    assert driver.current_url in constants.URL_PRODUCT_PAGE
 
 
-def test_add_to_card(session):
+def test_add_to_card(driver):
     """
     Log in to the site
     Check the amount of products on the page
@@ -33,33 +39,32 @@ def test_add_to_card(session):
     Add this product to the cart
     Check the amount of added products to the card by amount on the badge
     """
-    products = session.find_elements(*ProductsPage.listProducts)
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
     assert len(products) == constants.PRODUCT_LENGTH
 
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product = products[5]
+    product_page.add_product_to_cart(product)
+    badge_value = product_page.get_badge_value()
+    assert badge_value == constants.CART_BADGE
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart_badge = cart.find_element(*CartPage.cartBadge)
-    assert cart_badge.text == constants.CART_BADGE
 
-
-def test_add_all_cart(session):
+def test_add_all_cart(driver):
     """
     Log in to the site
     Find all product
     Add all product to the cart
     Check the amount of added products to the cart by amount on the badge
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    for i in range(constants.PRODUCT_LENGTH):
-        products[i].find_element(*ProductsPage.btnAddToCart).click()
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    for product in products:
+        product_page.add_product_to_cart(product)
+    badge_value = product_page.get_badge_value()
+    assert badge_value == constants.CART_BADGE_ALL_PRODUCTS
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart_badge = cart.find_element(*CartPage.cartBadge)
-    assert cart_badge.text == constants.CART_BADGE_ALL_PRODUCTS
 
-
-def test_navigation_to_cart(session):
+def test_navigation_to_cart(driver):
     """
     Log in to the site
     Find fist product
@@ -67,19 +72,20 @@ def test_navigation_to_cart(session):
     Open cart page
     Compare name of added product from the cart with the name of the product from the products page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    product = products[0]
+    product_page.add_product_to_cart(product)
 
+    product_name = product_page.find_and_get_product_name(product)
     assert product_name == constants.PRODUCT_NAME
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
-    cart_product_name = session.find_element(*CartPage.cartProductName).text
-    assert product_name == cart_product_name
+    cart_page = CartPage(driver)
+    cart_page.open_cart()
+    assert cart_page.get_product_name() == product_name
 
 
-def test_continue_shopping(session):
+def test_continue_shopping(driver):
     """
     Log in to the site
     Find first product
@@ -87,34 +93,36 @@ def test_continue_shopping(session):
     Click on the Continue shopping button
     Check the navigation to the Product page
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    product = products[3]
+    product_page.add_product_to_cart(product)
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    cart_page = CartPage(driver)
+    cart_page.open_cart()
+    cart_page.find_and_click_continue_btn()
+    assert driver.current_url in constants.URL_MAIN_PRODUCT_PAGE
 
-    session.find_element(*CheckoutPage.btnContinueShopping).click()
-    assert session.current_url in constants.URL_MAIN_PRODUCT_PAGE
 
-
-def test_navigate_checkout(session):
+def test_navigate_checkout(driver):
     """
     Log in to the site
     Add first product to the cart
     Click on the Checkout button
     Check that the Checkout step first is opened
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    product = products[2]
+    product_page.add_product_to_cart(product)
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    cart_page = CartPage(driver)
+    cart_page.open_cart()
+    cart_page.find_and_click_checkout_btn()
+    assert driver.current_url in constants.URL_CHECKOUT_STEP_ONE
 
-    session.find_element(*CheckoutPage.btnCheckout).click()
-    assert session.current_url in constants.URL_CHECKOUT_STEP_ONE
 
-
-def test_fill_order_form(session):
+def test_fill_order_form(driver):
     """
     Log in to the site
     Add first product to the cart
@@ -125,28 +133,37 @@ def test_fill_order_form(session):
     Click on the Finish button
     Check that the Finish page is opened
     """
-    products = session.find_elements(*ProductsPage.listProducts)
-    products[0].find_element(*ProductsPage.btnAddToCart).click()
-    product_name = products[0].find_element(*ProductsPage.btnProductDetails).text
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    product = products[0]
+    product_page.add_product_to_cart(product)
+    product_name = product_page.find_and_get_product_name(product)
     assert product_name == constants.PRODUCT_NAME
 
-    cart = session.find_element(*CartPage.shoppingCart)
-    cart.find_element(*CartPage.cartBadge).click()
+    cart_page = CartPage(driver)
+    cart_page.open_cart()
+    cart_page.find_and_click_checkout_btn()
 
-    session.find_element(*CheckoutPage.btnCheckout).click()
+    checkout_page = CheckoutPage(driver)
+    checkout_page.fill_form(constants.FIRST_NAME, constants.LAST_NAME, constants.ZIPCODE)
+    checkout_page.find_and_click_submit_btn()
+    checkout_product_name = checkout_page.find_and_get_product_label()
+    assert product_name == checkout_product_name
 
-    session.find_element(*FillForm.firstName).send_keys(constants.FIRST_NAME)
-    session.find_element(*FillForm.lastName).send_keys(constants.LAST_NAME)
-    session.find_element(*FillForm.zipCode).send_keys(constants.ZIPCODE)
-
-    session.find_element(*FillForm.btnContinue).click()
-
-    checkout_item = session.find_element(*CheckoutPage.checkoutItem).text
-
-    assert product_name == checkout_item
-
-    session.find_element(*FillForm.btnFinish).click()
-    finish_title = session.find_element(*FillForm.finishOrderTitle).text
+    checkout_page.find_and_click_finish_btn()
+    finish_page = FinishPage(driver)
+    finish_title = finish_page.get_finish_order_title()
     assert finish_title == constants.COMPLETE_CHECKOUT
 
-    assert session.current_url in constants.URL_FINISH_CHECKOUT
+    assert driver.current_url in constants.URL_FINISH_CHECKOUT
+
+
+def test_cart_is_empty_after_login(driver):
+    """
+    login
+    click on the cart
+    check cart is empty
+    """
+    product_page = ProductPage(driver)
+    badge_value = product_page.get_badge_value()
+    assert badge_value == constants.CART_EMPTY_BADGE
