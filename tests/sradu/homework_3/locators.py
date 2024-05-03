@@ -2,9 +2,9 @@ from selenium.webdriver.common.by import By
 
 
 class LoginPageLocators:
-    TXT_USER_NAME = (By.CSS_SELECTOR, "input[name='user-name']")  # prev => By.ID, "user-name"
-    TXT_PASSWORD = (By.CSS_SELECTOR, "input[name='password']")  # prev => By.ID, "password"
-    BTN_LOGIN = (By.CSS_SELECTOR, "input[name='login-button']")  # prev => By.ID, "login-button"
+    TXT_USER_NAME = (By.CSS_SELECTOR, "#user-name")  # prev => By.ID, "user-name"
+    TXT_PASSWORD = (By.CSS_SELECTOR, "#password")  # prev => By.ID, "password"
+    BTN_LOGIN = (By.CSS_SELECTOR, "#login-button")  # prev => By.ID, "login-button"
 
 
 class ProductsPageLocators:
