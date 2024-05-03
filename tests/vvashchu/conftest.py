@@ -1,8 +1,7 @@
 import pytest
-from selenium.webdriver import Chrome
+from selenium.webdriver import Chrome, ChromeOptions
 from tests.vvashchu.locators import LoginPage
 from tests.vvashchu.locators import ProductPage
-
 
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"
@@ -11,7 +10,9 @@ PASSORD = "secret_sauce"
 
 @pytest.fixture
 def session():
-    session = Chrome()
+    config = ChromeOptions()
+    config.add_argument("--incognito")
+    session = Chrome(options=config)
     yield session
     session.quit()
 
@@ -30,8 +31,8 @@ def login(session):
 @pytest.mark.usefixtures("login")
 def cart_with_2_items(session):
 
-    elements = session.find_elements(*ProductPage.Elements)
-    assert len(elements) == 6
+    cart_items = session.find_elements(*ProductPage.cart_items)
+    assert len(cart_items) == 6
 
-    elements[0].find_element(*ProductPage.Element).click()
-    elements[2].find_element(*ProductPage.Element).click()
+    cart_items[0].find_element(*ProductPage.cart_item).click()
+    cart_items[2].find_element(*ProductPage.cart_item).click()
