@@ -5,4 +5,4 @@ from tests.threc.hw5_saucedemo_oop.locators import LocProductsPage
 class ProductDetailsPage(BasePage):
     def get_product_name(self):
         # Get product name
-        return self.driver.find_element(*LocProductsPage.productDetailsPage).text
+        return self.text(*LocProductsPage.productDetailsPage)
