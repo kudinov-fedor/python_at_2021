@@ -1,12 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
-from tests.yana_pokulita.locators import LoginPage
-from tests.yana_pokulita.locators import ProductPage
-
-
-HOST = "https://www.saucedemo.com"
-LOGIN = "standard_user"
-PASSORD = "secret_sauce"
+from tests.yana_pokulita.HW4_DemoQA import page
+from tests.yana_pokulita.HW4_DemoQA.page import constants
 
 
 @pytest.fixture
@@ -18,20 +13,21 @@ def session():
 
 @pytest.fixture(autouse=True)
 def login(session):
-    session.get(HOST)
 
-    # enter to the system
-    session.find_element(*LoginPage.UserName).send_keys(LOGIN)
-    session.find_element(*LoginPage.Password).send_keys(PASSORD)
-    session.find_element(*LoginPage.LoginBtn).click()
+    login_page = page.LoginPage(session)
+    login_page.open()
+    login_page.fill_form(constants.LOGIN, constants.PASSWORD)
 
 
 @pytest.fixture
 @pytest.mark.usefixtures("login")
 def cart_with_2_items(session):
 
-    elements = session.find_elements(*ProductPage.Elements)
-    assert len(elements) == 6
+    elements_page = page.ProductsPage(session)
+    assert len(elements_page.get_products()) == 6
 
-    elements[0].find_element(*ProductPage.Element).click()
-    elements[2].find_element(*ProductPage.Element).click()
+    elements_page.move_product_to_cart(0)
+    elements_page.move_product_to_cart(3)
+
+
+
