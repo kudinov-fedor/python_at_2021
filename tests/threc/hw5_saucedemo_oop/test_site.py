@@ -17,16 +17,17 @@ def test_product_details(driver):
     """
     product_page = ProductPage(driver)
 
-    products_list = product_page.get_list_products()
-    assert len(products_list) == 6
+    products = product_page.get_list_products()
+    assert len(products) == 6
 
-    product_name = product_page.find_and_get_first_product_name()
-    product_page.link_to_first_product_details()
+    product = products[0]
+    product_name = product_page.find_and_get_product_name(product)
+    product_page.link_to_product_details(product)
 
     product_details_page = ProductDetailsPage(driver)
     product_details_name = product_details_page.get_product_name()
     assert product_name == product_details_name
-
+    #
     assert driver.current_url in constants.URL_PRODUCT_PAGE
 
 
@@ -76,7 +77,7 @@ def test_navigation_to_cart(driver):
     product = products[0]
     product_page.add_product_to_cart(product)
 
-    product_name = product_page.find_and_get_first_product_name()
+    product_name = product_page.find_and_get_product_name(product)
     assert product_name == constants.PRODUCT_NAME
 
     cart_page = CartPage(driver)
@@ -136,7 +137,7 @@ def test_fill_order_form(driver):
     products = product_page.get_list_products()
     product = products[0]
     product_page.add_product_to_cart(product)
-    product_name = product_page.find_and_get_first_product_name()
+    product_name = product_page.find_and_get_product_name(product)
     assert product_name == constants.PRODUCT_NAME
 
     cart_page = CartPage(driver)

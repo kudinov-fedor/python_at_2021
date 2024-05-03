@@ -10,7 +10,7 @@ class CartPage(BasePage):
 
     def get_product_name(self):
         # get added to cart product name
-        return self.text(*LocCartPage.cartProductName)
+        return self.text(self.find_element(*LocCartPage.cartProductName))
 
     def find_and_click_continue_btn(self):
         # find button continue and click it

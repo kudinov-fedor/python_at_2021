@@ -15,8 +15,8 @@ class LocSignupPage:
 class LocProductsPage:
     listProducts = (By.CSS_SELECTOR, ".inventory_list .inventory_item")
     btnAddToCart = (By.CSS_SELECTOR, ".pricebar button")
-    btnProductDetails = (By.CSS_SELECTOR, ".inventory_item_label .inventory_item_name")
-    productDetailsPage = (By.XPATH, "//*[@id='inventory_item_container']/div/div/div[2]/div[1]")
+    productTitle = (By.CSS_SELECTOR, ".inventory_item_name")
+    productDetailsPage = (By.CSS_SELECTOR, ".inventory_details_name")
 
 
 class LocCartPage:
@@ -28,9 +28,7 @@ class LocCartPage:
 class LocCheckoutPage:
     # btnCheckout = (By.ID, "checkout")
     btnCheckout = (By.CSS_SELECTOR, ".cart_footer .checkout_button[name='checkout'")
-
     checkoutItem = (By.CSS_SELECTOR, ".cart_item_label .inventory_item_name")
-
     # btnContinueShopping = (By.ID, "continue-shopping")
     btnContinueShopping = (By.CSS_SELECTOR, ".cart_footer .btn_medium[name='continue-shopping'")
 
