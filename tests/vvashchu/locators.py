@@ -2,12 +2,6 @@ from selenium.webdriver.common.by import By
 
 
 class Cart:
-    # перевірка індикатора корзини
-    # (By.ID, "shopping_cart_container")
-    cart = (By.CSS_SELECTOR, "#shopping_cart_container")
-    # (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
-    cart_badge = (By.CSS_SELECTOR, ".shopping_cart_badge")
-
     # перевірка кількості елементів в корзині
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     cart_items = (By.XPATH, "//*[contains(@class,'cart_list')]//*[@class='cart_item']")
@@ -52,7 +46,14 @@ class LoginPage:
 class ProductPage:
     # додавання елементів
     # (By.CSS_SELECTOR, ".inventory_list .inventory_item")
-    cart_items = \
-        (By.XPATH, "//div[contains(@class, 'inventory_list')]//div[contains(@class, 'inventory_item_description')]")
+    product = \
+        (By.XPATH, "//div[contains(@class, 'inventory_list')]"
+                   "//div[contains(@class, 'inventory_item_description')]")
     # (By.XPATH, ".//*[@class='pricebar']//button")
-    cart_item = (By.CSS_SELECTOR, ".pricebar button")
+    product_add_to_cart_btn = (By.CSS_SELECTOR, ".pricebar button")
+
+    # перевірка індикатора корзини
+    # (By.ID, "shopping_cart_container")
+    cart = (By.CSS_SELECTOR, "#shopping_cart_container")
+    # (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
+    cart_badge = (By.CSS_SELECTOR, ".shopping_cart_badge")
