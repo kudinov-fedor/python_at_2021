@@ -51,4 +51,3 @@ def test_click_me_button(open_session):
     result = Wait(open_session, 1).until(EC.presence_of_element_located(click_me_button_result_locator))
 
     assert "You have done a dynamic click" == result.text
-
