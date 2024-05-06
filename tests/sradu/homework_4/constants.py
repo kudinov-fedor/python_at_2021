@@ -1,2 +1,2 @@
 HOST = "https://demoqa.com/"
-DEFAULT_TIMEOUT = 5
+DEFAULT_TIMEOUT = 1
