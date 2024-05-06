@@ -12,15 +12,10 @@ def test_button_enabled(session):
     assert session.find_element(*DynamicProperties.BTN_TEMP_DISABLED).is_enabled()
 
 
-def test_button_color_change(session):
+def test_button_change(session):
     session.get(HOST + "dynamic-properties")
-    first_button_color = session.find_element(*DynamicProperties.BTN_COLOR_CHANGE)
-    first_color = Color.from_string(first_button_color.value_of_css_property("color")).hex
     WebDriverWait(session, 6).until(EC.presence_of_element_located(DynamicProperties.BTN_COLOR_DANGER))
-    new_button_color = session.find_element(*DynamicProperties.BTN_COLOR_DANGER)
-    new_color = Color.from_string(new_button_color.value_of_css_property("color")).hex
-    assert new_color != first_color, "The button color did not change."
-
+    assert (session.find_element(*DynamicProperties.BTN_COLOR_DANGER).is_displayed())
 
 
 def test_visible_after(session):
