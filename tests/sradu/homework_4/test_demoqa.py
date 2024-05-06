@@ -4,7 +4,7 @@ from tests.sradu.homework_4.utils import (Condition, wait_for_condition, wait_fo
 from tests.sradu.homework_4.locators import SideMenuLocators, AlertsLocators, DragAndDropLocators
 
 
-def test_alert_confirm_box_ok(driver, action_chains):
+def test_alert_confirm_box_ok(driver):
     """
     1 - перейти до Alerts, Frame & Windows
     2 - перейти до Alerts
@@ -42,7 +42,7 @@ def test_alert_confirm_box_ok(driver, action_chains):
     assert confirm_text == "You selected Ok", f"Confirm text {confirm_text} did not match expected text"
 
 
-def test_droppable(driver, action_chains):
+def test_droppable(driver):
     """
     1 - перейти до Interactions
     2 - перейти до Droppable
