@@ -1,9 +1,9 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait as Wait
 from tests.sradu.homework_4.utils import (find_element, wait_for_all_elements, wait_for_text_to_change,
                                           get_menu_item, click_by_action_chains, drag_and_drop_by_action_chains,
                                           scroll_to_element)
 from tests.sradu.homework_4.locators import SideMenuLocators, AlertsLocators, DragAndDropLocators
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait as Wait
 from tests.sradu.homework_4.constants import DEFAULT_TIMEOUT
 
 

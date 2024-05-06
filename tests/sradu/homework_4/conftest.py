@@ -1,6 +1,6 @@
+import pytest
 from selenium.webdriver import Chrome
 from tests.sradu.homework_4.constants import HOST
-import pytest
 
 
 @pytest.fixture
