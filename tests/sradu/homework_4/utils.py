@@ -1,11 +1,11 @@
+from typing import List
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait as Wait
-from tests.sradu.homework_4.constants import DEFAULT_TIMEOUT
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
-from typing import List
+from tests.sradu.homework_4.constants import DEFAULT_TIMEOUT
 
 
 def find_element(driver, by, value, *, wait=DEFAULT_TIMEOUT, check=EC.visibility_of_element_located):
