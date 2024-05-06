@@ -1,8 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as Wait
-from tests.sradu.homework_4.utils import (find_element, wait_for_all_elements,
-                                          get_menu_item, click_by_action_chains, drag_and_drop_by_action_chains,
-                                          scroll_to_element)
+from tests.sradu.homework_4.utils import (find_element, wait_for_all_elements,get_menu_item, click_by_action_chains,
+                                          drag_and_drop_by_action_chains, scroll_to_element)
 from tests.sradu.homework_4.locators import SideMenuLocators, AlertsLocators, DragAndDropLocators
 from tests.sradu.homework_4.constants import DEFAULT_TIMEOUT
 
@@ -67,16 +66,13 @@ def test_droppable(driver):
     click_by_action_chains(droppable)
 
     # 3 - перевірити, що початкова назва більшого блоку, в який пересуватимемо маленький блок, становить `Drop here`
-    droppable_text_locator = DragAndDropLocators.get_locator_for_droppable_text_element("simpleDropContainer")
-    droppable_text_element = find_element(driver, *droppable_text_locator)
+    droppable_text_element = find_element(driver, * DragAndDropLocators.TXT_DROPPABLE_SIMPLE)
     droppable_text = droppable_text_element.text
     assert droppable_text == "Drop here", f"Text of droppable block {droppable_text} did not match expected text"
 
     # 4 - пересунути блок `Drag me` до блоку `Drop here`
-    source_locator = DragAndDropLocators.get_locator_for_draggable_element("simpleDropContainer")
-    target_locator = DragAndDropLocators.get_locator_for_droppable_element("simpleDropContainer")
-    source_element = find_element(driver, *source_locator)
-    target_element = find_element(driver, *target_locator)
+    source_element = find_element(driver, *DragAndDropLocators.DIV_DRAGGABLE_SIMPLE)
+    target_element = find_element(driver, *DragAndDropLocators.DIV_DROPPABLE_SIMPLE)
     drag_and_drop_by_action_chains(source_element, target_element)
 
     # 5 - перевірити, що нова назва більшого блоку, в який пересунуто маленький блок, становить `Dropped!`
