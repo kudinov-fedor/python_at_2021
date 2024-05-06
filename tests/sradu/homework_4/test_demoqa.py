@@ -66,14 +66,15 @@ def test_droppable(driver):
     click_by_action_chains(droppable)
 
     # 3 - перевірити, що початкова назва більшого блоку, в який пересуватимемо маленький блок, становить `Drop here`
-    droppable_text_element = find_element(driver, *DragAndDropLocators.TXT_DROPPABLE_SIMPLE)
+    droppable_text_locator = DragAndDropLocators.TXT_DROPPABLE_SIMPLE
+    droppable_text_element = find_element(driver, *droppable_text_locator)
     droppable_text = droppable_text_element.text
     assert droppable_text == "Drop here", f"Text of droppable block {droppable_text} did not match expected text"
 
     # 4 - пересунути блок `Drag me` до блоку `Drop here`
     source_element = find_element(driver, *DragAndDropLocators.DIV_DRAGGABLE_SIMPLE)
     target_element = find_element(driver, *DragAndDropLocators.DIV_DROPPABLE_SIMPLE)
-    drag_and_drop_by_action_chains(source_element, target_element)
+    drag_and_drop_by_action_chains(driver, source_element, target_element)
 
     # 5 - перевірити, що нова назва більшого блоку, в який пересунуто маленький блок, становить `Dropped!`
     assert Wait(driver, DEFAULT_TIMEOUT).until(EC.text_to_be_present_in_element(droppable_text_locator, "Dropped!"))
