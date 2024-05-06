@@ -4,7 +4,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait as Wait
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 from tests.sradu.homework_4.constants import DEFAULT_TIMEOUT
 
 
@@ -30,8 +29,8 @@ def click_by_action_chains(element: WebElement):
     action_chains.pause(1).move_to_element(element).pause(1).click().perform()
 
 
-def drag_and_drop_by_action_chains(source_element: WebElement, target_element: WebElement):
-    action_chains = ActionChains(source_element.parent)
+def drag_and_drop_by_action_chains(driver, source_element: WebElement, target_element: WebElement):
+    action_chains = ActionChains(driver)
     (action_chains.pause(1)
      .click_and_hold(source_element)
      .pause(1)

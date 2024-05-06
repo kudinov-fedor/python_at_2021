@@ -22,6 +22,6 @@ class AlertsLocators:
 
 
 class DragAndDropLocators:
-    DIV_DRAGGABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//p")
-    DIV_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='draggable']")
-    TXT_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='droppable'")
+    DIV_DRAGGABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='draggable']")
+    DIV_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='droppable']")
+    TXT_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//p")
