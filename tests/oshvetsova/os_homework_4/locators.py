@@ -12,5 +12,6 @@ class Buttons:
 
 class DynamicProperties:
     BTN_TEMP_DISABLED = (By.XPATH, "//*[@id='enableAfter']")
-    BTN_COLOR_CHANGE = (By.XPATH, "//*[ text() = 'Color Change']")
+    BTN_COLOR_CHANGE = (By.XPATH, "//button[@id='colorChange']")
+    BTN_COLOR_DANGER = (By.XPATH, "//*[contains(@class,'text-danger')]")
     BTN_VISIBLE_AFTER = (By.XPATH, "//*[@id='visibleAfter']")

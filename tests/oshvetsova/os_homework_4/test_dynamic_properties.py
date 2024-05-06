@@ -1,4 +1,3 @@
-import time
 from selenium.webdriver.support.color import Color
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,12 +14,13 @@ def test_button_enabled(session):
 
 def test_button_color_change(session):
     session.get(HOST + "dynamic-properties")
-    WebDriverWait(session, 6).until(EC.presence_of_element_located(DynamicProperties.BTN_COLOR_CHANGE))
-    changed_button = session.find_element(*DynamicProperties.BTN_COLOR_CHANGE)
-    first_button_color = Color.from_string(changed_button.value_of_css_property("color")).hex
-    time.sleep(5)
-    new_button_color = Color.from_string(changed_button.value_of_css_property("color")).hex
-    assert first_button_color != new_button_color, "The button color did not change."
+    first_button_color = session.find_element(*DynamicProperties.BTN_COLOR_CHANGE)
+    first_color = Color.from_string(first_button_color.value_of_css_property("color")).hex
+    WebDriverWait(session, 6).until(EC.presence_of_element_located(DynamicProperties.BTN_COLOR_DANGER))
+    new_button_color = session.find_element(*DynamicProperties.BTN_COLOR_DANGER)
+    new_color = Color.from_string(new_button_color.value_of_css_property("color")).hex
+    assert new_color != first_color, "The button color did not change."
+
 
 
 def test_visible_after(session):
