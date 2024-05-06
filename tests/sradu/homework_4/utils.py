@@ -16,14 +16,6 @@ def wait_for_all_elements(driver, by, value) -> List[WebElement]:
     return Wait(driver, DEFAULT_TIMEOUT).until(EC.visibility_of_all_elements_located((by, value)))
 
 
-def wait_for_text_to_change(driver, locator, expected_text, timeout=DEFAULT_TIMEOUT):
-    try:
-        Wait(driver, timeout).until(EC.text_to_be_present_in_element(locator, expected_text))
-        return True
-    except (TimeoutException, NoSuchElementException, StaleElementReferenceException):
-        return False
-
-
 def get_menu_item(driver: WebDriver, locator: tuple, text: str):
     elements = driver.find_elements(*locator)
     for element in elements:
