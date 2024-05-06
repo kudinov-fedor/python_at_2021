@@ -10,8 +10,3 @@ def driver():
     driver.get(HOST)
     yield driver
     driver.quit()
-
-
-@pytest.fixture
-def action_chains(driver):
-    return ActionChains(driver)
