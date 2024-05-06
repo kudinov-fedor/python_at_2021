@@ -1,4 +1,3 @@
-from enum import Enum, auto
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,30 +8,8 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 from typing import List
 
 
-class Condition(Enum):
-    ALERT_PRESENT = auto()
-    ELEMENT_VISIBLE = auto()
-    ELEMENT_CLICKABLE = auto()
-
-
-def get_condition(condition: Condition, locator=None):
-    if condition == Condition.ALERT_PRESENT:
-        return EC.alert_is_present()
-    elif condition == Condition.ELEMENT_VISIBLE:
-        if locator:
-            return EC.visibility_of_element_located(locator)
-        raise ValueError("Locator is required for ELEMENT_VISIBLE condition.")
-    elif condition == Condition.ELEMENT_CLICKABLE:
-        if locator:
-            return EC.element_to_be_clickable(locator)
-        raise ValueError("Locator is required for ELEMENT_CLICKABLE condition.")
-    else:
-        raise ValueError("Invalid condition specified.")
-
-
-def wait_for_condition(driver: WebDriver, condition_enum: Condition, locator=None, timeout=DEFAULT_TIMEOUT):
-    condition = get_condition(condition_enum, locator)
-    return Wait(driver, timeout).until(condition)
+def find_element(driver, by, value, *, wait=DEFAULT_TIMEOUT, check=EC.visibility_of_element_located):
+    return Wait(driver, wait).until(check((by, value)))
 
 
 def wait_for_all_elements(driver, by, value) -> List[WebElement]:
@@ -41,8 +18,7 @@ def wait_for_all_elements(driver, by, value) -> List[WebElement]:
 
 def wait_for_text_to_change(driver, locator, expected_text, timeout=DEFAULT_TIMEOUT):
     try:
-        element = Wait(driver, timeout).until(EC.visibility_of_element_located(locator))
-        Wait(driver, timeout).until(lambda _: element.text == expected_text)
+        Wait(driver, timeout).until(EC.text_to_be_present_in_element(locator, expected_text))
         return True
     except (TimeoutException, NoSuchElementException, StaleElementReferenceException):
         return False
@@ -57,13 +33,13 @@ def get_menu_item(driver: WebDriver, locator: tuple, text: str):
     raise RuntimeError(f"Element with {text} was not found")
 
 
-def click_by_action_chains(driver: WebDriver, element: WebElement):
-    action_chains = ActionChains(driver)
+def click_by_action_chains(element: WebElement):
+    action_chains = ActionChains(element.parent)
     action_chains.pause(1).move_to_element(element).pause(1).click().perform()
 
 
-def drag_and_drop_by_action_chains(driver: WebDriver, source_element: WebElement, target_element: WebElement):
-    action_chains = ActionChains(driver)
+def drag_and_drop_by_action_chains(source_element: WebElement, target_element: WebElement):
+    action_chains = ActionChains(source_element.parent)
     (action_chains.pause(1)
      .click_and_hold(source_element)
      .pause(1)
