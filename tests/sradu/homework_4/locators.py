@@ -22,16 +22,6 @@ class AlertsLocators:
 
 
 class DragAndDropLocators:
-
-    @classmethod
-    def get_locator_for_droppable_text_element(cls, div_id):
-        return By.XPATH, f"//div[@id='{div_id}']//p"
-
-    @classmethod
-    def get_locator_for_draggable_element(cls, div_id):
-        return By.XPATH, f"//div[@id='{div_id}']//div[@id='draggable']"
-
-    @classmethod
-    def get_locator_for_droppable_element(cls, div_id):
-        return By.XPATH, f"//div[@id='{div_id}']//div[@id='droppable']"
-
+    DIV_DRAGGABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//p")
+    DIV_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='draggable']")
+    TXT_DROPPABLE_SIMPLE = (By.XPATH, "//div[@id='simpleDropContainer']//div[@id='droppable'")
