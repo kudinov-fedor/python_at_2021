@@ -1,5 +1,4 @@
 import pytest
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains as AC
 
@@ -7,28 +6,14 @@ from selenium.webdriver.common.action_chains import ActionChains as AC
 DEMOQA_HOST = 'https://demoqa.com/'
 
 
-@pytest.fixture()
-def driver():
-    driver = Chrome()
-    driver.implicitly_wait(3)
-    yield driver
-    driver.quit()
-
-
-@pytest.mark.usefixtures("driver")
-def test_radiobutton(driver):
+@pytest.mark.parametrize("radio_button_id, expected_text", [
+    ("yesRadio", "Yes"),
+    ("impressiveRadio", "Impressive"),
+    ("noRadio", "No")
+])
+def test_radio_btn(driver, radio_button_id, expected_text):
     driver.get(DEMOQA_HOST + "radio-button")
-    yes_radio_btn = driver.find_element(By.CSS_SELECTOR, "#yesRadio")
-    AC(driver).click(yes_radio_btn).perform()
+    radio_btn = driver.find_element(By.CSS_SELECTOR, "#" + radio_button_id)
+    AC(driver).click(radio_btn).perform()
     text = driver.find_element(By.CSS_SELECTOR, ".text-success").text
-    assert text == 'Yes'
-
-    impressive_radio_btn = driver.find_element(By.CSS_SELECTOR, "#impressiveRadio")
-    AC(driver).click(impressive_radio_btn).perform()
-    text = driver.find_element(By.CSS_SELECTOR, ".text-success").text
-    assert text == 'Impressive'
-
-    no_radio_btn = driver.find_element(By.CSS_SELECTOR, "#noRadio")
-    AC(driver).click(no_radio_btn).perform()
-    text = driver.find_element(By.CSS_SELECTOR, ".text-success").text
-    assert text == 'No'
+    assert text == expected_text

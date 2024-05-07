@@ -17,6 +17,14 @@ def session():
     session.quit()
 
 
+@pytest.fixture()
+def driver():
+    driver = Chrome()
+    driver.implicitly_wait(3)
+    yield driver
+    driver.quit()
+
+
 @pytest.fixture(autouse=True)
 def login(session):
     session.get(HOST)
