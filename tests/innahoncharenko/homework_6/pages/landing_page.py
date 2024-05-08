@@ -9,12 +9,11 @@ from selenium.webdriver.remote.webelement import WebElement
 
 
 class Product:
-    def __init__(self, web_driver, web_element):
-        self.driver = web_driver
+    def __init__(self, web_element):
         self.element: WebElement = web_element
 
     @property
-    def get_item_name(self):
+    def name(self):
         return self.element.find_element(*InventoryItemsLocators.INVENTORY_ITEM_NAME)
 
     def click_element_button(self):
@@ -25,27 +24,20 @@ class Product:
 
     # Will return Item Page
     def open_item(self):
-        self.get_item_name.click()
-        return ItemPage(self.driver)
+        self.name.click()
+        return ItemPage(self.element.parent)
 
 
 class LandingPage(BasePage):
-    def __init__(self, driver):
-        BasePage.__init__(self, driver)
-        self.cart_element = CartElement(self.driver)
-
-    # Will return Cart page
-    def open_cart(self):
-        return self.cart_element.open_cart_page()
-
-    def get_items_in_cart_number(self):
-        return self.cart_element.get_items_in_cart_number
-
     def get_items(self) -> list[Product]:
         result = []
         elements = self.find_elements(InventoryItemsLocators.INVENTORY_ITEMS)
 
         for element in elements:
-            result.append(Product(self.driver, element))
+            result.append(Product(element))
 
         return result
+
+    @property
+    def cart_element(self):
+        return CartElement(self.find_element(CartLocators.CART))
