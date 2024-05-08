@@ -1,7 +1,6 @@
 from tests.threc.hw6.locators import LocProductsPage, LocCartPage, LocCheckoutPage
 from selenium.common import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 from tests.threc.hw6.page_object.product_details_page import ProductDetailsPage
@@ -59,11 +58,3 @@ class ProductElement(BaseElement):
         # navigate to the product details page
         self.click(self.find_element(*LocProductsPage.productTitle))
         return ProductDetailsPage(self.driver)
-
-    def get_badge_value(self) -> int:
-        # Returns the value displayed on the cart badge
-        try:
-            cart_badge = self.find_element(*LocProductsPage.cartBadgeProduct).text
-            return int(cart_badge)
-        except NoSuchElementException:
-            return 0
