@@ -125,7 +125,8 @@ def test_fill_order_form(driver):
     Check that the Finish page is opened
     """
     product_page = ProductPage(driver)
-    product_name = ProductElement(driver)   \
+    products = product_page.get_list_products()
+    product_name = products[0] \
         .add_to_cart()  \
         .get_name()
     assert product_name == constants.PRODUCT_NAME
