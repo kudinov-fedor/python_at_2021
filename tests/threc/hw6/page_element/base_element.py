@@ -26,8 +26,7 @@ class BaseElement:
     def click(self, locator, timeout=0):
         """Clicks an element with waiting for it to be clickable."""
         try:
-            element = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
-            element.click()
+            element = WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
         except TimeoutException:
             raise AssertionError(f"Timed out waiting for element to be clickable: {locator}")
 
@@ -40,7 +39,6 @@ class CartElement(BaseElement):
     def click_continue_btn(self):
         # find button continue and click it
         self.click(self.find_element(*LocCheckoutPage.btnContinueShopping))
-        # return ProductPage(self.driver)
 
     def click_checkout_btn(self) -> CheckoutPage:
         # find button checkout and click it
