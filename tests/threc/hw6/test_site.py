@@ -39,14 +39,13 @@ def test_add_to_card(driver):
     Add this product to the cart
     Check the amount of added products to the card by amount on the badge
     """
-    products = ProductPage(driver) \
+    products = ProductPage(driver)  \
         .get_list_products()
     assert len(products) == constants.PRODUCT_LENGTH
 
-    product = products[5]
     product_page = ProductPage(driver)
-    badge_value = product_page.add_product_to_cart(product) \
-        .get_badge_value()
+    product_page.add_product_to_cart(0)
+    badge_value = product_page.get_badge_value()
     assert badge_value == constants.CART_BADGE
 
 
@@ -57,11 +56,10 @@ def test_add_all_cart(driver):
     Add all product to the cart
     Check the amount of added products to the cart by amount on the badge
     """
-    products = ProductPage(driver) \
-        .get_list_products()
-    for product in products:
-        ProductPage(driver) \
-            .add_product_to_cart(product)
+    product_page = ProductPage(driver)
+    products = product_page.get_list_products()
+    for i in range(len(products)):
+        product_page.add_product_to_cart(i)
     badge_value = ProductPage(driver) \
         .get_badge_value()
     assert badge_value == constants.CART_BADGE_ALL_PRODUCTS
@@ -77,12 +75,11 @@ def test_navigation_to_cart(driver):
     """
     products = ProductPage(driver) \
         .get_list_products()
-    product = products[0]
     ProductPage(driver) \
-        .add_product_to_cart(product)
+        .add_product_to_cart(0)
 
     product_name = ProductElement(driver) \
-        .find_and_get_product_name(product)
+        .find_and_get_product_name(products[0])
     assert product_name == constants.PRODUCT_NAME
 
     CartPage(driver) \
@@ -98,11 +95,10 @@ def test_continue_shopping(driver):
     Click on the Continue shopping button
     Check the navigation to the Product page
     """
-    products = ProductPage(driver) \
-        .get_list_products()
-    product = products[3]
     ProductPage(driver) \
-        .add_product_to_cart(product)
+        .get_list_products()
+    ProductPage(driver) \
+        .add_product_to_cart(3)
 
     CartPage(driver) \
         .open_cart()
@@ -118,11 +114,10 @@ def test_navigate_checkout(driver):
     Click on the Checkout button
     Check that the Checkout step first is opened
     """
-    products = ProductPage(driver) \
-        .get_list_products()
-    product = products[2]
     ProductPage(driver) \
-        .add_product_to_cart(product)
+        .get_list_products()
+    ProductPage(driver) \
+        .add_product_to_cart(2)
 
     CartPage(driver) \
         .open_cart()
@@ -144,11 +139,10 @@ def test_fill_order_form(driver):
     """
     products = ProductPage(driver) \
         .get_list_products()
-    product = products[0]
     ProductPage(driver) \
-        .add_product_to_cart(product)
+        .add_product_to_cart(0)
     product_name = ProductElement(driver) \
-        .find_and_get_product_name(product)
+        .find_and_get_product_name(products[0])
     assert product_name == constants.PRODUCT_NAME
 
     CartPage(driver) \
