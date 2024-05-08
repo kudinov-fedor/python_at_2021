@@ -1,11 +1,11 @@
 from tests.threc.hw6 import constants
 from tests.threc.hw6.page_object.base_page import BasePage
-from tests.threc.hw6.page_element.base_element import BaseElement
+
 from tests.threc.hw6.page_object.product_page import ProductPage
 from tests.threc.hw6.locators import LocSignupPage
 
 
-class LoginPage(BasePage, BaseElement):
+class LoginPage(BasePage):
     def open(self):
         # open url
         self.driver.get(constants.URL_HOST)
