@@ -1,6 +1,6 @@
 from typing import List
 from selenium.common import NoSuchElementException
-from tests.threc.hw6.page_element.base_element import BaseElement, ProductElement
+from tests.threc.hw6.page_element.base_element import BaseElement, ProductElement, LocCartPage
 from tests.threc.hw6.locators import LocProductsPage
 
 
@@ -19,3 +19,7 @@ class ProductPage(BaseElement):
             return int(cart_badge)
         except NoSuchElementException:
             return 0
+
+    def open_cart(self):
+        # open cart page
+        return self.click(self.find_element(*LocCartPage.cartLink))

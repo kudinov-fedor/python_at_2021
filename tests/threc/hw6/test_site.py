@@ -71,14 +71,15 @@ def test_navigation_to_cart(driver):
     Open cart page
     Compare name of added product from the cart with the name of the product from the products page
     """
-    ProductPage(driver).get_list_products()
+    product_page = ProductPage(driver)
+    product_page .get_list_products()
     product_element = ProductElement(driver)
     product_element.add_to_cart()
 
     product_name = product_element.get_name()
     assert product_name == constants.PRODUCT_NAME
 
-    CartPage(driver).open_cart()
+    product_page.open_cart()
     assert CartElement(driver).get_name() == product_name
 
 
@@ -90,12 +91,11 @@ def test_continue_shopping(driver):
     Click on the Continue shopping button
     Check the navigation to the Product page
     """
-    ProductPage(driver).get_list_products()
+    product_page = ProductPage(driver)
+    product_page.get_list_products()
     ProductElement(driver).add_to_cart()
-
-    cart_page = CartPage(driver)
-    cart_page.open_cart()
-    cart_page.click_continue_btn()
+    product_page.open_cart()
+    CartPage(driver).click_continue_btn()
     assert driver.current_url in constants.URL_MAIN_PRODUCT_PAGE
 
 
@@ -106,11 +106,11 @@ def test_navigate_checkout(driver):
     Click on the Checkout button
     Check that the Checkout step first is opened
     """
-    ProductPage(driver).get_list_products()
-    ProductElement(driver).add_to_cart()
+    product_page = ProductPage(driver)
+    product_page.get_list_products()
+    product_page.open_cart()
 
     cart_page = CartPage(driver)
-    cart_page.open_cart()
     cart_page.click_checkout_btn()
     assert driver.current_url in constants.URL_CHECKOUT_STEP_ONE
 
@@ -126,14 +126,14 @@ def test_fill_order_form(driver):
     Click on the Finish button
     Check that the Finish page is opened
     """
-    ProductPage(driver).get_list_products()
+    product_page = ProductPage(driver)
     product_name = ProductElement(driver)   \
         .add_to_cart()  \
         .get_name()
     assert product_name == constants.PRODUCT_NAME
 
+    product_page.open_cart()
     cart_page = CartPage(driver)
-    cart_page.open_cart()
     cart_page.click_checkout_btn()
 
     checkout_page = CheckoutPage(driver)
