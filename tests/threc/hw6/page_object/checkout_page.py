@@ -1,5 +1,6 @@
 from tests.threc.hw6.locators import LocFillForm
 from tests.threc.hw6.page_object.base_page import BasePage
+from tests.threc.hw6.page_object.finish_page import FinishPage
 
 
 class CheckoutPage(BasePage):
@@ -9,3 +10,13 @@ class CheckoutPage(BasePage):
         self.find_element(*LocFillForm.lastName).send_keys(last_name)
         self.find_element(*LocFillForm.zipCode).send_keys(zip_code)
         return self
+
+    def click_submit_btn(self):
+        # submit checkout form
+        self.click(self.find_element(*LocFillForm.btnContinue))
+        return self
+
+    def click_finish_btn(self) -> FinishPage:
+        # find finish button and click it
+        self.click(self.find_element(*LocFillForm.btnFinish))
+        return FinishPage(self.driver)
