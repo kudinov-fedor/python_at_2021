@@ -4,9 +4,7 @@ from tests.threc.hw6.locators import LocCartPage, LocCheckoutPage
 
 
 class CartPage(BasePage):
-    def open_cart(self):
-        # open cart page
-        return self.click(self.find_element(*LocCartPage.cartLink))
+
 
     def click_continue_btn(self):
         # find button continue and click it
