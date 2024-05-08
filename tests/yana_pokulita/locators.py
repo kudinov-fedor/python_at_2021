@@ -10,6 +10,7 @@ class CartLocators:
     # check number of items in the cart
 
     CartItems = (By.XPATH, ".//*[@class='cart_item']")
+    CartItem = (By.CSS_SELECTOR, ".cart_quantity")
     CheckOutBtn = (By.CSS_SELECTOR, "#checkout")
 
     # delete element from the cart
