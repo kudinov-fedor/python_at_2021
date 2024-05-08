@@ -72,11 +72,10 @@ def test_navigation_to_cart(driver):
     Compare name of added product from the cart with the name of the product from the products page
     """
     product_page = ProductPage(driver)
-    product_page .get_list_products()
-    product_element = ProductElement(driver)
-    product_element.add_to_cart()
+    products = product_page.get_list_products()
+    products[0].add_to_cart()
 
-    product_name = product_element.get_name()
+    product_name = products[0].get_name()
     assert product_name == constants.PRODUCT_NAME
 
     product_page.open_cart()
@@ -92,8 +91,8 @@ def test_continue_shopping(driver):
     Check the navigation to the Product page
     """
     product_page = ProductPage(driver)
-    product_page.get_list_products()
-    ProductElement(driver).add_to_cart()
+    products = product_page.get_list_products()
+    products[0].add_to_cart()
     product_page.open_cart()
     CartPage(driver).click_continue_btn()
     assert driver.current_url in constants.URL_MAIN_PRODUCT_PAGE
@@ -107,7 +106,6 @@ def test_navigate_checkout(driver):
     Check that the Checkout step first is opened
     """
     product_page = ProductPage(driver)
-    product_page.get_list_products()
     product_page.open_cart()
 
     cart_page = CartPage(driver)
