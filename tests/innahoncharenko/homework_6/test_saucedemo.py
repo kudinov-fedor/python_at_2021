@@ -2,10 +2,10 @@ import pytest
 import time
 from selenium.webdriver import Chrome
 from selenium.common import NoSuchElementException
-from tests.innahoncharenko.homework_5.pages.locators import *
+from tests.innahoncharenko.homework_6.pages.locators import *
+from tests.innahoncharenko.homework_6.config import Config
+from tests.innahoncharenko.homework_6 import pages
 
-from config import Config
-import pages
 
 @pytest.fixture
 def open_session():
@@ -28,7 +28,7 @@ def landing_page(open_session):
         .submit()
 
 
-def test_basic_flow(landing_page):
+def test_basic_flow(landing_page: pages.LandingPage):
     """
     Check number of items on page
     add 1 item to cart from landing page
@@ -43,6 +43,7 @@ def test_basic_flow(landing_page):
     """
 
     products: list[pages.Product] = landing_page.get_items()
+    cart_element: pages.CartElement = landing_page.cart_element
 
     assert len(products) == 6
 
@@ -50,10 +51,10 @@ def test_basic_flow(landing_page):
     products[0].add_item_to_cart()
 
     # Check Cart badge is updated
-    assert landing_page.get_items_in_cart_number() == 1
+    assert cart_element.items_in_cart_number == 1
 
     # Check Cart contains added item
-    cart = landing_page.open_cart()
+    cart = cart_element.open_cart_page()
     assert cart.get_items_number() == 1
 
     # Check Continue Shopping button
@@ -66,10 +67,11 @@ def test_basic_flow(landing_page):
     assert "?id=" in item_page.get_current_url()
 
     item_page.add_to_cart()
+    cart_element: pages.CartElement = item_page.cart_element
     # Check Cart and its badge are updated
-    assert item_page.get_items_in_cart_number() == 2
+    assert cart_element.items_in_cart_number == 2
 
-    cart_page = item_page.open_cart()
+    cart_page = cart_element.open_cart_page()
     assert cart_page.get_items_number() == 2
 
     # Checkout and confirm
@@ -80,33 +82,36 @@ def test_basic_flow(landing_page):
     finish_page.finish()
 
 
-def test_delete_items(landing_page):
+def test_delete_items(landing_page: pages.LandingPage):
+    cart_element: pages.CartElement = landing_page.cart_element
     # Add three items to the cart
     products = landing_page.get_items()
     products[0].add_item_to_cart()
     products[1].add_item_to_cart()
     products[2].add_item_to_cart()
 
-    assert landing_page.get_items_in_cart_number() == 3
+    assert cart_element.items_in_cart_number == 3
     # Remove an item from the landing page
     products[0].remove_item_from_cart()
-    assert landing_page.get_items_in_cart_number() == 2
+    assert cart_element.items_in_cart_number == 2
     item_page = products[1].open_item()
 
     # Remove an item from the Item page
     item_page.remove_from_cart()
-    assert item_page.get_items_in_cart_number() == 1
-    cart_page = item_page.open_cart()
+    cart_element: pages.CartElement = item_page.cart_element
+    assert cart_element.items_in_cart_number == 1
+    cart_page = cart_element.open_cart_page()
     # Remove an item from the Cart page
     cart_page.remove_item(0)
     assert cart_page.get_items_number() == 0
 
 
-def test_cart_is_empty(landing_page):
+def test_cart_is_empty(landing_page: pages.LandingPage):
+    cart_element: pages.CartElement = landing_page.cart_element
     # Ensure Cart badge is not displayed
-    assert landing_page.get_items_in_cart_number() == 0
+    assert cart_element.items_in_cart_number == 0
 
-    cart = landing_page.open_cart()
+    cart = cart_element.open_cart_page()
 
     # Ensure cart is empty
     assert cart.get_items_number() == 0
