@@ -1,12 +1,16 @@
-from tests.threc.hw6.locators import LocCheckoutPage, LocProductsPage, LocCartPage, LocFillForm
-from tests.threc.hw6.page_object.base_page import BasePage
+from tests.threc.hw6.locators import LocProductsPage, LocCartPage, LocFillForm, LocCheckoutPage
 from selenium.common import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.remote.webelement import WebElement
+from tests.threc.hw6.page_object.product_details_page import ProductDetailsPage
+from tests.threc.hw6.page_object.finish_page import FinishPage
+from tests.threc.hw6.page_object.checkout_page import CheckoutPage
 
 
 class BaseElement:
-    def __init__(self, driver):
+    def __init__(self, driver: WebElement):
         self.driver = driver
 
     @classmethod
@@ -29,30 +33,60 @@ class BaseElement:
 
 
 class CartElement(BaseElement):
-    def get_product_name(self) -> str:
+    def get_name(self) -> str:
         # get added to cart product name
         return self.text(self.find_element(*LocCartPage.cartProductName))
 
+    def click_continue_btn(self):
+        # find button continue and click it
+        self.click(self.find_element(*LocCheckoutPage.btnContinueShopping))
+        # return ProductPage(self.driver)
 
-class CheckoutElement(BaseElement, BasePage):
-    def find_and_get_product_label(self) -> str:
+    def click_checkout_btn(self) -> CheckoutPage:
+        # find button checkout and click it
+        self.click(self.find_element(*LocCheckoutPage.btnCheckout))
+        return CheckoutPage(self.driver)
+
+
+class CheckoutElement(BaseElement):
+    def get_label(self) -> str:
         # find product name and get this name
         return self.text(self.find_element(*LocCheckoutPage.checkoutItem))
 
+    def click_submit_btn(self):
+        # submit checkout form
+        self.click(self.find_element(*LocFillForm.btnContinue))
+        return self
+
+    def click_finish_btn(self) -> FinishPage:
+        # find finish button and click it
+        self.click(self.find_element(*LocFillForm.btnFinish))
+        return FinishPage(self.driver)
+
 
 class ProductElement(BaseElement):
-    def find_and_get_product_name(self, product) -> str:
+    """
+    продукт один та операція над продуктом
+    сутність цього інстансу - це продукт який в ньому знаходиться
+    """
+    def get_name(self) -> str:
         # Find and get product label
-        return self.text(product.find_element(*LocProductsPage.productTitle))
+        return self.text(self.find_element(*LocProductsPage.productTitle))
 
+    def add_product_to_cart(self):
+        # Add product to cart
+        self.click(self.find_element(*LocProductsPage.btnAddToCart))
+        return self
 
-class ProductDetailsElement(BaseElement):
-    def get_product_name(self) -> str:
-        # Get product name
-        return self.text(self.find_element(*LocProductsPage.productDetailsPage))
+    def link_to_product_details(self) -> ProductDetailsPage:
+        # navigate to the product details page
+        self.click(self.find_element(*LocProductsPage.productTitle))
+        return ProductDetailsPage(self.driver)
 
-
-class FinishElement(BaseElement):
-    def get_finish_order_title(self) -> str:
-        # find on the finish page title and get this title
-        return self.text(self.find_element(*LocFillForm.finishOrderTitle))
+    def get_badge_value(self) -> int:
+        # Returns the value displayed on the cart badge
+        try:
+            cart_badge = self.find_element(*LocProductsPage.cartBadgeProduct).text
+            return int(cart_badge)
+        except NoSuchElementException:
+            return 0
