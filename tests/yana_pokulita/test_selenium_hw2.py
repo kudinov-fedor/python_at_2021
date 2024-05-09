@@ -25,14 +25,15 @@ def test_basic_flow(session):
 
     # check nuber of items on the cart page
     cart_page = page.CartPage(session)
-    assert len(cart_page.get_cart_items()) == 2
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 2
 
     # go to checkout
     cart_page.go_to_checkout_page()
 
     # fill the order form
-    checkout__info_page = page.CheckoutInformationPage(session)
-    checkout__info_page.fill_order_form('Jonh', 'Adams', '001011')
+    checkout_info_page = page.CheckoutInformationPage(session)
+    checkout_info_page.fill_order_form('Jonh', 'Adams', '001011')
 
     # order submission
     checkout_overview_page = page.CheckoutOverviewPage(session)
@@ -64,13 +65,15 @@ def test_product_can_be_removed_flow(session):
 
     # check nuber of items in the cart page
     cart_page = page.CartPage(session)
-    assert len(cart_page.get_cart_items()) == 2
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 2
 
     # delete element from the cart
-    cart_page.remove_cart_item(0)
+    products_in_cart[0].remove_cart_item()
 
     # check nuber of items on the cart page
-    assert len(cart_page.get_cart_items()) == 1
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 1
 
 
 def test_cart_is_empty_after_login(session):
@@ -86,7 +89,8 @@ def test_cart_is_empty_after_login(session):
 
     # check number of items on the cart page
     cart_page = page.CartPage(session)
-    assert len(cart_page.get_cart_items()) == 0
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 0
 
 
 def test_checkout_disabled_if_cart_empty(session):
