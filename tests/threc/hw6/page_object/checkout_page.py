@@ -1,6 +1,9 @@
-from tests.threc.hw6.locators import LocFillForm
+from tests.threc.hw6.locators import LocFillForm, LocCheckoutPage
 from tests.threc.hw6.page_object.base_page import BasePage
 from tests.threc.hw6.page_object.finish_page import FinishPage
+from typing import List
+
+from tests.threc.hw6.page_element.base_element import CheckoutElement
 
 
 class CheckoutPage(BasePage):
@@ -20,3 +23,10 @@ class CheckoutPage(BasePage):
         # find finish button and click it
         self.click(self.find_element(*LocFillForm.btnFinish))
         return FinishPage(self.driver)
+
+    def get_added_products(self) -> List[CheckoutElement]:
+        # List of added products to the cart on the overview
+        added_products = []
+        for p in self.find_elements(*LocCheckoutPage.addedProducts):
+            added_products.append(CheckoutElement(p))
+        return added_products
