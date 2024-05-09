@@ -1,7 +1,5 @@
 import pytest
-from selenium.common import NoSuchElementException
-from tests.vvashchu.locators import Cart
-from tests.vvashchu.locators import ProductPage
+from tests.vvashchu import pages
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -16,35 +14,31 @@ def test_basic(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(*ProductPage.cart)
-    cart_badge = cart.find_element(*ProductPage.cart_badge)
-    assert cart_badge.text == '2'
+    products_page = pages.ProductsPage(session)
+    assert products_page.get_cart_badge() == 2
 
     # перехід в корзину
-    cart.click()
+    products_page.go_to_cart_page()
 
     # перевірка кількості елементів в корзині
-    cart_items = session.find_elements(*Cart.cart_items)
-    assert len(cart_items) == 2
+    cart_page = pages.CartPage(session)
+    assert len(cart_page.get_cart_items()) == 2
 
     # перехід до оформлення замовлення
-    session.find_element(*Cart.checkout_btn).click()
+    cart_page.go_to_checkout_page()
 
     # заповнення форми замовлення
-    session.find_element(*Cart.FirstName).send_keys("Lilia")
-    session.find_element(*Cart.LastName).send_keys("Broks")
-    session.find_element(*Cart.PostalCode).send_keys("001011")
-    session.find_element(*Cart.continue_btn).click()
+    checkout_info_page = pages.CheckoutInfoPage(session)
+    checkout_info_page.fill_order_form('Jonh', 'Adams', '001011')
 
     # виконання замовлення
-    session.find_element(*Cart.finish_btn).click()
+    checkout_overview_page = pages.CheckoutOverviewPage(session)
+    checkout_overview_page.finish_order()
 
     # перевірка, що корзина пуста
-    session.find_element(*Cart.back_home_btn).click()
-    cart = session.find_element(*ProductPage.cart)
-
-    with pytest.raises(NoSuchElementException):
-        cart.find_element(*ProductPage.cart_badge)
+    checkout_complete_page = pages.CheckoutCompletePage(session)
+    checkout_complete_page.back_to_products()
+    assert products_page.get_cart_badge() == 0
 
 
 @pytest.mark.usefixtures("cart_with_2_items")
@@ -58,23 +52,21 @@ def test_product_can_be_removed(session):
     """
 
     # перевірка індикатора корзини
-    cart = session.find_element(*ProductPage.cart)
-    cart_badge = cart.find_element(*ProductPage.cart_badge)
-    assert cart_badge.text == '2'
+    product_page = pages.ProductsPage(session)
+    assert product_page.get_cart_badge() == 2
 
     # перехід в корзину
-    cart.click()
+    product_page.go_to_cart_page()
 
     # перевірка кількості елементів в корзині
-    cart_items = session.find_elements(*Cart.cart_items)
-    assert len(cart_items) == 2
+    cart_page = pages.CartPage(session)
+    assert len(cart_page.get_cart_items()) == 2
 
     # видалення елементу
-    cart_items[0].find_element(*Cart.remove_first_item_btn).click()
+    cart_page.remove_cart_item(0)
 
     # перевірка кількості елементів в корзині
-    cart_items = session.find_elements(*Cart.cart_items)
-    assert len(cart_items) == 1
+    assert len(cart_page.get_cart_items()) == 1
 
 
 def test_checkout_disabled_if_cart_empty(session):
@@ -84,12 +76,12 @@ def test_checkout_disabled_if_cart_empty(session):
     """
 
     # перехід в корзину
-    cart = session.find_element(*ProductPage.cart)
-    cart.click()
+    product_page = pages.ProductsPage(session)
+    product_page.go_to_cart_page()
 
     # перевірка кількості елементів в корзині
-    items = session.find_elements(*Cart.cart_items)
-    assert len(items) == 0
+    cart_page = pages.CartPage(session)
+    assert len(cart_page.get_cart_items()) == 0
 
-    checkout_button = session.find_element(*Cart.checkout_btn).is_enabled()
-    assert checkout_button is True
+    cart_page = pages.CartPage(session)
+    assert cart_page.is_checkout_enabled() is True

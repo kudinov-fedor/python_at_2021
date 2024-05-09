@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class Cart:
+class CartLocators:
     # перевірка кількості елементів в корзині
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     cart_items = (By.XPATH, "//*[contains(@class,'cart_list')]//*[@class='cart_item']")
@@ -33,7 +33,7 @@ class Cart:
     remove_first_item_btn = (By.XPATH, "//button[@id='remove-sauce-labs-backpack']")
 
 
-class LoginPage:
+class LoginPageLocators:
     # вхід в систему
     # (By.ID, "user-name")
     UserName = (By.XPATH, "//*[@id='user-name']")
@@ -43,7 +43,7 @@ class LoginPage:
     LoginBtn = (By.XPATH, "//*[@id='login-button']")
 
 
-class ProductPage:
+class ProductPageLocators:
     # додавання елементів
     # (By.CSS_SELECTOR, ".inventory_list .inventory_item")
     product = \
