@@ -1,11 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome, ChromeOptions
-from tests.vvashchu.locators import LoginPage
-from tests.vvashchu.locators import ProductPage
-
-HOST = "https://www.saucedemo.com"
-LOGIN = "standard_user"
-PASSORD = "secret_sauce"
+from tests.vvashchu import pages
+from tests.vvashchu import constants
 
 
 @pytest.fixture
@@ -27,20 +23,19 @@ def driver():
 
 @pytest.fixture(autouse=True)
 def login(session):
-    session.get(HOST)
 
     # вхід в систему
-    session.find_element(*LoginPage.UserName).send_keys(LOGIN)
-    session.find_element(*LoginPage.Password).send_keys(PASSORD)
-    session.find_element(*LoginPage.LoginBtn).click()
+    login_page = pages.LoginPage(session)
+    login_page.open()
+    login_page.fill_form(constants.LOGIN, constants.PASSWORD)
 
 
 @pytest.fixture
 @pytest.mark.usefixtures("login")
 def cart_with_2_items(session):
 
-    cart_items = session.find_elements(*ProductPage.product)
-    assert len(cart_items) == 6
+    products_page = pages.ProductsPage(session)
+    assert len(products_page.get_products()) == 6
 
-    cart_items[0].find_element(*ProductPage.product_add_to_cart_btn).click()
-    cart_items[2].find_element(*ProductPage.product_add_to_cart_btn).click()
+    products_page.move_product_to_cart(0)
+    products_page.move_product_to_cart(3)
