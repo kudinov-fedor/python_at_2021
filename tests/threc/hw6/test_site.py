@@ -3,7 +3,6 @@ from tests.threc.hw6.page_object.product_details_page import ProductDetailsPage
 from tests.threc.hw6.page_object.finish_page import FinishPage
 from tests.threc.hw6.page_object.cart_page import CartPage
 from tests.threc.hw6.page_object.checkout_page import CheckoutPage
-from tests.threc.hw6.page_element.base_element import CartElement, ProductElement, CheckoutElement
 import constants
 
 
@@ -19,9 +18,8 @@ def test_product_details(driver):
     products = ProductPage(driver).get_list_products()
     assert len(products) == 6
 
-    product_element = ProductElement(driver)
-    product_name = product_element.get_name()
-    product_element.go_to_details()
+    product_name = products[0].get_name()
+    products[0].go_to_details()
 
     product_details_name = ProductDetailsPage(driver).get_product_name()
     assert product_name == product_details_name
@@ -41,7 +39,7 @@ def test_add_to_card(driver):
     products = product_page.get_list_products()
     assert len(products) == constants.PRODUCT_LENGTH
 
-    ProductElement(driver).add_to_cart()
+    products[0].add_to_cart()
     badge_value = product_page.get_badge_value()
     assert badge_value == constants.CART_BADGE
 
@@ -79,7 +77,10 @@ def test_navigation_to_cart(driver):
     assert product_name == constants.PRODUCT_NAME
 
     product_page.open_cart()
-    assert CartElement(driver).get_name() == product_name
+    cart_page = CartPage(driver)
+    added_products = cart_page.get_products()
+    cart_product_name = added_products[0].get_name()
+    assert cart_product_name == product_name
 
 
 def test_continue_shopping(driver):
@@ -137,10 +138,11 @@ def test_fill_order_form(driver):
 
     checkout_page = CheckoutPage(driver)
     checkout_page.fill_form(constants.FIRST_NAME, constants.LAST_NAME, constants.ZIPCODE)
-    checkout_element = CheckoutElement(driver)
     checkout_page.click_submit_btn()
-    checkout_product_name = checkout_element.get_label()
-    assert product_name == checkout_product_name
+
+    added_products = checkout_page.get_added_products()
+    overview_product_name = added_products[0].get_name()
+    assert product_name == overview_product_name
 
     checkout_page.click_finish_btn()
     finish_title = FinishPage(driver).get_finish_order_title()

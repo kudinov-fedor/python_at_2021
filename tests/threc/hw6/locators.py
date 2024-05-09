@@ -24,6 +24,7 @@ class LocCartPage:
     cartBadge = (By.XPATH, ".//*[contains(@class, 'shopping_cart_badge')]")
     cartLink = (By.CSS_SELECTOR, ".shopping_cart_container .shopping_cart_link")
     cartProductName = (By.XPATH, "//*[@id='item_4_title_link']/div")
+    cartAddedProducts = (By.CSS_SELECTOR, ".cart_list .cart_item")
 
 
 class LocCheckoutPage:
@@ -32,6 +33,7 @@ class LocCheckoutPage:
     checkoutItem = (By.CSS_SELECTOR, ".cart_item_label .inventory_item_name")
     # btnContinueShopping = (By.ID, "continue-shopping")
     btnContinueShopping = (By.CSS_SELECTOR, ".cart_footer .btn_medium[name='continue-shopping'")
+    addedProducts = (By.CSS_SELECTOR, ".cart_list .cart_item")
 
 
 class LocFillForm:

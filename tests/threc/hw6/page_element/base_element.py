@@ -35,7 +35,7 @@ class CartElement(BaseElement):
 
 
 class CheckoutElement(BaseElement):
-    def get_label(self) -> str:
+    def get_name(self) -> str:
         # find product name and get this name
         return self.text(self.find_element(*LocCheckoutPage.checkoutItem))
 
