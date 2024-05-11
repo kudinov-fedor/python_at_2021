@@ -1,7 +1,7 @@
 from tests.yspryn.test_HW6.pages.base_page import BasePage
-from tests.yspryn.test_HW6.pages import locators
 from selenium.common import NoSuchElementException
 from tests.yspryn.test_HW6.pages.base_elements import CatalogElement
+from tests.yspryn.test_HW6.pages import locators
 
 
 class CatalogPage(BasePage):

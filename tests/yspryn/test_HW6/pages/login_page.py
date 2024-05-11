@@ -14,7 +14,7 @@ class LoginPage(BasePage):
 
     def submit_form(self):
         """
-        submit
+        submit login form
         """
         from tests.yspryn.test_HW6.pages.catalog_page import CatalogPage
 

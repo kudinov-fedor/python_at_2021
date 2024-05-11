@@ -1,6 +1,6 @@
 from tests.yspryn.test_HW6.pages.base_page import BasePage
-from tests.yspryn.test_HW6.pages import locators
 from tests.yspryn.test_HW6.pages.base_elements import CartElement
+from tests.yspryn.test_HW6.pages import locators
 
 
 class CartPage(BasePage):

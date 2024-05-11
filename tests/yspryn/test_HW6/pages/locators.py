@@ -14,8 +14,8 @@ class LandingPage:
     BTN_ADD_TO_CART = (By.CSS_SELECTOR, ".pricebar button")
     BTN_CART_LOCATE = (By.XPATH, "//*[@id='shopping_cart_container']")
     TXT_CART_BADGE = (By.CSS_SELECTOR, ".shopping_cart_badge")
-    TXT_ITEM_PRICE = (By.CSS_SELECTOR, "div.inventory_item_price")
     TXT_ITEM_NAME = (By.CSS_SELECTOR, "div.inventory_item_name")
+    TXT_ITEM_PRICE = (By.CSS_SELECTOR, "div.inventory_item_price")
 
 
 class CartPage:

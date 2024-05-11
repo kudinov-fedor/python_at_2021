@@ -20,7 +20,7 @@ def test_products_available(session):
 
 def test_first_product(session):
     """
-    1. check first product name
+    1. check  first product name
     2. check first product prise
     """
     catalog_page = pages.CatalogPage(session).list_of_products_to_buy()

@@ -21,11 +21,11 @@ class CatalogElement(BaseElement):
     def add_item_to_cart(self):
         return self.find_element(*locators.LandingPage.BTN_ADD_TO_CART).click()
 
-    def get_price(self) -> str:
-        return self.find_element(*locators.LandingPage.TXT_ITEM_PRICE).text
-
     def get_product_name(self) -> str:
         return self.find_element(*locators.LandingPage.TXT_ITEM_NAME).text
+
+    def get_price(self) -> str:
+        return self.find_element(*locators.LandingPage.TXT_ITEM_PRICE).text
 
 
 class CartElement(BaseElement):

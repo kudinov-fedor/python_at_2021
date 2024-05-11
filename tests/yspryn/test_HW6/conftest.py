@@ -26,4 +26,4 @@ def user_login(session):
 def add_products_to_cart(session):
     catalog_page = pages.CatalogPage(session).list_of_products_to_buy()
     catalog_page[0].add_item_to_cart()
-    catalog_page[3].add_item_to_cart()
+    catalog_page[2].add_item_to_cart()

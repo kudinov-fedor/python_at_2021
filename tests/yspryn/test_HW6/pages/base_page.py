@@ -21,5 +21,5 @@ class BasePage:
     def click(self, by: str, locator: str):
         return self.find_element(by, locator).click()
 
-    def get_price(self,by: str, locator: str):
+    def get_price(self, by: str, locator: str):
         return self.find_element(by, locator).text
