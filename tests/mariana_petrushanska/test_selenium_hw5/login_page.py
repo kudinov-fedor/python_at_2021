@@ -1,4 +1,3 @@
-from typing import Self
 from tests.mariana_petrushanska.test_selenium_hw5.base_page import BasePage
 from tests.mariana_petrushanska.test_selenium_hw5.product_page import ProductsPage
 from tests.mariana_petrushanska.test_selenium_hw5.locators import LoginPageLoc
@@ -6,7 +5,7 @@ from tests.mariana_petrushanska.test_selenium_hw5.locators import LoginPageLoc
 
 class LoginPage(BasePage):
 
-    def fill_in_login_form(self, login: str, password: str) -> Self:
+    def fill_in_login_form(self, login: str, password: str):
         """
         Fill in login form
         """

@@ -1,11 +1,10 @@
-from typing import Self
 from tests.mariana_petrushanska.test_selenium_hw5 import BasePage
 from tests.mariana_petrushanska.test_selenium_hw5.locators import InformationPageLoc
 
 
 class InformationPage(BasePage):
 
-    def fill_in_delivery_form(self, name: str, surname: str, zip: str) -> Self:
+    def fill_in_delivery_form(self, name: str, surname: str, zip: str):
         """
         Fill in user's information for delivery
         """

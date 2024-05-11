@@ -18,10 +18,6 @@ class OverviewPage(BasePage):
         items = self.find_elements(*OverviewPageLoc.LST_ITEMS_TO_BUY)
         return items
 
-    def get_item(self):
-        item = self.find_element(*OverviewPageLoc.LST_ITEMS_TO_BUY)
-        return item
-
     def item_price(self, item):
         price = item.find_element(*OverviewPageLoc.TXT_ITEM_PRICE).text
         return float(price.replace('$', ''))

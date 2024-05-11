@@ -25,7 +25,7 @@ class CartItemsLoc:
     # LST_CART_ITEMS = (By.CSS_SELECTOR, ".cart_list .cart_item")
     LST_CART_ITEMS = (By.XPATH, ".//*[@class='cart_item']")
     # BTN_REMOVE_SECOND_ITEM = (By.ID, "remove-sauce-labs-fleece-jacket")
-    BTN_REMOVE_SECOND_ITEM = (By.XPATH, "//*[@id='remove-sauce-labs-fleece-jacket']")
+    BTN_REMOVE_ITEM = (By.CSS_SELECTOR, ".cart_button")
     # BTN_CHECKOUT = (By.ID, "checkout")
     BTN_CHECKOUT = (By.XPATH, "//*[@id='checkout']")
 

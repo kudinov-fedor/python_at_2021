@@ -18,7 +18,7 @@ def test_no_order_with_0_items_possible(session):
 
     # 3. Check number of items in the cart.
     cart_page = CartPage(session)
-    assert len(cart_page.get_items_in_cart()) == 0
+    assert len(cart_page.items_in_cart) == 0
 
     # 4. Check that 'Checkout' button is disabled.
     assert cart_page.check_checkout_btn() is False
@@ -50,7 +50,7 @@ def test_complete_order_with_3_items(session):
 
     # 6. Check number of items in the cart.
     cart_page = CartPage(session)
-    assert len(cart_page.get_items_in_cart()) == 3
+    assert len(cart_page.items_in_cart) == 3
 
     # 7. Click on 'Checkout' button.
     cart_page.go_to_checkout_page()
@@ -93,14 +93,14 @@ def test_items_removal(session):
 
     # 6. Check number of items in the cart.
     cart_page = CartPage(session)
-    assert len(cart_page.get_items_in_cart()) == 3
+    assert len(cart_page.items_in_cart) == 3
 
     # 7. Remove 2nd item.
-    items = cart_page.get_items_in_cart()
-    cart_page.remove_item(items[1])
+    items = cart_page.items_in_cart
+    items[0].remove_item()
 
     # 8. Check number of items in the cart to make sure it is updated accordingly.
-    assert len(cart_page.get_items_in_cart()) == 2
+    assert len(cart_page.items_in_cart) == 2
 
 
 @pytest.mark.usefixtures("three_items_in_the_cart")
