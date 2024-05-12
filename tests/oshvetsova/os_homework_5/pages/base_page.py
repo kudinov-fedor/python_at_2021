@@ -9,5 +9,5 @@ class BasePage:
     def open_page(self, host):
         self.driver.get(host)
 
-    def get_url(self):
+    def get_url(self) -> str:
         return self.driver.current_url

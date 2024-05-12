@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class ProductPage(BasePage):
 
-    def find_products(self):
+    def find_products(self) -> list:
         elements = self.driver.find_elements(*ProductPageLocator.PRODUCT_LIST)
         return elements
 

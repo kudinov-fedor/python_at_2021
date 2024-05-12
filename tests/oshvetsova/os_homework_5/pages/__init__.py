@@ -1,5 +1,6 @@
-from .base_page import BasePage
-from .login_page import LogInPage
-from .product_page import ProductPage
-from .cart_page import CartPage
-from .constant import *
+from tests.oshvetsova.os_homework_5.pages.base_page import BasePage
+from tests.oshvetsova.os_homework_5.pages.login_page import LogInPage
+from tests.oshvetsova.os_homework_5.pages.product_page import ProductPage
+from tests.oshvetsova.os_homework_5.pages.cart_page import CartPage
+from tests.oshvetsova.os_homework_5.constant import HOST, USERNAME, PASSWORD, LANDING_PAGE, LOGOUT_PAGE, CART_PAGE
+
