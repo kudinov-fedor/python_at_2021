@@ -28,21 +28,21 @@ def test_get_book(client: ApiClient):
 
 
 def test_get_books(client: ApiClient):
-    books = client.get_books
+    books = client.get_books()
     assert len(books["books"]) == 8
 
 
 def test_get_profile(client: ApiClient):
-    profile = client.get_profile(Site.USER_ID)
+    profile = client.get_profile()
     assert profile.setdefault('userId') == Site.USER_ID
 
 
 def test_add_book(client: ApiClient):
-    user = client.get_profile(Site.USER_ID)
+    user = client.get_profile()
     amount = len(user['books'])
 
-    client.add_books()
-    user = client.get_profile(Site.USER_ID)
+    client.add_books(Site.NEW_ISBN)
+    user = client.get_profile()
     new_amount = len(user['books'])
 
     assert Site.NEW_ISBN == user['books'][-1]['isbn']
@@ -51,10 +51,10 @@ def test_add_book(client: ApiClient):
 
 
 def test_delete_book(client: ApiClient):
-    client.add_books()
-    books_amount = client.get_profile(Site.USER_ID)['books']
+    client.add_books(Site.NEW_ISBN)
+    books_amount = client.get_profile()['books']
 
-    client.delete_book()
-    new_books_amount = client.get_profile(Site.USER_ID)['books']
+    client.delete_book(Site.NEW_ISBN)
+    new_books_amount = client.get_profile()['books']
 
     assert len(new_books_amount) == (len(books_amount) - 1)
