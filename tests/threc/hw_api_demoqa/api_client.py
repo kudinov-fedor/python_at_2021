@@ -1,3 +1,4 @@
+import pytest
 from requests import session
 from tests.threc.hw_api_demoqa.constants import Site
 
@@ -8,7 +9,6 @@ class ApiClient:
     def __init__(self, login, password):
         self.login = login
         self.password = password
-        self.user_id = None
         self.client = session()
 
     @property
@@ -34,6 +34,7 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
+    @property
     def generate_token(self):
         res = self.client.post(self.host + "/Account/v1/GenerateToken",
                                json={"userName": self.login,
@@ -41,8 +42,57 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
-    def get_book(self):
-        res = self.client.get(self.host + "/BookStore/v1/Book?" + Site.ISBN,
-                              json={})
+    def get_book(self, isbn: str):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        res = self.client.get(self.host + "/BookStore/v1/Book", params={"ISBN": isbn}, headers=headers)
         res.raise_for_status()
         return res.json()
+
+    @property
+    def get_books(self):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        res = self.client.get(self.host + "/BookStore/v1/Books", headers=headers)
+        res.raise_for_status()
+        return res.json()
+
+    def get_profile(self, user_id: str):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        res = self.client.get(self.host + f"/Account/v1/User/{user_id}", headers=headers)
+        res.raise_for_status()
+        return res.json()
+
+    def add_books(self):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        payload = {
+            "userId": response['userId'],
+            "collectionOfIsbns": [{"isbn": Site.NEW_ISBN}]
+        }
+        res = self.client.post(self.host + f"/BookStore/v1/Books",
+                               json=payload,
+                               headers=headers)
+        res.raise_for_status()
+        return res.json()
+
+    def delete_book(self):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        payload = {
+            "isbn": Site.NEW_ISBN,
+            "userId": response['userId']
+        }
+        res = self.client.delete(self.host + f"/BookStore/v1/Book",
+                                 json=payload,
+                                 headers=headers)
+        res.raise_for_status()
+
+    def delete_books(self):
+        response = self.user_login()
+        headers = {"Authorization": f"Bearer {response['token']}"}
+        params = {"UserId": response['userId']}
+        res = self.client.delete(self.host + f"/BookStore/v1/Books", params=params,
+                                 headers=headers)
+        res.raise_for_status()
