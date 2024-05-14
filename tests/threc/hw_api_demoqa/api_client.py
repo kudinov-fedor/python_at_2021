@@ -60,12 +60,12 @@ class ApiClient:
         return res.json()
 
     def get_books(self):
-        res = self.client.get(self.host + "/BookStore/v1/Books", headers=self.client.headers)
+        res = self.client.get(self.host + "/BookStore/v1/Books")
         res.raise_for_status()
         return res.json()
 
     def get_profile(self):
-        res = self.client.get(self.host + f"/Account/v1/User/{self.user_id}", headers=self.client.headers)
+        res = self.client.get(self.host + f"/Account/v1/User/{self.user_id}")
         res.raise_for_status()
         return res.json()
 
@@ -75,8 +75,7 @@ class ApiClient:
             "collectionOfIsbns": [{"isbn": isbn}]
         }
         res = self.client.post(self.host + f"/BookStore/v1/Books",
-                               json=payload,
-                               headers=self.client.headers)
+                               json=payload)
         res.raise_for_status()
         return res.json()
 
@@ -86,12 +85,10 @@ class ApiClient:
             "userId": self.user_id
         }
         res = self.client.delete(self.host + f"/BookStore/v1/Book",
-                                 json=payload,
-                                 headers=self.client.headers)
+                                 json=payload)
         res.raise_for_status()
 
     def delete_books(self):
         params = {"UserId": self.user_id}
-        res = self.client.delete(self.host + f"/BookStore/v1/Books", params=params,
-                                 headers=self.client.headers)
+        res = self.client.delete(self.host + f"/BookStore/v1/Books", params=params)
         res.raise_for_status()
