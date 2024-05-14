@@ -1,0 +1,8 @@
+
+class Site:
+    USER = "Ta"
+    PASSWORD = "Qwertyuiop12@"
+    ISBN_ID = "9781449337711"
+    USER_ID = "92213797-c0d7-41a1-8369-3a8b9f6bed01"
+    ISBN = '9781449365035'
+    NEW_ISBN = '9781491904244'
