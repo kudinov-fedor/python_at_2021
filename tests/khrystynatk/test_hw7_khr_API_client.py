@@ -19,6 +19,7 @@ def test_books_count(user: ApiClient):
 
 def test_get_book(user: ApiClient):
     book = user.get_some_book(get_books=user.get_books()["books"], index=3)
+
     assert book["title"] == "Speaking JavaScript"
 
 
@@ -26,4 +27,5 @@ def test_add_book(user: ApiClient):
     book = user.get_books()["books"][0]
     print(book["isbn"])
     user.add_some_book(book["isbn"])
+
     assert len(user.get_user()["books"]) == 1
