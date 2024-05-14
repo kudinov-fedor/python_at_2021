@@ -1,11 +1,14 @@
 from tests.vvashchu.pages.base_page import BasePage
+from typing import List
+from tests.vvashchu.pages.base_element import CartElement
 from tests.vvashchu.locators import CartLocators
 
 
 class CartPage(BasePage):
 
-    def get_cart_items(self):
-        return self.find_elements(*CartLocators.cart_items)
+    def get_cart_items(self) -> List[CartElement]:
+        elements = self.find_elements(*CartLocators.cart_items)
+        return [CartElement(e) for e in elements]
 
     def go_to_checkout_page(self):
         self.click(*CartLocators.checkout_btn)
