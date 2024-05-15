@@ -1,6 +1,6 @@
 import pytest
 from tests.mariana_petrushanska.test_selenium_hw5 import constants
-from tests.mariana_petrushanska.test_selenium_hw5 import CartPage, InformationPage, OverviewPage, SuccessPage, ProductsPage
+from tests.mariana_petrushanska.test_selenium_hw5 import CartPage, InformationPage, SuccessPage, ProductsPage
 
 
 def test_no_order_with_0_items_possible(session):
@@ -21,7 +21,7 @@ def test_no_order_with_0_items_possible(session):
     assert len(cart_page.items_in_cart) == 0
 
     # 4. Check that 'Checkout' button is disabled.
-    assert cart_page.check_checkout_btn() is False
+    assert cart_page.checkout_btn_is_active() is False
 
 
 @pytest.mark.usefixtures("three_items_in_the_cart")
@@ -58,9 +58,10 @@ def test_complete_order_with_3_items(session):
     # 8. Fill in user's information.
     # 9. Click on 'Continue' button.
     information_page = InformationPage(session)
-    overview_page = ((information_page
-                     .fill_in_delivery_form(constants.FIRST_NAME, constants.LAST_NAME, constants.POSTAL_CODE))
-                     .submit_form())
+    information_page.fill_in_delivery_form(constants.FIRST_NAME,
+                                           constants.LAST_NAME,
+                                           constants.POSTAL_CODE)
+    overview_page = information_page.submit_form()
 
     # 10. Click on 'Finish' button on Overview page.
     overview_page.finish_order()
@@ -128,13 +129,13 @@ def test_item_total(session):
     # 6. Fill in user's information.
     # 7. Click on 'Continue' button.
     information_page = InformationPage(session)
-    overview_page = ((information_page
-                      .fill_in_delivery_form(constants.FIRST_NAME, constants.LAST_NAME, constants.POSTAL_CODE))
-                     .submit_form())
+    information_page.fill_in_delivery_form(constants.FIRST_NAME,
+                                           constants.LAST_NAME,
+                                           constants.POSTAL_CODE)
+    overview_page = information_page.submit_form()
 
     # 8. Calculate the sum of all items' prices.
     # 9. Check that calculated sum = 'Item total' value on the page.
-    overview_page = OverviewPage(session)
-    items = overview_page.get_items()
-    calculated_sum = sum([overview_page.item_price(item) for item in items])
-    assert calculated_sum == overview_page.total()
+    items = overview_page.get_items
+    calculated_sum = sum([item.price for item in items])
+    assert calculated_sum == overview_page.total

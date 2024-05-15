@@ -1,7 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
 from tests.mariana_petrushanska.test_selenium_hw5 import constants
-from tests.mariana_petrushanska.test_selenium_hw5 import LoginPage, ProductsPage
+from tests.mariana_petrushanska.test_selenium_hw5 import LoginPage
 
 
 @pytest.fixture(scope="function")
@@ -12,7 +12,7 @@ def session():
 
 
 @pytest.fixture(autouse=True)
-def login(session):
+def products_page(session):
     login_page = LoginPage(session)
     product_page = login_page.open() \
         .fill_in_login_form(constants.LOGIN, constants.PASSWORD) \
@@ -21,10 +21,8 @@ def login(session):
 
 
 @pytest.fixture
-@pytest.mark.usefixture("login")
-def three_items_in_the_cart(session):
+def three_items_in_the_cart(products_page):
 
-    products_page = ProductsPage(session)
     items = products_page.available_items
     assert len(items) == 6
 

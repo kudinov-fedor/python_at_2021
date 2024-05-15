@@ -10,7 +10,7 @@ class CartPage(BasePage):
         items = self.find_elements(*CartItemsLoc.LST_CART_ITEMS)
         return [CartPageItem(item) for item in items]
 
-    def check_checkout_btn(self):
+    def checkout_btn_is_active(self) -> bool:
         return self.find_element(*CartItemsLoc.BTN_CHECKOUT).is_enabled()
 
     def go_to_checkout_page(self):
