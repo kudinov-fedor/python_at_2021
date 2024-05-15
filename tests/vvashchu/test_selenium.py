@@ -71,7 +71,7 @@ def test_product_can_be_removed(session):
 
 def test_checkout_disabled_if_cart_empty(session):
     """
-    go to the cart
+    go to the  cart
     check if checkout is disabled
     """
 
