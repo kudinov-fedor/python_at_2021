@@ -136,6 +136,6 @@ def test_item_total(session):
 
     # 8. Calculate the sum of all items' prices.
     # 9. Check that calculated sum = 'Item total' value on the page.
-    items = overview_page.get_items
+    items = overview_page.items
     calculated_sum = sum([item.price for item in items])
     assert calculated_sum == overview_page.total

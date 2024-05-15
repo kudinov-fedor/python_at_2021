@@ -6,13 +6,9 @@ from tests.mariana_petrushanska.test_selenium_hw5.locators import OverviewPageLo
 class OverviewPage(BasePage):
 
     @property
-    def get_items(self) -> list[OverviewPageItem]:
+    def items(self) -> list[OverviewPageItem]:
         items = self.find_elements(*OverviewPageLoc.LST_ITEMS_TO_BUY)
         return [OverviewPageItem(item) for item in items]
-
-    # def item_price(self, item) -> float:
-    #     price = item.find_element(*OverviewPageLoc.TXT_ITEM_PRICE).text
-    #     return float(price.replace('$', ''))
 
     @property
     def total(self) -> float:
