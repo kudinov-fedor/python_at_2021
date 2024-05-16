@@ -1,8 +1,9 @@
 from requests import session
+from tests.khrystynatk import hw7_khr_Constants as Const
 
 
 class ApiClient:
-    HOST = "https://demoqa.com"
+    HOST = Const.HOST
 
     def __init__(self, login, password):
         self.login = login
@@ -33,19 +34,14 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
-    def existing_user(self):
-        res = self.session.post(self.HOST + "/Account/v1/User",
+    def user_exists(self):
+        res = self.session.post(self.HOST + "/Account/v1/Authorized",
                                 json={"userName": self.login,
                                       "password": self.password})
-        return res.status_code == 406
+        return res.status_code == 200
 
     def create_user(self):
-        if self.existing_user():
-            self.token = self.generate_token()["token"]
-            self.login_user()
-            self.user_id = self.login_user()["userId"]
-
-        else:
+        if not self.user_exists():
             res = self.session.post(self.HOST + "/Account/v1/User",
                                     json={"userName": self.login,
                                           "password": self.password})
@@ -84,25 +80,41 @@ class ApiClient:
 
     def get_books(self):
         res = self.session.get(self.HOST + "/BookStore/v1/Books")
+        books = res.json()['books']
+
+        return books
+
+    def get_book(self, isbn):
+        res = self.session.get(self.HOST + "/BookStore/v1/Book?ISBN={}".format(isbn))
         res.raise_for_status()
         return res.json()
 
-    def get_some_book(self, get_books, index):
-        res = self.session.get(self.HOST + "/BookStore/v1/Book?ISBN={}".format(get_books[index]["isbn"]))
-        res.raise_for_status()
-        return res.json()
-
-    def add_some_book(self, isbn):
+    def add_book(self, isbn):
         res = self.session.post(self.HOST + "/BookStore/v1/Books", json={"userId": self.user_id,
                                                                          "collectionOfIsbns": [{"isbn": isbn}]})
         res.raise_for_status()
         return res.json()
 
-    def get_token(self):
-        res = self.generate_token()
-        self.token = res["token"]
+    def change_book(self, isbn, isbn2):
+        res = self.session.put(self.HOST + "/BookStore/v1/Books/{}".format(isbn),
+                               json={"userId": self.user_id,
+                                     "isbn": isbn2})
+
+        res.raise_for_status()
+        return res.json()
+
+    def delete_book(self, isbn):
+        res = self.session.delete(self.HOST + "/BookStore/v1/Book", json={"isbn": isbn,
+                                                                          "userId": self.user_id})
+        res.raise_for_status()
+
+    def delete_books(self):
+        res = self.session.delete(self.HOST + "/BookStore/v1/Books?UserId={}".format(self.user_id))
+        res.raise_for_status()
 
     def reset_user(self):
-        self.get_token()
+        res = self.generate_token()
+        self.token = res["token"]
         self.delete_user()
+        self.user_id = None
         self.token = None
