@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from tests.fkudi_some.page.base_page import BasePage
+from .base_page import BasePage
 from selenium.common import NoSuchElementException
 
 

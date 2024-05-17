@@ -3,7 +3,7 @@ import pytest
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
-from tests.fkudi_some import page
+from tests.fkudi_2024_q2_demo import page
 
 HOST = "https://www.saucedemo.com"
 LOGIN = "standard_user"

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
-from tests.fkudi_some.page.base_page import BasePage
-from tests.fkudi_some.page.catalog_page import CatalogPage
+from .base_page import BasePage
+from .catalog_page import CatalogPage
 
 
 class LoginPage(BasePage):
