@@ -1,0 +1,6 @@
+HOST = "https://www.saucedemo.com"
+USERNAME = "standard_user"
+PASSWORD = "secret_sauce"
+LANDING_PAGE = "https://www.saucedemo.com/inventory.html"
+LOGOUT_PAGE = "https://www.saucedemo.com/"
+CART_PAGE = "https://www.saucedemo.com/cart.html"
