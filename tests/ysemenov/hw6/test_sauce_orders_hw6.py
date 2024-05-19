@@ -1,7 +1,9 @@
+from selenium.webdriver.chrome.webdriver import WebDriver
+from tests.ysemenov.hw6.pages import InventoryPage
 from tests.ysemenov.hw6.constants import FIRSTNAME, LASTNAME, POSTALCODE, MESSAGE_SUCCESS
 
 
-def test_order_product(session, setup):
+def test_order_product(session: WebDriver, landing_page: InventoryPage):
     """
     1. Log into the web store -- skipped, as it's done in the setup fixture
     2. Add one product to cart
@@ -13,7 +15,7 @@ def test_order_product(session, setup):
     8. Check that the order was successful
     """
 
-    inventory_page = setup
+    inventory_page = landing_page
 
     # 2. Add one product to cart in the Inventory page
     products = inventory_page.products
@@ -38,7 +40,7 @@ def test_order_product(session, setup):
     assert order_status_page.order_msg == MESSAGE_SUCCESS, "Message doesn't match expected value"
 
 
-def test_add_remove_item(session, setup):
+def test_add_remove_item(session: WebDriver, landing_page: InventoryPage):
     """
     1. Log into the web store -- skipped, as it's done in the setup fixture
     2. Add one product to cart in the Inventory page
@@ -51,15 +53,14 @@ def test_add_remove_item(session, setup):
     9. Verify cart items count label changed to none
     """
 
-    inventory_page = setup
+    inventory_page = landing_page
 
     # 2. Add one product to cart in the Inventory page
     products = inventory_page.products
     products[0].add_to_cart()
 
     # 3. Verify cart items count label changed to 1
-    cart_badge_number = inventory_page.cart_badge_num
-    assert cart_badge_number == 1, "Cart badge number doesn't match expected value"
+    assert inventory_page.cart_badge_num == 1, "Cart badge number doesn't match expected value"
 
     # 4. Open cart
     cart_page = inventory_page.click_cart_button()
@@ -68,7 +69,7 @@ def test_add_remove_item(session, setup):
     assert len(cart_page.items_in_cart) == 1, "Number of items in cart doesn't match expected value"
 
     # 6. Remove item from cart
-    cart_page.remove_from_cart(cart_page.items_in_cart[0])  # 0 is the index of the first product here
+    cart_page.items_in_cart[0].remove_from_cart()  # 0 is the index of the first product here
 
     # 7. Verify number of items in cart page is 0
     assert len(cart_page.items_in_cart) == 0, "Number of items in cart doesn't match expected value"
@@ -77,11 +78,10 @@ def test_add_remove_item(session, setup):
     cart_page.click_continue_shopping()
 
     # 9. Verify cart items count label changed to none
-    cart_badge_number = inventory_page.cart_badge_num
-    assert cart_badge_number == 0, "Cart badge number is not empty"
+    assert inventory_page.cart_badge_num == 0, "Cart badge number is not empty"
 
 
-def test_add_to_cart_thru_product_page(session, setup):
+def test_add_to_cart_thru_product_page(session: WebDriver, landing_page: InventoryPage):
     """
     1. Log into the web store -- skipped, as it's done in the setup fixture
     2. Open first product's page
@@ -92,24 +92,22 @@ def test_add_to_cart_thru_product_page(session, setup):
     7. Go back to products page
     """
 
-    inventory_page = setup
+    inventory_page = landing_page
 
     # 2. Open first product's page
-    product_details_page = inventory_page.open_product_page(inventory_page.products[0])
+    product_details_page = inventory_page.products[0].open_product_page(session)
 
     # 3. Click Add to cart
     product_details_page.add_to_cart()
 
     # 4. Verify cart label is 1
-    cart_badge_number = product_details_page.cart_badge_num
-    assert cart_badge_number == 1, "Cart badge number doesn't match expected value"
+    assert product_details_page.cart_badge_num == 1, "Cart badge number doesn't match expected value"
 
     # 5. Remove item from cart
     product_details_page.remove_from_cart()
 
     # 6. Verify cart label is none
-    cart_badge_number = product_details_page.cart_badge_num
-    assert cart_badge_number == 0, "Cart badge number is not empty"
+    assert product_details_page.cart_badge_num == 0, "Cart badge number is not empty"
 
     # 7. Go back to products page
     product_details_page.back_to_products()

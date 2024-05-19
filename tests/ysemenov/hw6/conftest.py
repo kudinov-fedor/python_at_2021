@@ -1,6 +1,7 @@
 import pytest
 from selenium.webdriver import Chrome
-from tests.ysemenov.hw6 import pages
+from selenium.webdriver.chrome.webdriver import WebDriver
+from tests.ysemenov.hw6.pages import LoginPage, InventoryPage
 from tests.ysemenov.hw6.constants import LOGIN, PASSWORD
 
 
@@ -14,8 +15,8 @@ def session():
 
 
 @pytest.fixture(autouse=True)
-def setup(session):
-    login_page = pages.LoginPage(session)
+def landing_page(session: WebDriver) -> InventoryPage:
+    login_page = LoginPage(session)
     inventory_page = login_page.open() \
         .log_in(LOGIN, PASSWORD)
     return inventory_page
