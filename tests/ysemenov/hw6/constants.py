@@ -1,0 +1,7 @@
+HOST = "https://www.saucedemo.com"
+LOGIN = "standard_user"
+PASSWORD = "secret_sauce"
+FIRSTNAME = "Luke"
+LASTNAME = "Skywalker"
+POSTALCODE = "90210"
+MESSAGE_SUCCESS = "Thank you for your order!"
