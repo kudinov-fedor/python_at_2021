@@ -2,7 +2,9 @@ import pytest
 from tests.yana_pokulita.HW4_DemoQA import page
 
 
-@pytest.mark.usefixtures("cart_with_2_items")
+# pytestmark = pytest.mark.usefixtures("login", "cart_with_2_items")
+
+@pytest.mark.usefixtures("login", "cart_with_2_items")
 def test_basic_flow(session):
     """
     check number of products on the page
@@ -45,7 +47,7 @@ def test_basic_flow(session):
     assert product_page.get_cart_badge() == 0
 
 
-@pytest.mark.usefixtures("cart_with_2_items")
+@pytest.mark.usefixtures("login", "cart_with_2_items")
 def test_product_can_be_removed_flow(session):
     """
     check number of products on the page
@@ -76,6 +78,7 @@ def test_product_can_be_removed_flow(session):
     assert len(products_in_cart) == 1
 
 
+@pytest.mark.usefixtures("login")
 def test_cart_is_empty_after_login(session):
     """
     login
@@ -93,6 +96,7 @@ def test_cart_is_empty_after_login(session):
     assert len(products_in_cart) == 0
 
 
+@pytest.mark.usefixtures("login")
 def test_checkout_disabled_if_cart_empty(session):
     """
     login

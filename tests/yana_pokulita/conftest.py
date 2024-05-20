@@ -12,15 +12,16 @@ def session():
     session.quit()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture
+# (autouse=True)
 def login(session):
 
     LoginPage(session).open().fill_form(constants.LOGIN, constants.PASSWORD)
 
 
 @pytest.fixture
-@pytest.mark.usefixtures("login")
-def cart_with_2_items(session):
+# @pytest.mark.usefixtures("login")
+def cart_with_2_items(session, login):
 
     # elements_page = page.ProductsPage(session)
     # assert len(elements_page.get_products()) == 6
