@@ -35,7 +35,6 @@ def test_change_book(session: ApiClient):
     session.add_books(book["isbn"])
     session.change_book(isbn=book["isbn"], isbn2=Const.NEW_ISBN)
     new_book = session.get_profile()["books"]
-
     assert len(new_book) == 1
     assert (new_book[0]["isbn"]) == Const.NEW_ISBN
 
