@@ -15,14 +15,12 @@ def test_order_product(session: WebDriver, landing_page: InventoryPage):
     8. Check that the order was successful
     """
 
-    inventory_page = landing_page
-
     # 2. Add one product to cart in the Inventory page
-    products = inventory_page.products
+    products = landing_page.products
     products[0].add_to_cart()  # 0 is the index of the first product
 
     # 3. Open cart
-    cart_page = inventory_page.click_cart_button()
+    cart_page = landing_page.click_cart_button()
 
     # 4. Verify number of items in cart is 1
     assert len(cart_page.items_in_cart) == 1, "Number of items in cart doesn't match expected value"
@@ -53,17 +51,15 @@ def test_add_remove_item(session: WebDriver, landing_page: InventoryPage):
     9. Verify cart items count label changed to none
     """
 
-    inventory_page = landing_page
-
     # 2. Add one product to cart in the Inventory page
-    products = inventory_page.products
+    products = landing_page.products
     products[0].add_to_cart()
 
     # 3. Verify cart items count label changed to 1
-    assert inventory_page.cart_badge_num == 1, "Cart badge number doesn't match expected value"
+    assert landing_page.cart_badge_num == 1, "Cart badge number doesn't match expected value"
 
     # 4. Open cart
-    cart_page = inventory_page.click_cart_button()
+    cart_page = landing_page.click_cart_button()
 
     # 5. Verify number of items in cart page is 1
     assert len(cart_page.items_in_cart) == 1, "Number of items in cart doesn't match expected value"
@@ -78,7 +74,7 @@ def test_add_remove_item(session: WebDriver, landing_page: InventoryPage):
     cart_page.click_continue_shopping()
 
     # 9. Verify cart items count label changed to none
-    assert inventory_page.cart_badge_num == 0, "Cart badge number is not empty"
+    assert landing_page.cart_badge_num == 0, "Cart badge number is not empty"
 
 
 def test_add_to_cart_thru_product_page(session: WebDriver, landing_page: InventoryPage):
@@ -92,10 +88,8 @@ def test_add_to_cart_thru_product_page(session: WebDriver, landing_page: Invento
     7. Go back to products page
     """
 
-    inventory_page = landing_page
-
     # 2. Open first product's page
-    product_details_page = inventory_page.products[0].open_product_page(session)
+    product_details_page = landing_page.products[0].open_product_page()
 
     # 3. Click Add to cart
     product_details_page.add_to_cart()

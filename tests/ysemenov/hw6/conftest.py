@@ -17,6 +17,6 @@ def session():
 @pytest.fixture(autouse=True)
 def landing_page(session: WebDriver) -> InventoryPage:
     login_page = LoginPage(session)
-    inventory_page = login_page.open() \
+    landing_page = login_page.open() \
         .log_in(LOGIN, PASSWORD)
-    return inventory_page
+    return landing_page
