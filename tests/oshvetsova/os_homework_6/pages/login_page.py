@@ -12,7 +12,7 @@ class LogInPage(BasePage):
     def find_password_field(self) -> WebElement:
         return self.driver.find_element(*LogInPageLoc.PASSWORD)
 
-    def input_creds(self, username, password):
+    def input_creds(self, username, password) -> ProductPage:
         self.find_username_field().send_keys(username)
         self.find_password_field().send_keys(password)
         self.driver.find_element(*LogInPageLoc.BTN_LOGIN).click()

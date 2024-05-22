@@ -24,10 +24,9 @@ def session():
 def login(session):
     """Verify the landing page after successful login"""
     login_page = LogInPage(session)
-    login_page.open_page(HOST)
-    login_page.input_creds(USERNAME, PASSWORD)
-    current_page_url = BasePage(session)
-    assert current_page_url.get_url() == LANDING_PAGE, "The current URL does not match the expected landing page URL"
+    current_page = login_page.open_page(HOST) \
+        .input_creds(USERNAME, PASSWORD)
+    assert current_page.get_url() == LANDING_PAGE, "The current URL does not match the expected landing page URL"
 
 
 def test_product_number(session):
@@ -36,8 +35,8 @@ def test_product_number(session):
     2. Verify that number of products on the page - expected 6
     """
     product_page = ProductPage(session)
-    assert len(product_page.product_list.find_products()) == 6, ("The number of products on the page does not match "
-                                                                 "the expected number")
+    assert len(product_page.products_list) == 6, ("The number of products on the page does not match "
+                                                  "the expected number")
 
 
 def test_user_logout(session):
@@ -48,9 +47,7 @@ def test_user_logout(session):
     4. Verify that log in page is displayed
     """
     product_page = ProductPage(session)
-    product_page.side_navigation.open_navigation_menu()
-    product_page.side_navigation.click_logout_button()
-    current_page = LogInPage(session)
+    current_page = product_page.logout_from_system()
 
     assert current_page.get_url() == LOGOUT_PAGE, "The current URL does not match the expected logout page URL"
     assert current_page.find_username_field().is_displayed(), "The username field is not displayed"
@@ -66,12 +63,11 @@ def test_delete_products_from_cart(session):
 
     """
     product_page = ProductPage(session)
-    product_page.product_list.add_to_cart(0)
-    product_page.product_list.add_to_cart(1)
-    product_page.cart_link.open_cart()
-    cart_page = CartPageItem(session)
-    cart_page.cart_items.remove_item(0)
-    cart_page.cart_items.remove_item(0)
+    product_page.products_list[0].add_to_cart()
+    product_page.products_list[1].add_to_cart()
+    cart_page = product_page.open_cart()
+    cart_page.cart_list[0].remove_item()
+    cart_page.cart_list[0].remove_item()
 
     assert cart_page.get_url() == CART_PAGE, "The current URL does not match the expected cart page URL"
-    assert cart_page.cart_badge.cart_badge() == 0, "The cart badge number does not match the expected number"
+    assert cart_page.cart_badge() == 0, "The cart badge number does not match the expected number"

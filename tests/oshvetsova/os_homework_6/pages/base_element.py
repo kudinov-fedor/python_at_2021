@@ -1,4 +1,3 @@
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,25 +5,26 @@ from tests.oshvetsova.os_homework_6.pages.locators import SideNavigation
 
 
 class PageElement:
-    def __init__(self, driver: WebDriver):
+    def __init__(self, driver: WebElement):
         self.driver = driver
 
-    def find_element(self, by, value) -> WebElement:
-        return self.driver.find_element(by, value)
+    def find_element(self, by: str, locator: str) -> 'PageElement':
+        return PageElement(self.driver.find_element(by, locator))
 
-    def find_elements(self, by, value) -> list[WebElement]:
-        return self.driver.find_elements(by, value)
+    def click(self):
+        self.driver.click()
 
-    def __getattr__(self, item):
-        try:
-            return self.__dict__[item]
-        except KeyError:
-            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{item}'")
+    def is_displayed(self) -> bool:
+        return self.driver.is_displayed()
+
+    @property
+    def text(self) -> str:
+        return self.driver.text
 
 
 class SideNavigationElement(PageElement):
-    def open_navigation_menu(self):
-        self.driver.find_element(*SideNavigation.BTN_NAVIGATION_MENU).click()
+    def get_side_navigation(self):
+        return self.driver.find_element(*SideNavigation.BTN_NAVIGATION_MENU)
 
     def click_logout_button(self):
         wait = WebDriverWait(self.driver, 2)
