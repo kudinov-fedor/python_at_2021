@@ -34,28 +34,17 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
-    def set_token_and_user_id(self, res):
-        self.token = self.generate_token()["token"]
-        # self.user_id = res.json()["userId"]
-        self.user_id = Const.User_ID
-
     def login_user(self):
         res = self.session.post(self.URL + "/Account/v1/Login",
                                 json={"userName": self.login,
                                       "password": self.password})
         res.raise_for_status()
-        # self.token = self.generate_token()["token"]
-        # self.user_id = res.json()["userId"]
-        self.set_token_and_user_id(res)
         return res.json()
 
     def create_user(self):
         res = self.session.post(self.URL + "/Account/v1/User",
                                 json={"userName": self.login,
                                       "password": self.password})
-        # self.token = self.generate_token()["token"]
-        # self.user_id = self.login_user()["userId"]
-        self.set_token_and_user_id(res)
         return res.json()
 
     def get_profile(self):
@@ -73,9 +62,9 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
-    def add_books(self, isbn):
+    def add_book(self, isbn):
         payload = {
-            "userId": Const.User_ID,
+            "userId": self.user_id,
             "collectionOfIsbns": [{"isbn": isbn}]
         }
         res = self.session.post(self.URL + f"/BookStore/v1/Books", json=payload)
@@ -98,3 +87,7 @@ class ApiClient:
     def delete_books(self):
         res = self.session.delete(self.URL + "/BookStore/v1/Books?UserId={}".format(self.user_id))
         res.raise_for_status()
+
+    def setup_user(self):
+        self.token = self.login_user()["token"]
+        self.user_id = self.login_user()["userId"]
