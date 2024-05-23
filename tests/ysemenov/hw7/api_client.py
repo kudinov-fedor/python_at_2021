@@ -102,7 +102,6 @@ class ApiClient:
         if self.user_exists():
             user = self.login_user()
             self.user_id = user["userId"]
-            self.token = user["token"] or self.generate_token()["token"]
             self.reset()
 
         self.user_id = self.create_user()["userID"]
