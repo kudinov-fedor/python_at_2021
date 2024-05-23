@@ -5,6 +5,7 @@ from tests.vvashchu.locators import CartLocators
 
 
 class BaseElement:
+
     def __init__(self, driver):
         self.driver = driver
 
@@ -17,7 +18,7 @@ class BaseElement:
 
 class ProductsElement(BaseElement):
 
-    def get_product_name(self) -> str:
+    def get_name(self) -> str:
         return self.find_element(*ProductPageLocators.product).text
 
     def add_to_cart(self):
@@ -25,9 +26,6 @@ class ProductsElement(BaseElement):
 
 
 class CartElement(BaseElement):
-
-    def get_cart_item(self):
-        return self.find_element(*CartLocators.cart_item)
 
     def remove_cart_item(self):
         return self.find_element(*CartLocators.remove_first_item_btn).click()
