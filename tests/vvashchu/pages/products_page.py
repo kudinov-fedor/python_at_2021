@@ -6,11 +6,6 @@ from tests.vvashchu.locators import ProductPageLocators
 
 
 class ProductsPage(BasePage):
-    # def get_products(self):
-    #     return self.find_elements(*ProductPageLocators.product)
-    #
-    # def move_product_to_cart(self, index):
-    #     self.get_products()[index].find_element(*ProductPageLocators.product_add_to_cart_btn).click()
 
     def get_products(self) -> List[ProductsElement]:
         elements = self.find_elements(*ProductPageLocators.product)

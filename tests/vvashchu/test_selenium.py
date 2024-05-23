@@ -22,7 +22,8 @@ def test_basic(session):
 
     # перевірка кількості елементів в корзині
     cart_page = pages.CartPage(session)
-    assert len(cart_page.get_cart_items()) == 2
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 2
 
     # перехід до оформлення замовлення
     cart_page.go_to_checkout_page()
@@ -60,13 +61,15 @@ def test_product_can_be_removed(session):
 
     # перевірка кількості елементів в корзині
     cart_page = pages.CartPage(session)
-    assert len(cart_page.get_cart_items()) == 2
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 2
 
     # видалення елементу
-    cart_page.remove_cart_item(0)
+    products_in_cart[0].remove_cart_item()
 
     # перевірка кількості елементів в корзині
-    assert len(cart_page.get_cart_items()) == 1
+    products_in_cart = cart_page.get_cart_items()
+    assert len(products_in_cart) == 1
 
 
 def test_checkout_disabled_if_cart_empty(session):

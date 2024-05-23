@@ -32,12 +32,6 @@ def login(session):
 @pytest.mark.usefixtures("login")
 def cart_with_2_items(session):
 
-    # products_page = pages.ProductsPage(session)
-    # assert len(products_page.get_products()) == 6
-    #
-    # products_page.move_product_to_cart(0)
-    # products_page.move_product_to_cart(3)
-
     elements_page = pages.ProductsPage(session)
     products = elements_page.get_products()
     assert len(products) == 6
