@@ -89,5 +89,6 @@ class ApiClient:
         res.raise_for_status()
 
     def setup_user(self):
-        self.token = self.login_user()["token"]
-        self.user_id = self.login_user()["userId"]
+        res = self.login_user()
+        self.token = res["token"]
+        self.user_id = res["userId"]

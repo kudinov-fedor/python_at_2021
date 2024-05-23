@@ -6,7 +6,6 @@ from tests.yana_pokulita.HW7_apiTests import Constants as Const
 @pytest.fixture
 def session():
     user = ApiClient(Const.USER, Const.PASSWORD)
-    user.login_user()
     yield user
 
 
