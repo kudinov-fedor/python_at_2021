@@ -1,0 +1,6 @@
+USERNAME = "KhrTest1"
+PASSWORD = "Password1!"
+HOST = "https://demoqa.com"
+ISBN = "9781449365035"
+NEW_ISBN = "9781449325862"
+BOOK_TITLE = "Speaking JavaScript"
