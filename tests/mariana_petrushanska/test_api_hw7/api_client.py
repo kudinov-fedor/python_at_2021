@@ -38,9 +38,12 @@ class ApiClient:
         self.user_id = self.user_login()["userId"]
         self.user_authorized()
 
-    def is_existing_user(self):
+    def user_exists(self):
         """
-        checks whether new user can be created: if not = 406 (existing user), if yes - user is created
+        Checks whether it is possible to create new user:
+        1. if possible -> user is automatically created
+        2. if it is not possible to create a user -> 406. "User exists!" error is shown
+        (which is a marker for this method that user already exists).
         """
         res = self.client.post(User.USER_ACCOUNT,
                                json={"userName": self.login,
@@ -77,7 +80,7 @@ class ApiClient:
         res.raise_for_status()
         return res.json()
 
-    def add_book(self, isbns: list[str]):
+    def add_book(self, isbns):
         res = self.client.post(Books.BOOK_LIST,
                                json={"userId": self.user_id,
                                      "collectionOfIsbns": [{"isbn": isbn} for isbn in isbns]})
