@@ -12,6 +12,6 @@ class User:
 
 
 class Books:
-    BOOK_lIST = General.HOST + "/BookStore/v1/Books"
+    BOOK_LIST = General.HOST + "/BookStore/v1/Books"
     BOOK = General.HOST + "/BookStore/v1/Book"
     BOOK_ISBN = "9781449331818"
