@@ -1,14 +1,15 @@
 from selenium.common import NoSuchElementException
+from typing import List
 from tests.vvashchu.pages.base_page import BasePage
+from tests.vvashchu.pages.base_element import ProductsElement
 from tests.vvashchu.locators import ProductPageLocators
 
 
 class ProductsPage(BasePage):
-    def get_products(self):
-        return self.find_elements(*ProductPageLocators.product)
 
-    def move_product_to_cart(self, index):
-        self.get_products()[index].find_element(*ProductPageLocators.product_add_to_cart_btn).click()
+    def get_products(self) -> List[ProductsElement]:
+        elements = self.find_elements(*ProductPageLocators.product)
+        return [ProductsElement(e) for e in elements]
 
     def get_cart_badge(self):
         cart = self.driver.find_element(*ProductPageLocators.cart)

@@ -5,6 +5,7 @@ class CartLocators:
     # перевірка кількості елементів в корзині
     # (By.CSS_SELECTOR, ".cart_list .cart_item")
     cart_items = (By.XPATH, "//*[contains(@class,'cart_list')]//*[@class='cart_item']")
+    cart_item = (By.CSS_SELECTOR, ".cart_quantity")
 
     # перехід до оформлення замовлення
     # (By.ID, "checkout")
