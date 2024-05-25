@@ -1,0 +1,5 @@
+USERNAME = "bookmonkey"
+PASSWORD = "#m0Nk3YStR0n6#"
+HOST = "https://demoqa.com"
+ISBN = "9781491904244"
+ISBN2 = "9781449365035"
