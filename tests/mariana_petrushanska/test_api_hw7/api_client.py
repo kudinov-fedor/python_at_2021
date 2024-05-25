@@ -41,12 +41,12 @@ class ApiClient:
     def create_if_not_exists(self):
         """
         Checks whether it is possible to create new user:
-        1. if possible -> user is automatically created (status 201. "Created" is returned)
-        2. if it is not possible to create a user -> "False" is returned.
+        1. if possible -> user is automatically created -> "True" is returned
+        2. if it is not possible to create a user -> "False" is returned
         """
         try:
-            res = self.create_user()
-            return res.status_code == 201
+            self.create_user()
+            return True
         except:
             return False
 
