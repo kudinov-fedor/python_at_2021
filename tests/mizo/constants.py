@@ -1,4 +1,7 @@
+import os
+
 HOST = 'https://testpages.eviltester.com'
 HOST2 = 'https://demoqa.com'
-base_username = "API_MIbzісwq"
-PASSWORD = "apiP@ssw0rdTeest1"
+
+BASE_LOGIN = os.environ.get("BASE_LOGIN", "my_v@riabMr")
+PASSWORD = os.environ.get("PASSWORD", "apiP@ssw0rdTeest1")

@@ -1,8 +1,8 @@
 from locust import HttpUser, between, task
 
 from tests.mizo.apiClient_for_locust import LocustApiClient
-from tests.mizo.generate_user_names_and_set_test_password import generate_next_username
-from tests.mizo.generate_user_names_and_set_test_password import set_test_password
+from tests.mizo.generate_user_names import generate_next_username
+from tests.mizo.constants import PASSWORD, HOST2
 
 
 class AuthClient(HttpUser, LocustApiClient):
@@ -10,14 +10,15 @@ class AuthClient(HttpUser, LocustApiClient):
 
     def on_start(self):
         self.login = generate_next_username()
-        self.password = set_test_password()
+        self.password = PASSWORD
         response = self.user_create()
         self.user_id = response.get("userID")
         self.login = response.get("username")
-
         # GET TOKEN
         response = self.generate_token()
         authorization_token = response.get("token")
+        print(self.login)
+        print(self.password)
 
         # SET TOKEN:
         self.client.headers["Authorization"] = "Bearer " + authorization_token
@@ -37,7 +38,8 @@ class AuthClient(HttpUser, LocustApiClient):
     @task
     def perform_add_book_to_collection_and_remove(self):
         # remove all books
-        self.delete_all_books(self.user_id)
+        self.client.delete(f"{HOST2}/BookStore/v1/Books?UserId={self.user_id}",
+                           name=f"Delete Books for User {self.user_id}")
 
         # get all books
         response = self.get_all_books()
