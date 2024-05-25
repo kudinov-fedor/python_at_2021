@@ -106,11 +106,12 @@ class ApiClient:
             self.reset()
 
         self.user_id = self.create_user()["userID"]
-        self.token = self.generate_token()["token"]
+        self.token = self.update_token()
 
     def update_token(self):
         res = self.generate_token()
         self.token = res["token"]
+        return self.token
 
     def reset(self):
         self.update_token()

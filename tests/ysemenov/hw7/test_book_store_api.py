@@ -38,9 +38,12 @@ def test_add_books_from_list(session: ApiClient):
 
 def test_add_all_books(session: ApiClient):
     books = session.get_books()["books"]
+    initial_books_count = len(books)
     for book in books:
         session.add_book(book["isbn"])
-    assert len(session.get_user()["books"]) == 8
+    added_books_count = len(session.get_user()["books"])
+    assert added_books_count == 8
+    assert added_books_count == initial_books_count
 
 
 def test_replace_book(session: ApiClient):
